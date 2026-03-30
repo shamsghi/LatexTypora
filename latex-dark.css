@@ -591,8 +591,9 @@ img {
 }
 
 span.md-expand {
-    background-color: var(--diagram-fill-color);
-    border-radius: 2px;
+    background-color: transparent;
+    border-radius: 0;
+    box-shadow: none;
 }
 
 span.md-expand .md-meta,
