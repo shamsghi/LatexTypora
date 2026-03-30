@@ -118,6 +118,9 @@
     --monospace: "Computer Modern Typewriter", "Courier New", monospace;
     --sans-font: "Computer Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
+    --primary-color: #f3f3f3;
+    --primary-btn-border-color: #f3f3f3;
+    --primary-btn-text-color: #000000;
     --window-border: 1px solid rgba(255, 255, 255, 0.12);
     --active-file-bg-color: #000000;
     --active-file-text-color: #f3f3f3;
@@ -125,6 +128,21 @@
     --side-bar-bg-color: #000000;
     --item-hover-bg-color: #000000;
     --item-hover-text-color: #f3f3f3;
+    --control-border-color: rgba(255, 255, 255, 0.14);
+    --control-hover-bg-color: rgba(255, 255, 255, 0.06);
+    --control-active-bg-color: rgba(255, 255, 255, 0.1);
+    --control-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
+    --diagram-fill-color: rgba(255, 255, 255, 0.05);
+    --diagram-note-fill-color: rgba(255, 255, 255, 0.08);
+    --diagram-line-color: rgba(255, 255, 255, 0.68);
+    --diagram-muted-line-color: rgba(255, 255, 255, 0.34);
+    --search-hit-bg-color: rgba(255, 255, 255, 0.08);
+    --search-hit-border-color: rgba(255, 255, 255, 0.22);
+    --mermaid-theme: dark;
+    --mermaid-font-family: var(--sans-font);
+    --mermaid-sequence-numbers: off;
+    --mermaid-flowchart-curve: basis;
+    --sequence-theme: simple;
 }
 
 html {
@@ -299,6 +317,32 @@ li {
     margin-bottom: 0.2em;
 }
 
+ul.task-list {
+    padding-left: 1.75em;
+}
+
+li.task-list-item {
+    list-style: none;
+}
+
+li.task-list-item > input[type="checkbox"] {
+    accent-color: var(--text-color);
+    width: 0.95rem;
+    height: 0.95rem;
+    margin-right: 0.55em;
+    transform: translateY(0.08em);
+}
+
+li.task-list-item.task-list-done {
+    color: var(--muted-text-color);
+}
+
+li.task-list-item.task-list-done p {
+    text-decoration: line-through;
+    text-decoration-color: var(--diagram-muted-line-color);
+    text-decoration-thickness: 1px;
+}
+
 code,
 tt {
     font-family: var(--monospace);
@@ -334,6 +378,84 @@ pre.md-fences .CodeMirror-scroll,
 pre.md-meta-block {
     font-family: var(--monospace);
     color: var(--text-color);
+}
+
+.md-diagram-panel {
+    margin: 1.5em 0;
+}
+
+.md-diagram-panel-preview {
+    padding: 1em 1.2em;
+    border: 1px solid var(--line-color);
+    border-radius: 2px;
+    background-color: var(--surface-color);
+    overflow-x: auto;
+    text-align: center;
+}
+
+.md-diagram-panel-preview svg {
+    max-width: 100%;
+    height: auto;
+}
+
+.md-diagram-panel-preview svg text,
+.md-diagram-panel-preview svg tspan,
+.md-diagram-panel-preview .nodeLabel,
+.md-diagram-panel-preview .edgeLabel,
+.md-diagram-panel-preview .cluster-label,
+.md-diagram-panel-preview .label {
+    fill: var(--text-color) !important;
+    color: var(--text-color) !important;
+    font-family: var(--sans-font) !important;
+}
+
+.md-diagram-panel-preview .node rect,
+.md-diagram-panel-preview .node circle,
+.md-diagram-panel-preview .node ellipse,
+.md-diagram-panel-preview .node polygon,
+.md-diagram-panel-preview .node path,
+.md-diagram-panel-preview .cluster rect,
+.md-diagram-panel-preview .actor,
+.md-diagram-panel-preview .labelBox,
+.md-diagram-panel-preview .note,
+.md-diagram-panel-preview .section,
+.md-diagram-panel-preview .task,
+.md-diagram-panel-preview .activation0,
+.md-diagram-panel-preview .activation1,
+.md-diagram-panel-preview .activation2 {
+    fill: var(--diagram-fill-color) !important;
+    stroke: var(--diagram-line-color) !important;
+}
+
+.md-diagram-panel-preview .note rect,
+.md-diagram-panel-preview .edgeLabel rect,
+.md-diagram-panel-preview .labelBkg {
+    fill: var(--diagram-note-fill-color) !important;
+    stroke: var(--diagram-line-color) !important;
+}
+
+.md-diagram-panel-preview .edgePath .path,
+.md-diagram-panel-preview .flowchart-link,
+.md-diagram-panel-preview .messageLine0,
+.md-diagram-panel-preview .messageLine1,
+.md-diagram-panel-preview .actor-line,
+.md-diagram-panel-preview .loopLine,
+.md-diagram-panel-preview .noteLine {
+    stroke: var(--diagram-line-color) !important;
+}
+
+.md-diagram-panel-preview .grid .tick line,
+.md-diagram-panel-preview .grid path,
+.md-diagram-panel-preview .divider,
+.md-diagram-panel-preview .activationLine {
+    stroke: var(--diagram-muted-line-color) !important;
+}
+
+.md-diagram-panel-preview .arrowheadPath,
+.md-diagram-panel-preview marker path,
+.md-diagram-panel-preview .marker path {
+    fill: var(--diagram-line-color) !important;
+    stroke: var(--diagram-line-color) !important;
 }
 
 table {
@@ -468,6 +590,26 @@ img {
     color: var(--meta-text-color);
 }
 
+span.md-expand {
+    background-color: var(--diagram-fill-color);
+    border-radius: 2px;
+}
+
+span.md-expand .md-meta,
+span.md-expand .md-content {
+    color: var(--text-color);
+}
+
+span.md-expand .md-meta {
+    padding: 0 0.15em;
+}
+
+.md-search-hit {
+    background-color: var(--search-hit-bg-color);
+    border-radius: 2px;
+    box-shadow: 0 0 0 1px var(--search-hit-border-color);
+}
+
 sup.md-footnote {
     color: var(--text-color);
     background-color: transparent;
@@ -535,7 +677,121 @@ hr {
     color: var(--text-color);
 }
 
-.cm-s-inner {
+.dropdown-menu,
+.context-menu,
+.popover,
+.modal-content,
+.dialog,
+.auto-suggest-container,
+#md-searchpanel {
+    background-color: var(--panel-bg-color) !important;
+    color: var(--text-color) !important;
+    border: 1px solid var(--control-border-color);
+    box-shadow: var(--control-shadow);
+    font-family: var(--sans-font);
+}
+
+.megamenu-content,
+.ty-preferences,
+.ty-preferences-panel {
+    background-color: var(--panel-bg-color) !important;
+    color: var(--text-color) !important;
+    font-family: var(--sans-font);
+}
+
+.dropdown-menu li > a,
+.context-menu li > a,
+.auto-suggest-container li,
+.typora-quick-open-item {
+    color: var(--text-color) !important;
+}
+
+.dropdown-menu li > a:hover,
+.context-menu li > a:hover,
+.auto-suggest-container li:hover,
+.auto-suggest-container li.active,
+.typora-quick-open-item:hover,
+.typora-quick-open-item.active {
+    background-color: var(--control-hover-bg-color) !important;
+}
+
+.btn,
+.dialog .btn,
+.modal-content .btn,
+.popover .btn {
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--control-border-color);
+    box-shadow: none;
+}
+
+.btn:hover,
+.dialog .btn:hover,
+.modal-content .btn:hover,
+.popover .btn:hover {
+    background-color: var(--control-hover-bg-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    color: var(--primary-btn-text-color) !important;
+    border-color: var(--primary-btn-border-color) !important;
+}
+
+#md-searchpanel input,
+#md-searchpanel select,
+#md-searchpanel textarea,
+.popover input,
+.popover select,
+.popover textarea,
+.modal-content input,
+.modal-content select,
+.modal-content textarea,
+.dialog input,
+.dialog select,
+.dialog textarea,
+.ty-preferences input,
+.ty-preferences select,
+.ty-preferences textarea,
+.megamenu-content input {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--control-border-color);
+    box-shadow: none;
+    font-family: var(--sans-font);
+}
+
+#md-searchpanel input:focus,
+#md-searchpanel select:focus,
+#md-searchpanel textarea:focus,
+.popover input:focus,
+.popover select:focus,
+.popover textarea:focus,
+.modal-content input:focus,
+.modal-content select:focus,
+.modal-content textarea:focus,
+.dialog input:focus,
+.dialog select:focus,
+.dialog textarea:focus,
+.ty-preferences input:focus,
+.ty-preferences select:focus,
+.ty-preferences textarea:focus,
+.megamenu-content input:focus {
+    outline: none;
+    border-color: var(--active-file-border-color);
+    box-shadow: 0 0 0 1px var(--active-file-border-color);
+}
+
+.tooltip-inner,
+.ty-tooltip {
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--control-border-color);
+    font-family: var(--sans-font);
+}
+
+.cm-s-inner,
+.cm-s-typora-default {
     background-color: var(--surface-color);
     color: var(--text-color);
 }
@@ -546,7 +802,14 @@ hr {
 .cm-s-inner .cm-variable-2,
 .cm-s-inner .cm-variable-3,
 .cm-s-inner .cm-operator,
-.cm-s-inner .cm-tag {
+.cm-s-inner .cm-tag,
+.cm-s-typora-default .cm-header,
+.cm-s-typora-default .cm-link,
+.cm-s-typora-default .cm-variable,
+.cm-s-typora-default .cm-variable-2,
+.cm-s-typora-default .cm-variable-3,
+.cm-s-typora-default .cm-operator,
+.cm-s-typora-default .cm-tag {
     color: var(--text-color);
 }
 
@@ -560,21 +823,45 @@ hr {
 .cm-s-inner .cm-keyword,
 .cm-s-inner .cm-qualifier,
 .cm-s-inner .cm-meta,
-.cm-s-inner .cm-comment {
+.cm-s-inner .cm-comment,
+.cm-s-typora-default .cm-string,
+.cm-s-typora-default .cm-number,
+.cm-s-typora-default .cm-atom,
+.cm-s-typora-default .cm-attribute,
+.cm-s-typora-default .cm-property,
+.cm-s-typora-default .cm-builtin,
+.cm-s-typora-default .cm-def,
+.cm-s-typora-default .cm-keyword,
+.cm-s-typora-default .cm-qualifier,
+.cm-s-typora-default .cm-meta,
+.cm-s-typora-default .cm-comment {
     color: var(--muted-text-color);
 }
 
-.cm-s-inner .cm-comment {
+.cm-s-inner .cm-comment,
+.cm-s-typora-default .cm-comment {
     font-style: italic;
 }
 
-.cm-s-inner .cm-hr {
+.cm-s-inner .cm-hr,
+.cm-s-typora-default .cm-hr {
     color: var(--strong-line-color);
 }
 
-.cm-s-inner .cm-error {
+.cm-s-inner .cm-error,
+.cm-s-typora-default .cm-error {
     color: #000000;
     background-color: #ffffff;
+}
+
+.cm-s-inner .CodeMirror-cursor,
+.cm-s-typora-default .CodeMirror-cursor {
+    border-left: 1px solid var(--text-color);
+}
+
+.cm-s-inner .CodeMirror-activeline-background,
+.cm-s-typora-default .CodeMirror-activeline-background {
+    background-color: var(--control-hover-bg-color);
 }
 
 @media print {

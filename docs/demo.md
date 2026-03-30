@@ -25,6 +25,12 @@ $$
 2. Switch between `latex` and `latex-dark`.
 3. Scroll slowly and notice the spacing.
 
+### Tasks
+
+- [ ] Review the manuscript layout
+- [ ] Compile the equations
+- [ ] Export the final PDF
+
 ### Table
 
 | Element | What to notice |
@@ -47,6 +53,13 @@ def greet(theme: str) -> str:
     return f"{theme} makes Markdown feel typeset."
 
 print(greet("LaTeX Typora"))
+```
+
+```mermaid
+flowchart TD
+    A["Draft"] --> B["Revise"]
+    B --> C["Typeset"]
+    C --> D["Export"]
 ```
 
 ---
