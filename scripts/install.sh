@@ -102,6 +102,15 @@ require_command() {
     fi
 }
 
+validate_ref() {
+    if [[ -z "${REF}" ]]; then
+        die "Ref cannot be empty."
+    fi
+    if [[ "${REF}" =~ [^A-Za-z0-9._/\-] ]] || [[ "${REF}" == *".."* ]]; then
+        die "Invalid --ref value '${REF}'. Use a branch, tag, or commit SHA."
+    fi
+}
+
 cleanup() {
     if [[ -n "${TEMP_DIR}" && -d "${TEMP_DIR}" ]]; then
         rm -rf "${TEMP_DIR}"
@@ -240,17 +249,23 @@ detect_source_dir() {
 
 install_theme() {
     local source_dir="$1" theme_dir="$2"
+    local font_files=()
     mkdir -p "${theme_dir}"
     mkdir -p "${theme_dir}/latex_fonts"
     cp "${source_dir}/latex.css" "${theme_dir}/latex.css"
     cp "${source_dir}/latex-dark.css" "${theme_dir}/latex-dark.css"
-    cp "${source_dir}"/latex_fonts/*.woff "${theme_dir}/latex_fonts/"
+    shopt -s nullglob
+    font_files=("${source_dir}"/latex_fonts/*.woff)
+    shopt -u nullglob
+    [[ ${#font_files[@]} -gt 0 ]] || die "No .woff font files found in source."
+    cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
 }
 
 main() {
     print_banner
     step "Step 1/5: Checking requirements"
     require_command cp
+    validate_ref
     success "Required commands are available"
 
     step "Step 2/5: Detecting your platform"
