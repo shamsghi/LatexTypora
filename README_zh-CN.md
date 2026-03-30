@@ -32,7 +32,57 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-m
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-macos.sh | bash -s -- --theme-dir "$HOME/Library/Application Support/abnerworks.Typora/themes"
 ```
 
-### Windows/Linux
+macOS 默认的 Typora 主题目录：
+
+- `~/Library/Application Support/abnerworks.Typora/themes`
+
+### Linux
+
+在 Linux 上运行以下命令，可将当前主题直接安装到 Typora 的默认主题目录：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-linux.sh | bash
+```
+
+Linux 安装脚本默认使用 Typora 的主题目录 `~/.config/Typora/themes`，如果你的环境使用了其他目录，也可以通过 `--theme-dir` 指定。
+
+如果你想显式传入自定义主题目录：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-linux.sh | bash -s -- --theme-dir "/path/to/Typora/themes"
+```
+
+Linux 默认的 Typora 主题目录：
+
+- `~/.config/Typora/themes`
+
+### Windows
+
+在 PowerShell 中运行以下命令，可将当前主题直接安装到 Typora 的默认主题目录：
+
+```powershell
+powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-windows.ps1 | iex"
+```
+
+如果你已经下载了仓库，也可以直接在本地运行安装脚本：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-windows.ps1
+```
+
+Windows 安装脚本默认使用 Typora 的主题目录 `%APPDATA%\Typora\themes`，如果你的环境使用了其他目录，也可以通过 `-ThemeDir` 指定。
+
+如果你想显式传入自定义主题目录：
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\install-windows.ps1 -ThemeDir "C:\path\to\Typora\themes"
+```
+
+Windows 默认的 Typora 主题目录：
+
+- `%APPDATA%\Typora\themes`
+
+### 手动安装
 
 1. 从 releases 页面下载 zip 文件并解压。
 2. 打开 Typora。
@@ -48,5 +98,5 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-m
 - 仓库中的主题代码采用 Apache-2.0 许可证发布。重新分发时请保留 `LICENSE` 和 `NOTICE` 中的署名信息。
 - 字体来源说明见 `THIRD_PARTY_NOTICES.md`。
 - 由于 Computer Modern 字体已随主题一并打包，安装后可离线使用。
-- 主要在 macOS 上设计和测试；Windows/Linux 未完全测试，但理论上应可正常使用。
+- Windows 和 Linux 安装脚本的默认目录遵循 Typora 官方主题页给出的路径：Windows 为 `%APPDATA%\Typora\themes`，Linux 为 `~/.config/Typora/themes`。
 - 如果你想自定义颜色或间距，可编辑每个主题文件顶部的 `:root` 变量。
