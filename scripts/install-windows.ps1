@@ -18,8 +18,8 @@ $ResolvedThemeDir = $null
 function Show-Usage {
     @"
 Usage:
-  .\install-windows.ps1 [-ThemeDir PATH] [-Ref REF]
-  powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/$RepoOwner/$RepoName/main/install-windows.ps1 | iex"
+  .\scripts\install-windows.ps1 [-ThemeDir PATH] [-Ref REF]
+  powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/$RepoOwner/$RepoName/main/scripts/install-windows.ps1 | iex"
 
 Options:
   -ThemeDir PATH  Install into a specific Typora theme directory.
@@ -46,6 +46,24 @@ function Test-RepoCheckout {
     return (Test-Path -LiteralPath (Join-Path $Candidate 'latex.css') -PathType Leaf) `
         -and (Test-Path -LiteralPath (Join-Path $Candidate 'latex-dark.css') -PathType Leaf) `
         -and (Test-Path -LiteralPath (Join-Path $Candidate 'latex_fonts') -PathType Container)
+}
+
+function Resolve-LocalCheckoutRoot {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$BaseDir
+    )
+
+    if (Test-RepoCheckout -Candidate $BaseDir) {
+        return (Resolve-Path -LiteralPath $BaseDir).Path
+    }
+
+    $parentDir = Split-Path -Parent $BaseDir
+    if ($parentDir -and (Test-RepoCheckout -Candidate $parentDir)) {
+        return (Resolve-Path -LiteralPath $parentDir).Path
+    }
+
+    return $null
 }
 
 function Resolve-ThemeDir {
@@ -92,9 +110,12 @@ function Detect-SourceDir {
         $scriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
     }
 
-    if ($scriptDir -and (Test-RepoCheckout -Candidate $scriptDir)) {
-        $script:SourceDir = $scriptDir
-        return
+    if ($scriptDir) {
+        $checkoutRoot = Resolve-LocalCheckoutRoot -BaseDir $scriptDir
+        if ($checkoutRoot) {
+            $script:SourceDir = $checkoutRoot
+            return
+        }
     }
 
     Download-Source
@@ -137,7 +158,7 @@ try {
         Write-Host ''
         Write-Host 'Created the default Typora theme directory because it did not already exist.'
         Write-Host 'If your Typora install uses a different theme folder, rerun with:'
-        Write-Host '  .\install-windows.ps1 -ThemeDir "C:\path\to\Typora\themes"'
+        Write-Host '  .\scripts\install-windows.ps1 -ThemeDir "C:\path\to\Typora\themes"'
     }
 
     Write-Host ''

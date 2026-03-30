@@ -6,7 +6,7 @@
 
 # ✍️ LaTeX Typora Theme
 
-> 中文说明请见：[简体中文 README](./README_zh-CN.md)
+> 中文说明请见：[简体中文 README](./docs/README_zh-CN.md)
 
 A light and dark Typora theme pair inspired by classic LaTeX documents.
 
@@ -29,7 +29,7 @@ A light and dark Typora theme pair inspired by classic LaTeX documents.
 Run this on a Mac to install the current theme directly into Typora's theme folder:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-macos.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-macos.sh | bash
 ```
 
 The installer auto-detects the common Typora theme location on macOS and copies `latex.css`, `latex-dark.css`, and `latex_fonts/` into there.
@@ -43,7 +43,7 @@ Default Typora theme folder on macOS:
 Run this in PowerShell to install the current theme directly into Typora's default theme folder:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-windows.ps1 | iex"
+powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1 | iex"
 ```
 
 The Windows installer uses Typora's default theme location, `%APPDATA%\Typora\themes`, and also accepts `-ThemeDir` if your setup uses a different folder.
@@ -53,7 +53,7 @@ The Windows installer uses Typora's default theme location, `%APPDATA%\Typora\th
 Run this on Linux to install the current theme directly into Typora's default theme folder:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-linux.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-linux.sh | bash
 ```
 
 The Linux installer uses Typora's default theme location, `~/.config/Typora/themes`, and also accepts `--theme-dir` if your setup uses a different folder.
@@ -77,7 +77,7 @@ Default Typora theme folder on Linux:
 ## Notes
 
 - The repo theme code is licensed under Apache-2.0. Keep the `LICENSE` and `NOTICE` attribution information when redistributing it.
-- Font source notes are documented in `THIRD_PARTY_NOTICES.md`.
+- Font source notes are documented in `docs/THIRD_PARTY_NOTICES.md`.
 - The theme works offline once installed because the Computer Modern fonts are bundled locally.
 - Designed and tested on macOS. Not fully tested, but should work for Windows/Linux.
 - To customize colors or spacing, edit the `:root` variables at the top of each theme file.

@@ -15,8 +15,8 @@ RESOLVED_THEME_DIR=""
 usage() {
     cat <<EOF
 Usage:
-  ./install-linux.sh [--theme-dir PATH] [--ref REF]
-  curl -fsSL https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/install-linux.sh | bash
+  ./scripts/install-macos.sh [--theme-dir PATH] [--ref REF]
+  curl -fsSL https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install-macos.sh | bash
 
 Options:
   --theme-dir PATH  Install into a specific Typora theme directory.
@@ -69,31 +69,29 @@ cleanup() {
 trap cleanup EXIT
 
 resolve_theme_dir() {
-    local xdg_config_home
-    local official
-    local flatpak
+    local standalone
+    local sandboxed
 
     if [[ -n "${THEME_DIR}" ]]; then
         RESOLVED_THEME_DIR="${THEME_DIR}"
         return
     fi
 
-    xdg_config_home="${XDG_CONFIG_HOME:-${HOME}/.config}"
-    official="${xdg_config_home}/Typora/themes"
-    flatpak="${HOME}/.var/app/io.typora.Typora/config/Typora/themes"
+    standalone="${HOME}/Library/Application Support/abnerworks.Typora/themes"
+    sandboxed="${HOME}/Library/Containers/abnerworks.Typora/Data/Library/Application Support/abnerworks.Typora/themes"
 
-    if [[ -d "${official}" ]]; then
-        RESOLVED_THEME_DIR="${official}"
+    if [[ -d "${standalone}" ]]; then
+        RESOLVED_THEME_DIR="${standalone}"
         return
     fi
 
-    if [[ -d "${flatpak}" ]]; then
-        RESOLVED_THEME_DIR="${flatpak}"
+    if [[ -d "${sandboxed}" ]]; then
+        RESOLVED_THEME_DIR="${sandboxed}"
         return
     fi
 
     CREATED_THEME_DIR=1
-    RESOLVED_THEME_DIR="${official}"
+    RESOLVED_THEME_DIR="${standalone}"
 }
 
 is_repo_checkout() {
@@ -101,6 +99,22 @@ is_repo_checkout() {
     [[ -f "${candidate}/latex.css" ]] \
         && [[ -f "${candidate}/latex-dark.css" ]] \
         && [[ -d "${candidate}/latex_fonts" ]]
+}
+
+resolve_local_checkout_root() {
+    local base_dir="$1"
+
+    if is_repo_checkout "${base_dir}"; then
+        printf '%s\n' "${base_dir}"
+        return 0
+    fi
+
+    if is_repo_checkout "${base_dir}/.."; then
+        printf '%s\n' "$(cd "${base_dir}/.." && pwd)"
+        return 0
+    fi
+
+    return 1
 }
 
 download_source() {
@@ -132,6 +146,7 @@ download_source() {
 detect_source_dir() {
     local script_path
     local script_dir
+    local checkout_root
 
     script_path="${BASH_SOURCE[0]:-$0}"
     script_dir=""
@@ -140,9 +155,12 @@ detect_source_dir() {
         script_dir="$(cd "$(dirname "${script_path}")" && pwd)"
     fi
 
-    if [[ -n "${script_dir}" ]] && is_repo_checkout "${script_dir}"; then
-        SOURCE_DIR="${script_dir}"
-        return
+    if [[ -n "${script_dir}" ]]; then
+        checkout_root="$(resolve_local_checkout_root "${script_dir}" || true)"
+        if [[ -n "${checkout_root}" ]]; then
+            SOURCE_DIR="${checkout_root}"
+            return
+        fi
     fi
 
     download_source
@@ -181,7 +199,7 @@ main() {
         echo
         echo "Created the default Typora theme directory because it did not already exist."
         echo "If your Typora install uses a different theme folder, rerun with:"
-        echo "  ./install-linux.sh --theme-dir \"/path/to/Typora/themes\""
+        echo "  ./scripts/install-macos.sh --theme-dir \"/path/to/Typora/themes\""
     fi
 
     echo
