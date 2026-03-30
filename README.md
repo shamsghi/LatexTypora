@@ -6,7 +6,7 @@
 
 # ✍️ LaTeX Typora Theme
 
-## 中文说明请见：[简体中文 README](./README_zh-CN.md)
+> 中文说明请见：[简体中文 README](./README_zh-CN.md)
 
 A light and dark Typora theme pair inspired by classic LaTeX documents.
 
