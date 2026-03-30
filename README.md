@@ -24,44 +24,28 @@ A light and dark Typora theme pair inspired by classic LaTeX documents.
 
 ## Installation
 
-### macOS
-
-Run this on a Mac to install the current theme directly into Typora's theme folder:
+Run one command on macOS, Linux, or Windows (Git Bash / WSL). The installer detects your platform, prints clear step-by-step logs, and installs the files automatically:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-macos.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
 ```
 
-The installer auto-detects the common Typora theme location on macOS and copies `latex.css`, `latex-dark.css`, and `latex_fonts/` into there.
+Default Typora theme folders:
 
-Default Typora theme folder on macOS:
+- macOS: `~/Library/Application Support/abnerworks.Typora/themes` (or sandboxed path)
+- Linux: `~/.config/Typora/themes`
+- Windows: `%APPDATA%\Typora\themes`
 
-- `~/Library/Application Support/abnerworks.Typora/themes`
+Optional flags:
 
-### Windows
+- `--theme-dir "/path/to/Typora/themes"` to force an install path
+- `--ref "<branch|tag|commit>"` to install from a specific Git ref
 
-Run this in PowerShell to install the current theme directly into Typora's default theme folder:
-
-```powershell
-powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1 | iex"
-```
-
-The Windows installer uses Typora's default theme location, `%APPDATA%\Typora\themes`, and also accepts `-ThemeDir` if your setup uses a different folder.
-
-### Linux
-
-Run this on Linux to install the current theme directly into Typora's default theme folder:
+Example:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-linux.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
 ```
-
-The Linux installer uses Typora's default theme location, `~/.config/Typora/themes`, and also accepts `--theme-dir` if your setup uses a different folder.
-
-Default Typora theme folder on Linux:
-
-- `~/.config/Typora/themes`
-
 
 ### Manual install
 

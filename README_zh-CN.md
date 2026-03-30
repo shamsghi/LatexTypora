@@ -24,43 +24,28 @@
 
 ## 安装
 
-### macOS
-
-在 Mac 上运行以下命令，可将当前主题直接安装到 Typora 的主题目录：
+在 macOS、Linux 或 Windows（Git Bash / WSL）上统一使用一个命令。安装脚本会自动检测系统、显示清晰的分步日志，并自动完成安装：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-macos.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
 ```
 
-安装脚本会自动检测 macOS 上常见的 Typora 主题目录，并将 `latex.css`、`latex-dark.css` 和 `latex_fonts/` 复制到该目录中。
+Typora 默认主题目录：
 
-macOS 默认的 Typora 主题目录：
+- macOS：`~/Library/Application Support/abnerworks.Typora/themes`（或沙盒路径）
+- Linux：`~/.config/Typora/themes`
+- Windows：`%APPDATA%\Typora\themes`
 
-- `~/Library/Application Support/abnerworks.Typora/themes`
+可选参数：
 
-### Windows
+- `--theme-dir "/path/to/Typora/themes"`：手动指定安装目录
+- `--ref "<branch|tag|commit>"`：从指定 Git 分支/标签/提交安装
 
-在 PowerShell 中运行以下命令，可将当前主题直接安装到 Typora 的默认主题目录：
-
-```powershell
-powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1 | iex"
-```
-
-Windows 安装脚本默认使用 Typora 的主题目录 `%APPDATA%\Typora\themes`，如果你的环境使用了其他目录，也可以通过 `-ThemeDir` 指定。
-
-### Linux
-
-在 Linux 上运行以下命令，可将当前主题直接安装到 Typora 的默认主题目录：
+示例：
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-linux.sh | bash
+curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
 ```
-
-Linux 安装脚本默认使用 Typora 的主题目录 `~/.config/Typora/themes`，如果你的环境使用了其他目录，也可以通过 `--theme-dir` 指定。
-
-Linux 默认的 Typora 主题目录：
-
-- `~/.config/Typora/themes`
 
 
 ### 手动安装
