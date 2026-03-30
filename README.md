@@ -34,15 +34,19 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-m
 
 The installer auto-detects the common Typora theme location on macOS and copies `latex.css`, `latex-dark.css`, and `latex_fonts/` into there.
 
-If your Typora install uses a custom theme folder, pass it explicitly:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-macos.sh | bash -s -- --theme-dir "$HOME/Library/Application Support/abnerworks.Typora/themes"
-```
-
 Default Typora theme folder on macOS:
 
 - `~/Library/Application Support/abnerworks.Typora/themes`
+
+### Windows
+
+Run this in PowerShell to install the current theme directly into Typora's default theme folder:
+
+```powershell
+powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-windows.ps1 | iex"
+```
+
+The Windows installer uses Typora's default theme location, `%APPDATA%\Typora\themes`, and also accepts `-ThemeDir` if your setup uses a different folder.
 
 ### Linux
 
@@ -54,41 +58,10 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-l
 
 The Linux installer uses Typora's default theme location, `~/.config/Typora/themes`, and also accepts `--theme-dir` if your setup uses a different folder.
 
-If you want to point it at a custom theme folder, pass it explicitly:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-linux.sh | bash -s -- --theme-dir "/path/to/Typora/themes"
-```
-
 Default Typora theme folder on Linux:
 
 - `~/.config/Typora/themes`
 
-### Windows
-
-Run this in PowerShell to install the current theme directly into Typora's default theme folder:
-
-```powershell
-powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/install-windows.ps1 | iex"
-```
-
-If you already downloaded the repo, you can also run the installer locally:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-windows.ps1
-```
-
-The Windows installer uses Typora's default theme location, `%APPDATA%\Typora\themes`, and also accepts `-ThemeDir` if your setup uses a different folder.
-
-If you want to point it at a custom theme folder, pass it explicitly:
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\install-windows.ps1 -ThemeDir "C:\path\to\Typora\themes"
-```
-
-Default Typora theme folder on Windows:
-
-- `%APPDATA%\Typora\themes`
 
 ### Manual install
 
@@ -106,5 +79,5 @@ Default Typora theme folder on Windows:
 - The repo theme code is licensed under Apache-2.0. Keep the `LICENSE` and `NOTICE` attribution information when redistributing it.
 - Font source notes are documented in `THIRD_PARTY_NOTICES.md`.
 - The theme works offline once installed because the Computer Modern fonts are bundled locally.
-- Windows and Linux installer defaults follow Typora's documented theme folders: `%APPDATA%\Typora\themes` on Windows and `~/.config/Typora/themes` on Linux.
+- Designed and tested on macOS. Not fully tested, but should work for Windows/Linux.
 - To customize colors or spacing, edit the `:root` variables at the top of each theme file.
