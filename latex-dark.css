@@ -1,0 +1,647 @@
+/*
+ * LaTeX Dark Theme for Typora
+ * A dark theme inspired by the classic Computer Modern LaTeX page.
+ */
+
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url("./latex_fonts/cmunrm.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url("./latex_fonts/cmunbx.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url("./latex_fonts/cmunti.woff") format("woff");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Serif";
+    src: url("./latex_fonts/cmunbi.woff") format("woff");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Sans";
+    src: url("./latex_fonts/cmunss.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Sans";
+    src: url("./latex_fonts/cmunsx.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Sans";
+    src: url("./latex_fonts/cmunsi.woff") format("woff");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Sans";
+    src: url("./latex_fonts/cmunso.woff") format("woff");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Typewriter";
+    src: url("./latex_fonts/cmuntt.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Typewriter";
+    src: url("./latex_fonts/cmuntb.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Typewriter";
+    src: url("./latex_fonts/cmunit.woff") format("woff");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "Computer Modern Typewriter";
+    src: url("./latex_fonts/cmuntx.woff") format("woff");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+:root {
+    --bg-color: #000000;
+    --surface-color: #000000;
+    --panel-bg-color: #000000;
+    --text-color: #f3f3f3;
+    --muted-text-color: #bcbcbc;
+    --meta-text-color: #8d8d8d;
+    --line-color: rgba(255, 255, 255, 0.2);
+    --strong-line-color: rgba(255, 255, 255, 0.38);
+    --selection-color: rgba(255, 255, 255, 0.14);
+    --select-text-bg-color: var(--selection-color);
+    --select-text-font-color: var(--text-color);
+    --focus-ring-color: rgba(255, 255, 255, 0.26);
+    --rawblock-edit-panel-bd: var(--line-color);
+
+    --font-family: "Computer Modern Serif", "Times New Roman", serif;
+    --monospace: "Computer Modern Typewriter", "Courier New", monospace;
+    --sans-font: "Computer Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+    --window-border: 1px solid rgba(255, 255, 255, 0.12);
+    --active-file-bg-color: #000000;
+    --active-file-text-color: #f3f3f3;
+    --active-file-border-color: rgba(255, 255, 255, 0.34);
+    --side-bar-bg-color: #000000;
+    --item-hover-bg-color: #000000;
+    --item-hover-text-color: #f3f3f3;
+}
+
+html {
+    font-size: 11pt;
+    background-color: var(--bg-color);
+}
+
+body {
+    margin: 0;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+
+pre.md-meta-block,
+pre.md-fences,
+code,
+tt {
+    --select-text-bg-color: var(--selection-color);
+    --select-text-font-color: var(--text-color);
+}
+
+html,
+body,
+#typora-sidebar,
+#typora-source {
+    background-color: var(--bg-color);
+}
+
+::selection {
+    background-color: var(--select-text-bg-color);
+    color: var(--select-text-font-color);
+}
+
+/* Keep code selections aligned with the document-wide gray selection color. */
+code::selection,
+code *::selection,
+pre.md-fences ::selection,
+pre.md-meta-block ::selection {
+    background-color: var(--select-text-bg-color);
+    color: var(--select-text-font-color);
+}
+
+.cm-s-inner div.CodeMirror-selected,
+.cm-s-typora-default div.CodeMirror-selected {
+    background-color: var(--select-text-bg-color);
+}
+
+.cm-s-inner .CodeMirror-line::selection,
+.cm-s-inner .CodeMirror-line > span::selection,
+.cm-s-inner .CodeMirror-line > span > span::selection,
+.cm-s-typora-default .CodeMirror-line::selection,
+.cm-s-typora-default .CodeMirror-line > span::selection,
+.cm-s-typora-default .CodeMirror-line > span > span::selection {
+    background-color: var(--select-text-bg-color);
+    color: var(--select-text-font-color);
+}
+
+#write {
+    max-width: 850px;
+    margin: 0 auto;
+    padding: 3em 4em 10em;
+    font-size: 1rem;
+    color: var(--text-color);
+    text-align: justify;
+    hyphens: auto;
+    caret-color: var(--text-color);
+}
+
+#write > *:first-child {
+    margin-top: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--text-color);
+    page-break-after: avoid;
+}
+
+h1 {
+    font-size: 1.8em;
+    font-weight: normal;
+    text-align: center;
+    margin-top: 1.5em;
+    margin-bottom: 2em;
+    line-height: 1.2;
+}
+
+h2 {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-top: 2.5em;
+    margin-bottom: 1em;
+    border-bottom: none;
+}
+
+h3 {
+    font-size: 1.2em;
+    font-weight: bold;
+    margin-top: 2em;
+    margin-bottom: 0.8em;
+}
+
+h4 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+h5 {
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 1.5em;
+    margin-bottom: 0;
+}
+
+h6 {
+    font-size: 1em;
+    font-weight: bold;
+    font-style: italic;
+    margin-top: 1.5em;
+    margin-bottom: 0;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 0;
+    text-indent: 0;
+}
+
+h1 + p,
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p,
+li > p,
+blockquote p:first-child,
+.md-toc-content,
+.md-footnote p {
+    text-indent: 0;
+}
+
+blockquote {
+    margin: 1.5em 2em;
+    padding-left: 1.75em;
+    border-left: 1px solid var(--strong-line-color);
+    color: var(--muted-text-color);
+    font-size: 0.95em;
+}
+
+blockquote p {
+    text-indent: 0;
+}
+
+ul,
+ol {
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    padding-left: 2em;
+}
+
+li {
+    margin-bottom: 0.2em;
+}
+
+code,
+tt {
+    font-family: var(--monospace);
+    font-size: 0.95em;
+    color: var(--text-color);
+    background-color: var(--surface-color);
+    border: 1px solid var(--line-color);
+    padding: 0.08em 0.35em;
+    border-radius: 2px;
+}
+
+pre.md-meta-block,
+pre.md-fences {
+    font-family: var(--monospace);
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    border: 1px solid var(--line-color);
+    padding: 1em 1.2em;
+    font-size: 0.9em;
+    line-height: 1.35;
+    text-align: left;
+    hyphens: none;
+    border-radius: 2px;
+    margin: 1.5em 0;
+}
+
+pre.md-fences code {
+    border: none;
+    padding: 0;
+}
+
+pre.md-fences .CodeMirror-scroll,
+pre.md-meta-block {
+    font-family: var(--monospace);
+    color: var(--text-color);
+}
+
+table {
+    width: 100%;
+    margin: 2em auto;
+    border-collapse: collapse;
+    border-top: 2px solid var(--text-color);
+    border-bottom: 2px solid var(--text-color);
+    page-break-inside: avoid;
+    background-color: var(--surface-color);
+}
+
+thead tr {
+    border-bottom: 1px solid var(--text-color);
+}
+
+th,
+td {
+    padding: 0.5em 1.5em;
+    border: none;
+    background-color: transparent;
+}
+
+th {
+    font-weight: bold;
+    text-align: center;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    border-bottom: 1px solid currentColor;
+}
+
+a:hover {
+    color: var(--muted-text-color);
+}
+
+strong {
+    font-weight: bold;
+}
+
+em {
+    font-style: italic;
+}
+
+mark {
+    color: inherit;
+    background-color: var(--selection-color);
+}
+
+.md-math-block,
+.md-inline-math {
+    color: var(--text-color);
+}
+
+.mathjax-block,
+.mathjax-block .md-rawblock-control,
+.mathjax-block .md-rawblock-tooltip,
+.mathjax-block .md-rawblock-container,
+.mathjax-block .md-mathblock-panel,
+.mathjax-block .md-math-container {
+    color: var(--text-color);
+    background-color: var(--surface-color);
+}
+
+.mathjax-block .md-mathblock-panel {
+    border: 1px solid var(--line-color);
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+.mathjax-block .md-mathblock-panel .md-rawblock-before,
+.mathjax-block .md-mathblock-panel .md-rawblock-after {
+    padding: 0.45em 1.2em;
+    color: var(--meta-text-color);
+}
+
+.mathjax-block .md-mathblock-panel .md-rawblock-input {
+    padding: 0 1.2em;
+    background-color: var(--surface-color);
+}
+
+.mathjax-block .md-mathblock-panel .CodeMirror,
+.mathjax-block .md-mathblock-panel .cm-s-inner,
+.mathjax-block .md-mathblock-panel .CodeMirror-scroll,
+.mathjax-block .md-mathblock-panel .CodeMirror-lines,
+.mathjax-block .md-mathblock-panel .CodeMirror-gutters {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+.mathjax-block .md-mathblock-panel .CodeMirror-gutters {
+    border-right: none;
+}
+
+.mathjax-block .md-mathblock-panel .CodeMirror-cursor {
+    border-left: 1px solid var(--text-color);
+}
+
+.mathjax-block .md-mathblock-panel .CodeMirror-selected,
+.mathjax-block .md-mathblock-panel .CodeMirror-selectedtext {
+    background-color: var(--select-text-bg-color);
+    color: var(--select-text-font-color);
+}
+
+.mathjax-block .md-math-container {
+    padding: 0.75em 0;
+}
+
+.mathjax-block > .code-tooltip {
+    bottom: 0.375rem;
+    box-shadow: none;
+}
+
+.md-mathjax-midline {
+    background-color: transparent;
+    border-bottom: 1px solid var(--line-color);
+    color: var(--muted-text-color);
+}
+
+img {
+    display: block;
+    margin: 2em auto;
+    max-width: 100%;
+}
+
+.md-image > .md-meta,
+.md-meta,
+.md-content {
+    font-family: var(--monospace);
+    color: var(--meta-text-color);
+}
+
+sup.md-footnote {
+    color: var(--text-color);
+    background-color: transparent;
+    padding: 0 1px;
+}
+
+.md-footnotes {
+    margin-top: 3em;
+    padding-top: 1em;
+    border-top: 1px solid var(--strong-line-color);
+    font-size: 0.9em;
+    color: var(--muted-text-color);
+}
+
+hr {
+    border: none;
+    border-top: 1px solid var(--strong-line-color);
+    margin: 2em 0;
+}
+
+.md-toc {
+    font-family: var(--sans-font);
+    font-size: 0.95em;
+    margin: 2em 0;
+    color: var(--muted-text-color);
+}
+
+#typora-sidebar {
+    font-family: var(--sans-font);
+    font-size: 0.9em;
+    color: var(--muted-text-color);
+    border-right: 1px solid var(--line-color);
+}
+
+/* Reserve the macOS titlebar area so pinned sidebar controls do not sit under the traffic lights. */
+.mac-seamless-mode #typora-sidebar {
+    top: var(--mac-title-bar-height);
+    height: calc(100% - var(--mac-title-bar-height));
+}
+
+#typora-sidebar .file-node-content,
+#typora-sidebar .outline-item,
+#typora-sidebar .ty-sidebar-footer {
+    background-color: var(--panel-bg-color);
+}
+
+#typora-sidebar .file-node-content:hover,
+#typora-sidebar .outline-item:hover,
+#typora-sidebar .ty-sidebar-footer-item:hover {
+    background-color: var(--item-hover-bg-color);
+    color: var(--item-hover-text-color);
+    box-shadow: inset 0 0 0 1px var(--focus-ring-color);
+}
+
+#typora-sidebar .active,
+#typora-sidebar .file-node.active > .file-node-content,
+#typora-sidebar .outline-item.active {
+    background-color: var(--active-file-bg-color);
+    color: var(--active-file-text-color);
+    box-shadow: inset 0 0 0 1px var(--active-file-border-color);
+}
+
+#typora-source {
+    font-family: var(--monospace);
+    color: var(--text-color);
+}
+
+.cm-s-inner {
+    background-color: var(--surface-color);
+    color: var(--text-color);
+}
+
+.cm-s-inner .cm-header,
+.cm-s-inner .cm-link,
+.cm-s-inner .cm-variable,
+.cm-s-inner .cm-variable-2,
+.cm-s-inner .cm-variable-3,
+.cm-s-inner .cm-operator,
+.cm-s-inner .cm-tag {
+    color: var(--text-color);
+}
+
+.cm-s-inner .cm-string,
+.cm-s-inner .cm-number,
+.cm-s-inner .cm-atom,
+.cm-s-inner .cm-attribute,
+.cm-s-inner .cm-property,
+.cm-s-inner .cm-builtin,
+.cm-s-inner .cm-def,
+.cm-s-inner .cm-keyword,
+.cm-s-inner .cm-qualifier,
+.cm-s-inner .cm-meta,
+.cm-s-inner .cm-comment {
+    color: var(--muted-text-color);
+}
+
+.cm-s-inner .cm-comment {
+    font-style: italic;
+}
+
+.cm-s-inner .cm-hr {
+    color: var(--strong-line-color);
+}
+
+.cm-s-inner .cm-error {
+    color: #000000;
+    background-color: #ffffff;
+}
+
+@media print {
+    :root {
+        --bg-color: #000000;
+        --surface-color: #000000;
+        --panel-bg-color: #000000;
+        --text-color: #f3f3f3;
+        --muted-text-color: #bcbcbc;
+        --meta-text-color: #8d8d8d;
+        --line-color: rgba(255, 255, 255, 0.2);
+        --strong-line-color: rgba(255, 255, 255, 0.38);
+        --selection-color: rgba(255, 255, 255, 0.14);
+        --select-text-bg-color: var(--selection-color);
+        --select-text-font-color: var(--text-color);
+        --focus-ring-color: rgba(255, 255, 255, 0.26);
+    }
+
+    .typora-export,
+    .typora-export-content,
+    html,
+    body,
+    #write {
+        background-color: var(--bg-color) !important;
+        color: var(--text-color) !important;
+    }
+
+    .typora-export * {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    .md-math-block,
+    .md-inline-math,
+    .md-image > .md-meta,
+    .md-meta,
+    .md-content,
+    sup.md-footnote,
+    .md-footnotes,
+    .md-toc {
+        color: inherit !important;
+    }
+
+    pre.md-meta-block,
+    pre.md-fences,
+    code,
+    tt,
+    table {
+        background-color: var(--surface-color) !important;
+        color: var(--text-color) !important;
+    }
+
+    blockquote,
+    hr,
+    .md-footnotes,
+    #typora-sidebar {
+        border-color: var(--strong-line-color) !important;
+    }
+
+    .cm-s-inner,
+    .cm-s-inner *,
+    .cm-s-typora-default,
+    .cm-s-typora-default * {
+        background-color: transparent !important;
+        color: var(--text-color) !important;
+    }
+}
