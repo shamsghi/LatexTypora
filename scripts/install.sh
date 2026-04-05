@@ -255,9 +255,9 @@ install_theme() {
     cp "${source_dir}/latex.css" "${theme_dir}/latex.css"
     cp "${source_dir}/latex-dark.css" "${theme_dir}/latex-dark.css"
     shopt -s nullglob
-    font_files=("${source_dir}"/latex_fonts/*.woff)
+    font_files=("${source_dir}"/latex_fonts/*.otf)
     shopt -u nullglob
-    [[ ${#font_files[@]} -gt 0 ]] || die "No .woff font files found in source."
+    [[ ${#font_files[@]} -gt 0 ]] || die "No .otf font files found in source."
     cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
 }
 
@@ -287,7 +287,7 @@ main() {
     install_theme "${SOURCE_DIR}" "${RESOLVED_THEME_DIR}"
     success "Installed latex.css"
     success "Installed latex-dark.css"
-    success "Installed latex_fonts/*.woff"
+    success "Installed latex_fonts/*.otf"
 
     printf '\n%b\n' "${BOLD}${GREEN}Done!${RESET} Restart Typora or switch themes to Latex / Latex Dark."
 }

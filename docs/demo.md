@@ -37,7 +37,7 @@ $$
 | :-- | :-- |
 | Heading | Centered title and calm hierarchy |
 | Paragraph | Justified body copy with even texture |
-| Code | Computer Modern Typewriter with thin borders |
+| Code | Latin Modern Mono with thin borders |
 | Table | Top and bottom rules in a classic academic style |
 
 ## Technical Samples

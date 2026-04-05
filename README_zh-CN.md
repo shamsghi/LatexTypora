@@ -12,11 +12,11 @@
 
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
-- 内置 Computer Modern Web 字体，支持离线使用
+- 内置 Latin Modern OpenType 字体，支持离线使用
 
 ## 特性
 
-- 为正文、代码和界面细节提供 Computer Modern 字体风格
+- 为正文、代码和界面细节提供 Latin Modern 字体风格
 - 干净的 LaTeX 式间距、居中标题与两端对齐段落
 - 以极简单色风格呈现表格、引用块、链接、脚注与数学公式
 - 与 Typora 侧边栏、源码模式以及打印/导出效果保持一致
@@ -63,6 +63,6 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 - 仓库中的主题代码采用 Apache-2.0 许可证发布。重新分发时请保留 `LICENSE` 和 `NOTICE` 中的署名信息。
 - 字体来源说明见 `docs/THIRD_PARTY_NOTICES.md`。
-- 由于 Computer Modern 字体已随主题一并打包，安装后可离线使用。
+- 由于 Latin Modern 字体已随主题一并打包，安装后可离线使用。
 - 设计并在 macOS 上测试。未进行完整测试，但应适用于 Windows/Linux。
 - 如果你想自定义颜色或间距，可编辑每个主题文件顶部的 `:root` 变量。

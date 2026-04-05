@@ -175,7 +175,7 @@ install_theme() {
 
     cp "${source_dir}/latex.css" "${theme_dir}/latex.css"
     cp "${source_dir}/latex-dark.css" "${theme_dir}/latex-dark.css"
-    cp "${source_dir}"/latex_fonts/*.woff "${theme_dir}/latex_fonts/"
+    cp "${source_dir}"/latex_fonts/*.otf "${theme_dir}/latex_fonts/"
 }
 
 main() {
@@ -193,7 +193,7 @@ main() {
     echo "Installed files:"
     echo "  ${RESOLVED_THEME_DIR}/latex.css"
     echo "  ${RESOLVED_THEME_DIR}/latex-dark.css"
-    echo "  ${RESOLVED_THEME_DIR}/latex_fonts/*.woff"
+    echo "  ${RESOLVED_THEME_DIR}/latex_fonts/*.otf"
 
     if [[ "${CREATED_THEME_DIR}" -eq 1 ]]; then
         echo
