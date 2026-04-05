@@ -40,31 +40,12 @@
 :root {
     --font-family: "Latin Modern Mono", "Courier New", monospace;
     --monospace: "iA Writer Mono", "Latin Modern Mono", "Courier New", monospace;
-    --surface-color: #050608;
-    --panel-bg-color: #050608;
-    --muted-text-color: #c2cad4;
-    --meta-text-color: #8f9baa;
-    --line-color: rgba(152, 187, 255, 0.18);
-    --strong-line-color: rgba(152, 187, 255, 0.32);
-    --selection-color: rgba(139, 185, 255, 0.16);
-    --focus-ring-color: rgba(139, 185, 255, 0.28);
-    --link-color: #9dc8ff;
-    --link-hover-color: #d9e9ff;
-    --inline-code-bg-color: #07111d;
-    --inline-code-border-color: rgba(157, 200, 255, 0.22);
-    --code-bg-color: #07111d;
-    --code-border-color: rgba(157, 200, 255, 0.22);
-    --kbd-bg-color: #08111b;
-    --kbd-border-color: rgba(157, 200, 255, 0.24);
-    --quote-bg-color: #06111b;
-    --quote-border-color: rgba(157, 200, 255, 0.28);
-    --image-frame-color: rgba(157, 200, 255, 0.18);
-    --diagram-fill-color: rgba(157, 200, 255, 0.06);
-    --diagram-note-fill-color: rgba(157, 200, 255, 0.1);
-    --diagram-line-color: rgba(217, 233, 255, 0.7);
-    --diagram-muted-line-color: rgba(157, 200, 255, 0.3);
-    --search-hit-bg-color: rgba(157, 200, 255, 0.12);
-    --search-hit-border-color: rgba(157, 200, 255, 0.26);
+    --inline-code-bg-color: #080808;
+    --inline-code-border-color: rgba(255, 255, 255, 0.22);
+    --code-bg-color: #040404;
+    --code-border-color: rgba(255, 255, 255, 0.26);
+    --kbd-bg-color: #080808;
+    --kbd-border-color: rgba(255, 255, 255, 0.26);
 }
 
 body {
