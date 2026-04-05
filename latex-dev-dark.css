@@ -6,6 +6,7 @@
 @import "./latex-dark.css";
 
 :root {
+    --font-family: "Latin Modern Mono", "Courier New", monospace;
     --surface-color: #050608;
     --panel-bg-color: #050608;
     --muted-text-color: #c2cad4;
