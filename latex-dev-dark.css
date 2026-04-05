@@ -38,7 +38,7 @@
 }
 
 :root {
-    --font-family: "Latin Modern Roman", "Times New Roman", serif;
+    --font-family: "Latin Modern Mono", "Courier New", monospace;
     --monospace: "iA Writer Mono", "Latin Modern Mono", "Courier New", monospace;
     --surface-color: #050608;
     --panel-bg-color: #050608;
