@@ -5,8 +5,41 @@
 
 @import "./latex-dark.css";
 
+@font-face {
+    font-family: "iA Writer Mono";
+    src: url("./latex_fonts/iAWriterMonoS-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iA Writer Mono";
+    src: url("./latex_fonts/iAWriterMonoS-Bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iA Writer Mono";
+    src: url("./latex_fonts/iAWriterMonoS-Italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "iA Writer Mono";
+    src: url("./latex_fonts/iAWriterMonoS-BoldItalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
 :root {
-    --font-family: "Latin Modern Mono", "Courier New", monospace;
+    --font-family: "Latin Modern Roman", "Times New Roman", serif;
+    --monospace: "iA Writer Mono", "Latin Modern Mono", "Courier New", monospace;
     --surface-color: #050608;
     --panel-bg-color: #050608;
     --muted-text-color: #c2cad4;

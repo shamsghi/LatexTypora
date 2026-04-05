@@ -169,12 +169,17 @@ detect_source_dir() {
 install_theme() {
     local source_dir="$1"
     local theme_dir="$2"
+    local font_files=()
 
     mkdir -p "${theme_dir}"
     mkdir -p "${theme_dir}/latex_fonts"
 
     cp "${source_dir}"/latex*.css "${theme_dir}/"
-    cp "${source_dir}"/latex_fonts/*.otf "${theme_dir}/latex_fonts/"
+    shopt -s nullglob
+    font_files=("${source_dir}"/latex_fonts/*.otf "${source_dir}"/latex_fonts/*.ttf)
+    shopt -u nullglob
+    [[ ${#font_files[@]} -gt 0 ]] || { echo "No font files found in source." >&2; exit 1; }
+    cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
 }
 
 main() {
@@ -193,7 +198,7 @@ main() {
     echo "  ${RESOLVED_THEME_DIR}/latex.css"
     echo "  ${RESOLVED_THEME_DIR}/latex-dark.css"
     echo "  ${RESOLVED_THEME_DIR}/latex-dev-dark.css"
-    echo "  ${RESOLVED_THEME_DIR}/latex_fonts/*.otf"
+    echo "  ${RESOLVED_THEME_DIR}/latex_fonts/*.{otf,ttf}"
 
     if [[ "${CREATED_THEME_DIR}" -eq 1 ]]; then
         echo

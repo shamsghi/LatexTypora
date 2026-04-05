@@ -136,6 +136,7 @@ function Install-Theme {
 
     Copy-Item -Path (Join-Path $SourceDir 'latex*.css') -Destination $ThemeDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.otf') -Destination $fontDir -Force
+    Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.ttf') -Destination $fontDir -Force
 }
 
 try {
@@ -153,6 +154,7 @@ try {
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex-dark.css')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex-dev-dark.css')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.otf')"
+    Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.ttf')"
 
     if ($CreatedThemeDir) {
         Write-Host ''

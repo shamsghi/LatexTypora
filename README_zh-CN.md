@@ -13,7 +13,7 @@
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
 - `latex-dev-dark.css` 用于面向开发者的深色模式
-- 内置 Latin Modern OpenType 字体，支持离线使用
+- 内置 Latin Modern 与 iA Writer Mono 字体资源，支持离线使用
 
 ## 特性
 
@@ -26,7 +26,7 @@
 ## 主题选择建议
 
 - `latex` / `latex-dark`：更适合论文、文章与长篇阅读
-- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown
+- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown，并为代码使用 iA Writer Mono
 
 演示文件：
 
@@ -74,6 +74,6 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 - 仓库中的主题代码采用 Apache-2.0 许可证发布。重新分发时请保留 `LICENSE` 和 `NOTICE` 中的署名信息。
 - 字体来源说明见 `docs/THIRD_PARTY_NOTICES.md`。
-- 由于 Latin Modern 字体已随主题一并打包，安装后可离线使用。
+- 由于所需字体资源已随主题一并打包，安装后可离线使用。
 - 设计并在 macOS 上测试。未进行完整测试，但应适用于 Windows/Linux。
 - 如果你想自定义颜色或间距，可编辑每个主题文件顶部的 `:root` 变量。

@@ -13,7 +13,7 @@ A family of Typora themes inspired by classic LaTeX documents, with additional d
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
 - `latex-dev-dark.css` for developer-focused dark mode
-- Bundled Latin Modern OpenType fonts for offline use
+- Bundled Latin Modern fonts and iA Writer Mono assets for offline use
 
 ## Features
 
@@ -26,7 +26,7 @@ A family of Typora themes inspired by classic LaTeX documents, with additional d
 ## Which theme to use
 
 - `latex` / `latex-dark`: best for essays, papers, and long-form reading
-- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode
+- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode, with iA Writer Mono for code
 
 Demos:
 
@@ -73,6 +73,6 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 - The repo theme code is licensed under Apache-2.0. Keep the `LICENSE` and `NOTICE` attribution information when redistributing it.
 - Font source notes are documented in `docs/THIRD_PARTY_NOTICES.md`.
-- The theme works offline once installed because the Latin Modern fonts are bundled locally.
+- The theme works offline once installed because the required font assets are bundled locally.
 - Designed and tested on macOS. Not fully tested, but should work for Windows/Linux.
 - To customize colors or spacing, edit the `:root` variables at the top of each theme file.

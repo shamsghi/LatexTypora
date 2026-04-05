@@ -21,3 +21,21 @@ License note:
 - Review the upstream package and license text before redistributing modified font files.
 
 If you plan to redistribute this theme, review the upstream font licensing details and keep this notice with the bundled font files.
+
+## iA Writer Mono
+
+This repository also bundles local `ttf` assets for `iA Writer Mono`, which is used by the developer-focused dark theme for code.
+
+Source of bundled font files:
+
+- iA Fonts repository
+- <https://github.com/iaolo/iA-Fonts>
+- <https://github.com/iaolo/iA-Fonts/tree/master/iA%20Writer%20Mono>
+
+License note:
+
+- The upstream `iA Writer Mono` package includes the SIL Open Font License 1.1.
+- The repository notes that the typeface is based on IBM Plex and uses the reserved font name `iA Writer`.
+- A local copy of the upstream license is included at `docs/iA-Writer-Mono-LICENSE.md`.
+
+If you redistribute the bundled `iA Writer Mono` files, keep the license text and attribution with them.
