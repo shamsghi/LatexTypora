@@ -1,23 +1,23 @@
 # Third-Party Notices
 
-## Computer Modern Web Fonts
+## Latin Modern Fonts
 
-This repository bundles local `woff` assets for the following font families used by the Typora themes:
+This repository bundles local `otf` assets for the following font families used by the Typora themes:
 
-- `Computer Modern Serif`
-- `Computer Modern Sans`
-- `Computer Modern Typewriter`
+- `Latin Modern Roman`
+- `Latin Modern Sans`
+- `Latin Modern Mono`
 
-Source of bundled webfont files:
+Source of bundled font files:
 
-- `dreampulse/computer-modern-web-font`
-- <https://github.com/dreampulse/computer-modern-web-font>
+- CTAN package `lm`
+- <https://ctan.org/pkg/lm>
+- <https://www.gust.org.pl/projects/e-foundry/latin-modern>
 
 License note:
 
-- The upstream webfont mirror does not publish a top-level repository license.
-- These bundled `cmun*` assets appear to correspond to the `cm-unicode` Computer Modern Unicode family.
-- CTAN lists `cm-unicode` under the SIL Open Font License.
-- Reference: <https://ctan.org/pkg/cm-unicode>
+- CTAN lists the `lm` package under the GUST Font License (GFL).
+- The CTAN package metadata attributes the fonts to B. Jackowski and J.M. Nowacki.
+- Review the upstream package and license text before redistributing modified font files.
 
 If you plan to redistribute this theme, review the upstream font licensing details and keep this notice with the bundled font files.

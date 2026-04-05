@@ -1,99 +1,99 @@
 /*
  * LaTeX Theme for Typora
- * A light theme inspired by the classic Computer Modern LaTeX page.
+ * A light theme inspired by the classic Latin Modern LaTeX page.
  */
 
 @font-face {
-    font-family: "Computer Modern Serif";
-    src: url("./latex_fonts/cmunrm.woff") format("woff");
+    font-family: "Latin Modern Roman";
+    src: url("./latex_fonts/lmroman10-regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Serif";
-    src: url("./latex_fonts/cmunbx.woff") format("woff");
+    font-family: "Latin Modern Roman";
+    src: url("./latex_fonts/lmroman10-bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Serif";
-    src: url("./latex_fonts/cmunti.woff") format("woff");
+    font-family: "Latin Modern Roman";
+    src: url("./latex_fonts/lmroman10-italic.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Serif";
-    src: url("./latex_fonts/cmunbi.woff") format("woff");
+    font-family: "Latin Modern Roman";
+    src: url("./latex_fonts/lmroman10-bolditalic.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Sans";
-    src: url("./latex_fonts/cmunss.woff") format("woff");
+    font-family: "Latin Modern Sans";
+    src: url("./latex_fonts/lmsans10-regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Sans";
-    src: url("./latex_fonts/cmunsx.woff") format("woff");
+    font-family: "Latin Modern Sans";
+    src: url("./latex_fonts/lmsans10-bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Sans";
-    src: url("./latex_fonts/cmunsi.woff") format("woff");
+    font-family: "Latin Modern Sans";
+    src: url("./latex_fonts/lmsans10-oblique.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Sans";
-    src: url("./latex_fonts/cmunso.woff") format("woff");
+    font-family: "Latin Modern Sans";
+    src: url("./latex_fonts/lmsans10-boldoblique.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Typewriter";
-    src: url("./latex_fonts/cmuntt.woff") format("woff");
+    font-family: "Latin Modern Mono";
+    src: url("./latex_fonts/lmmono10-regular.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Typewriter";
-    src: url("./latex_fonts/cmuntb.woff") format("woff");
+    font-family: "Latin Modern Mono";
+    src: url("./latex_fonts/lmmonolt10-bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Typewriter";
-    src: url("./latex_fonts/cmunit.woff") format("woff");
+    font-family: "Latin Modern Mono";
+    src: url("./latex_fonts/lmmono10-italic.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Computer Modern Typewriter";
-    src: url("./latex_fonts/cmuntx.woff") format("woff");
+    font-family: "Latin Modern Mono";
+    src: url("./latex_fonts/lmmonolt10-boldoblique.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -114,9 +114,9 @@
     --focus-ring-color: rgba(0, 0, 0, 0.22);
     --rawblock-edit-panel-bd: var(--line-color);
 
-    --font-family: "Computer Modern Serif", "Times New Roman", serif;
-    --monospace: "Computer Modern Typewriter", "Courier New", monospace;
-    --sans-font: "Computer Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-family: "Latin Modern Roman", "Times New Roman", serif;
+    --monospace: "Latin Modern Mono", "Courier New", monospace;
+    --sans-font: "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
     --primary-color: #000000;
     --primary-btn-border-color: #000000;

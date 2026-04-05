@@ -12,11 +12,11 @@ A light and dark Typora theme pair inspired by classic LaTeX documents.
 
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
-- Bundled Computer Modern web fonts for offline use
+- Bundled Latin Modern OpenType fonts for offline use
 
 ## Features
 
-- Computer Modern typography for text, code, and UI accents
+- Latin Modern typography for text, code, and UI accents
 - Clean LaTeX-style spacing, centered titles, and justified paragraphs
 - Minimal monochrome styling for tables, blockquotes, links, footnotes, and math
 - Matching Typora sidebar, source mode, and print/export presentation
@@ -62,6 +62,6 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 - The repo theme code is licensed under Apache-2.0. Keep the `LICENSE` and `NOTICE` attribution information when redistributing it.
 - Font source notes are documented in `docs/THIRD_PARTY_NOTICES.md`.
-- The theme works offline once installed because the Computer Modern fonts are bundled locally.
+- The theme works offline once installed because the Latin Modern fonts are bundled locally.
 - Designed and tested on macOS. Not fully tested, but should work for Windows/Linux.
 - To customize colors or spacing, edit the `:root` variables at the top of each theme file.
