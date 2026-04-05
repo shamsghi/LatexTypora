@@ -173,8 +173,7 @@ install_theme() {
     mkdir -p "${theme_dir}"
     mkdir -p "${theme_dir}/latex_fonts"
 
-    cp "${source_dir}/latex.css" "${theme_dir}/latex.css"
-    cp "${source_dir}/latex-dark.css" "${theme_dir}/latex-dark.css"
+    cp "${source_dir}"/latex*.css "${theme_dir}/"
     cp "${source_dir}"/latex_fonts/*.otf "${theme_dir}/latex_fonts/"
 }
 
@@ -193,6 +192,7 @@ main() {
     echo "Installed files:"
     echo "  ${RESOLVED_THEME_DIR}/latex.css"
     echo "  ${RESOLVED_THEME_DIR}/latex-dark.css"
+    echo "  ${RESOLVED_THEME_DIR}/latex-dev-dark.css"
     echo "  ${RESOLVED_THEME_DIR}/latex_fonts/*.otf"
 
     if [[ "${CREATED_THEME_DIR}" -eq 1 ]]; then
@@ -203,7 +203,7 @@ main() {
     fi
 
     echo
-    echo "Restart Typora or switch to the Latex / Latex Dark theme from Themes."
+    echo "Restart Typora or switch to the Latex / Latex Dark / Latex Dev Dark theme from Themes."
 }
 
 main

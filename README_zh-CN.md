@@ -8,19 +8,30 @@
 
 > 英文说明请见：[English README](../README.md)
 
-一个受经典 LaTeX 文档启发的 Typora 明暗双主题。
+一组受经典 LaTeX 文档启发的 Typora 主题，并额外提供面向开发者的变体。
 
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
+- `latex-dev-dark.css` 用于面向开发者的深色模式
 - 内置 Latin Modern OpenType 字体，支持离线使用
 
 ## 特性
 
 - 为正文、代码和界面细节提供 Latin Modern 字体风格
 - 干净的 LaTeX 式间距、居中标题与两端对齐段落
-- 以极简单色风格呈现表格、引用块、链接、脚注与数学公式
+- 更适合开发文档的内联代码、代码块、表格、图表、链接、截图与快捷键样式
 - 与 Typora 侧边栏、源码模式以及打印/导出效果保持一致
 - 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题
+
+## 主题选择建议
+
+- `latex` / `latex-dark`：更适合论文、文章与长篇阅读
+- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown
+
+演示文件：
+
+- 通用演示：`docs/demo.md`
+- 开发者深色演示：`docs/dev-demo.md`
 
 ## 安装
 
@@ -54,7 +65,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 2. 打开 Typora。
 3. 进入 Preferences -> Appearance。
 4. 点击 Open Theme Folder。
-5. 将 `latex.css`、`latex-dark.css` 和 `latex_fonts` 文件夹复制进去。
+5. 将 `latex.css`、`latex-dark.css`、`latex-dev-dark.css` 和 `latex_fonts` 文件夹复制进去。
 6. 重启 Typora，或在 Themes 菜单中切换一次主题以刷新加载。
 
 #### 尽情享受 ❤️!

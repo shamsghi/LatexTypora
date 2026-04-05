@@ -1,0 +1,103 @@
+/*
+ * LaTeX Dev Dark Theme for Typora
+ * A developer-focused dark variant with scan-friendly spacing and stronger code affordances.
+ */
+
+@import "./latex-dark.css";
+
+:root {
+    --surface-color: #050608;
+    --panel-bg-color: #050608;
+    --muted-text-color: #c2cad4;
+    --meta-text-color: #8f9baa;
+    --line-color: rgba(152, 187, 255, 0.18);
+    --strong-line-color: rgba(152, 187, 255, 0.32);
+    --selection-color: rgba(139, 185, 255, 0.16);
+    --focus-ring-color: rgba(139, 185, 255, 0.28);
+    --link-color: #9dc8ff;
+    --link-hover-color: #d9e9ff;
+    --inline-code-bg-color: #07111d;
+    --inline-code-border-color: rgba(157, 200, 255, 0.22);
+    --code-bg-color: #07111d;
+    --code-border-color: rgba(157, 200, 255, 0.22);
+    --kbd-bg-color: #08111b;
+    --kbd-border-color: rgba(157, 200, 255, 0.24);
+    --quote-bg-color: #06111b;
+    --quote-border-color: rgba(157, 200, 255, 0.28);
+    --image-frame-color: rgba(157, 200, 255, 0.18);
+    --diagram-fill-color: rgba(157, 200, 255, 0.06);
+    --diagram-note-fill-color: rgba(157, 200, 255, 0.1);
+    --diagram-line-color: rgba(217, 233, 255, 0.7);
+    --diagram-muted-line-color: rgba(157, 200, 255, 0.3);
+    --search-hit-bg-color: rgba(157, 200, 255, 0.12);
+    --search-hit-border-color: rgba(157, 200, 255, 0.26);
+}
+
+body {
+    line-height: 1.55;
+}
+
+#write {
+    max-width: 980px;
+    padding: 2.75em 3.25em 8em;
+    text-align: left;
+    hyphens: none;
+}
+
+h1 {
+    margin-top: 0.5em;
+    margin-bottom: 1.2em;
+    font-family: var(--sans-font);
+    font-size: 2.05em;
+    text-align: left;
+    letter-spacing: 0.02em;
+}
+
+h2,
+h3,
+h4 {
+    font-family: var(--sans-font);
+}
+
+h2 {
+    margin-top: 2.3em;
+    padding-top: 0.3em;
+    border-top: 1px solid var(--line-color);
+}
+
+p {
+    margin-bottom: 0.95em;
+}
+
+li > p,
+blockquote p,
+blockquote p:first-child {
+    margin-bottom: 0.5em;
+}
+
+li > p:last-child,
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+ul,
+ol,
+blockquote,
+pre.md-meta-block,
+pre.md-fences,
+.md-diagram-panel,
+.md-table-wrap,
+table,
+.mathjax-block {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+blockquote {
+    border-left-width: 3px;
+    border-radius: 0 4px 4px 0;
+}
+
+.md-diagram-panel-preview {
+    text-align: left;
+}

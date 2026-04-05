@@ -134,8 +134,7 @@ function Install-Theme {
     New-Item -ItemType Directory -Path $ThemeDir -Force | Out-Null
     New-Item -ItemType Directory -Path $fontDir -Force | Out-Null
 
-    Copy-Item -LiteralPath (Join-Path $SourceDir 'latex.css') -Destination (Join-Path $ThemeDir 'latex.css') -Force
-    Copy-Item -LiteralPath (Join-Path $SourceDir 'latex-dark.css') -Destination (Join-Path $ThemeDir 'latex-dark.css') -Force
+    Copy-Item -Path (Join-Path $SourceDir 'latex*.css') -Destination $ThemeDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.otf') -Destination $fontDir -Force
 }
 
@@ -152,6 +151,7 @@ try {
     Write-Host 'Installed files:'
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex.css')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex-dark.css')"
+    Write-Host "  $(Join-Path $ResolvedThemeDir 'latex-dev-dark.css')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.otf')"
 
     if ($CreatedThemeDir) {
@@ -162,7 +162,7 @@ try {
     }
 
     Write-Host ''
-    Write-Host 'Restart Typora or switch to the Latex / Latex Dark theme from Themes.'
+    Write-Host 'Restart Typora or switch to the Latex / Latex Dark / Latex Dev Dark theme from Themes.'
 }
 finally {
     if ($TempDir -and (Test-Path -LiteralPath $TempDir)) {

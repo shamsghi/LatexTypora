@@ -8,19 +8,30 @@
 
 > 中文说明请见：[简体中文 README](./README_zh-CN.md)
 
-A light and dark Typora theme pair inspired by classic LaTeX documents.
+A family of Typora themes inspired by classic LaTeX documents, with additional developer-focused variants.
 
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
+- `latex-dev-dark.css` for developer-focused dark mode
 - Bundled Latin Modern OpenType fonts for offline use
 
 ## Features
 
 - Latin Modern typography for text, code, and UI accents
 - Clean LaTeX-style spacing, centered titles, and justified paragraphs
-- Minimal monochrome styling for tables, blockquotes, links, footnotes, and math
+- Stronger developer ergonomics for inline code, fenced blocks, tables, diagrams, links, screenshots, and keyboard shortcuts
 - Matching Typora sidebar, source mode, and print/export presentation
 - MacOS traffic lights sidebar offset fix
+
+## Which theme to use
+
+- `latex` / `latex-dark`: best for essays, papers, and long-form reading
+- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode
+
+Demos:
+
+- General demo: `docs/demo.md`
+- Developer demo for `latex-dev-dark`: `docs/dev-demo.md`
 
 ## Installation
 
@@ -53,7 +64,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 2. Open Typora.
 3. Go to Preferences -> Appearance.
 4. Click Open Theme Folder.
-5. Copy latex.css, latex-dark.css and latex_fonts folder into there.
+5. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts` folder into there.
 6. Restart Typora or switch themes from the Themes menu to reset.
 
 #### Enjoy ❤️!
