@@ -395,6 +395,10 @@ pre.md-fences {
     overflow: visible;
 }
 
+pre.md-fences.ty-contain-cm {
+    margin-bottom: 4.5em;
+}
+
 pre.md-fences code {
     border: none;
     padding: 0;
@@ -410,6 +414,29 @@ pre.md-meta-block {
 pre.md-fences .CodeMirror-scroll {
     overflow-x: auto;
     overflow-y: hidden;
+}
+
+pre.md-fences.ty-contain-cm .md-fences-adv-panel {
+    position: absolute;
+    top: calc(100% + 0.75em);
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    padding: 0;
+    overflow: visible;
+}
+
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .ty-cm-lang-input,
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .md-lang {
+    display: inline-block;
+    min-width: 7.5em;
+    max-width: calc(100% - 2.4em);
+    padding: 0.2em 1em;
+    border: 1px solid var(--code-border-color);
+    border-radius: 2px;
+    background-color: var(--code-bg-color);
+    color: var(--muted-text-color);
+    text-align: center;
 }
 
 pre.md-fences .cm-keyword,
