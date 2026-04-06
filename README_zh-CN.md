@@ -13,12 +13,13 @@
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
 - `latex-dev-dark.css` 用于面向开发者的深色模式
-- 内置 Latin Modern、JuliaMono 与 iA Writer Mono 字体资源，支持离线使用
+- 内置 Latin Modern、JuliaMono、iA Writer Mono 与 Noto Nastaliq Urdu 字体资源，支持离线使用
 
 ## 特性
 
 - 为正文、代码和界面细节提供 Latin Modern 字体风格
 - `latex` / `latex-dark` 保留经典 LaTeX 式间距与两端对齐正文，`latex-dev-dark` 则采用更利于扫读的左对齐开发者布局
+- 在 `latex` / `latex-dark` 中，可通过在块级或行内内容上添加 `lang="ur"` / `lang="fa"` 来启用乌尔都语与波斯语的 Nastaliq 排版
 - 更适合开发文档的内联代码、带独立语言标签的代码块、表格、图表、链接、截图与快捷键样式
 - 与 Typora 侧边栏、源码模式以及打印/导出效果保持一致
 - 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题
@@ -32,6 +33,15 @@
 
 - 通用演示：`docs/demo.md`
 - 开发者深色演示：`docs/dev-demo.md`
+
+## 语言支持
+
+如需在 `latex` 或 `latex-dark` 中为乌尔都语或波斯语启用 Nastaliq 排版，可在块级或行内内容上添加 `lang="ur"` 或 `lang="fa"`：
+
+```html
+<p lang="ur">یہ پیراگراف نستعلیق میں دکھایا جائے گا۔</p>
+<p>English text with <span lang="fa">این بخش فارسی</span> 行内显示。</p>
+```
 
 ## 安装
 

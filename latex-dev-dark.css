@@ -146,6 +146,46 @@ blockquote {
     border-radius: 0 4px 4px 0;
 }
 
+#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
+#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(fa),
+#write :is(p, li, blockquote, th, td, .footnote-line):lang(ur),
+#write :is(p, li, blockquote, th, td, .footnote-line):lang(fa),
+#write :is(h1, h2, h3, h4, h5, h6):lang(ur),
+#write :is(h1, h2, h3, h4, h5, h6):lang(fa) {
+    font-family: inherit;
+    line-height: inherit;
+    direction: inherit;
+    unicode-bidi: normal;
+    text-align: inherit;
+    hyphens: inherit;
+    letter-spacing: inherit;
+}
+
+#write blockquote:lang(ur),
+#write blockquote:lang(fa) {
+    padding: 0.9em 1.2em 0.9em 1.4em;
+    border-left: 3px solid var(--quote-border-color);
+    border-right: none;
+    border-radius: 0 4px 4px 0;
+}
+
+#write :is(ul, ol):lang(ur),
+#write :is(ul, ol):lang(fa) {
+    padding-left: 2em;
+    padding-right: 0;
+}
+
+#write ul.task-list:lang(ur),
+#write ul.task-list:lang(fa) {
+    padding-right: 0;
+}
+
+#write li.task-list-item:lang(ur) > input[type="checkbox"],
+#write li.task-list-item:lang(fa) > input[type="checkbox"] {
+    margin-left: 0;
+    margin-right: 0.55em;
+}
+
 .md-diagram-panel-preview {
     text-align: left;
 }

@@ -99,6 +99,14 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Noto Nastaliq Urdu";
+    src: url("./latex_fonts/NotoNastaliqUrdu-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
     --bg-color: #000000;
     --surface-color: #000000;
@@ -136,6 +144,9 @@
     --font-family: "Latin Modern Roman", "Times New Roman", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
     --sans-font: "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --nastaliq-font: "Noto Nastaliq Urdu";
+    --nastaliq-line-height: 2.15;
+    --nastaliq-heading-line-height: 1.8;
 
     --primary-color: #f3f3f3;
     --primary-btn-border-color: #f3f3f3;
@@ -812,6 +823,70 @@ sup.md-footnote {
     border-top: 1px solid var(--strong-line-color);
     font-size: 0.9em;
     color: var(--muted-text-color);
+}
+
+#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
+#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(fa) {
+    font-family: var(--nastaliq-font), var(--font-family);
+    line-height: var(--nastaliq-line-height);
+    direction: rtl;
+    unicode-bidi: isolate;
+    hyphens: none;
+}
+
+#write :is(p, li, blockquote, th, td, .footnote-line):lang(ur),
+#write :is(p, li, blockquote, th, td, .footnote-line):lang(fa) {
+    font-family: var(--nastaliq-font), var(--font-family);
+    line-height: var(--nastaliq-line-height);
+    direction: rtl;
+    unicode-bidi: plaintext;
+    text-align: right;
+    hyphens: none;
+}
+
+#write :is(h1, h2, h3, h4, h5, h6):lang(ur),
+#write :is(h1, h2, h3, h4, h5, h6):lang(fa) {
+    font-family: var(--nastaliq-font), var(--font-family);
+    line-height: var(--nastaliq-heading-line-height);
+    direction: rtl;
+    unicode-bidi: plaintext;
+    letter-spacing: normal;
+    hyphens: none;
+}
+
+#write h1:lang(ur),
+#write h1:lang(fa) {
+    text-align: center;
+}
+
+#write :is(h2, h3, h4, h5, h6):lang(ur),
+#write :is(h2, h3, h4, h5, h6):lang(fa) {
+    text-align: left;
+}
+
+#write blockquote:lang(ur),
+#write blockquote:lang(fa) {
+    padding: 0.9em 1.4em 0.9em 1.2em;
+    border-left: none;
+    border-right: 2px solid var(--quote-border-color);
+    border-radius: 2px 0 0 2px;
+}
+
+#write :is(ul, ol):lang(ur),
+#write :is(ul, ol):lang(fa) {
+    padding-left: 0;
+    padding-right: 2em;
+}
+
+#write ul.task-list:lang(ur),
+#write ul.task-list:lang(fa) {
+    padding-right: 1.75em;
+}
+
+#write li.task-list-item:lang(ur) > input[type="checkbox"],
+#write li.task-list-item:lang(fa) > input[type="checkbox"] {
+    margin-left: 0.55em;
+    margin-right: 0;
 }
 
 hr {

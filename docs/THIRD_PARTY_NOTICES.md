@@ -58,3 +58,21 @@ License note:
 - A local copy of the upstream license is included at `docs/JuliaMono-LICENSE.md`.
 
 If you redistribute the bundled `JuliaMono` files, keep the license text and attribution with them.
+
+## Noto Nastaliq Urdu
+
+This repository also bundles a local `ttf` asset for `Noto Nastaliq Urdu`, which is used for Urdu and Persian Nastaliq content when `lang="ur"` or `lang="fa"` is present.
+
+Source of bundled font files:
+
+- Noto Nastaliq project
+- <https://notofonts.github.io/nastaliq/>
+- <https://github.com/notofonts/nastaliq>
+
+License note:
+
+- The `Noto Nastaliq Urdu` font files are distributed under the SIL Open Font License 1.1.
+- The upstream source repository attributes the font to The Noto Project Authors.
+- A local copy of the upstream license is included at `docs/NotoNastaliqUrdu-LICENSE.md`.
+
+If you redistribute the bundled `Noto Nastaliq Urdu` file, keep the license text and attribution with it.

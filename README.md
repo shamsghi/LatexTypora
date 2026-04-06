@@ -13,12 +13,13 @@ A family of Typora themes inspired by classic LaTeX documents, including a more 
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
 - `latex-dev-dark.css` for developer-focused dark mode
-- Bundled Latin Modern, JuliaMono, and iA Writer Mono assets for offline use
+- Bundled Latin Modern, JuliaMono, iA Writer Mono, and Noto Nastaliq Urdu assets for offline use
 
 ## Features
 
 - Latin Modern typography for text, code, and UI accents
 - Classic LaTeX-style spacing and justified prose in `latex` / `latex-dark`, plus a scan-friendly left-aligned layout in `latex-dev-dark`
+- Urdu and Persian Nastaliq support in `latex` / `latex-dark` via `lang="ur"` and `lang="fa"` on block or inline content
 - Stronger developer ergonomics for inline code, fenced blocks with a separate language label, tables, diagrams, links, screenshots, and keyboard shortcuts
 - Matching Typora sidebar, source mode, and print/export presentation
 - macOS traffic lights sidebar offset fix
@@ -32,6 +33,15 @@ Demos:
 
 - General demo: `docs/demo.md`
 - Developer demo for `latex-dev-dark`: `docs/dev-demo.md`
+
+## Language Support
+
+For Urdu and Persian Nastaliq text in `latex` or `latex-dark`, add `lang="ur"` or `lang="fa"` to a block or inline span:
+
+```html
+<p lang="ur">یہ پیراگراف نستعلیق میں دکھایا جائے گا۔</p>
+<p>English text with <span lang="fa">این بخش فارسی</span> inline.</p>
+```
 
 ## Installation
 
