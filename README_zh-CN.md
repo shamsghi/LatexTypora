@@ -13,7 +13,7 @@
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
 - `latex-dev-dark.css` 用于面向开发者的深色模式
-- 内置 Latin Modern 与 iA Writer Mono 字体资源，支持离线使用
+- 内置 Latin Modern、JuliaMono 与 iA Writer Mono 字体资源，支持离线使用
 
 ## 特性
 
@@ -26,7 +26,7 @@
 ## 主题选择建议
 
 - `latex` / `latex-dark`：更适合论文、文章与长篇阅读
-- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown，并为代码使用 iA Writer Mono
+- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown，并为代码使用 JuliaMono
 
 演示文件：
 

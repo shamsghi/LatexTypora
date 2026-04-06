@@ -13,7 +13,7 @@ A family of Typora themes inspired by classic LaTeX documents, with additional d
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
 - `latex-dev-dark.css` for developer-focused dark mode
-- Bundled Latin Modern fonts and iA Writer Mono assets for offline use
+- Bundled Latin Modern, JuliaMono, and iA Writer Mono assets for offline use
 
 ## Features
 
@@ -26,7 +26,7 @@ A family of Typora themes inspired by classic LaTeX documents, with additional d
 ## Which theme to use
 
 - `latex` / `latex-dark`: best for essays, papers, and long-form reading
-- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode, with iA Writer Mono for code
+- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode, with JuliaMono for code
 
 Demos:
 

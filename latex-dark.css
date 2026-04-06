@@ -995,7 +995,7 @@ hr {
 
 .cm-s-inner .CodeMirror-activeline-background,
 .cm-s-typora-default .CodeMirror-activeline-background {
-    background-color: var(--control-hover-bg-color);
+    background-color: transparent;
 }
 
 @media print {

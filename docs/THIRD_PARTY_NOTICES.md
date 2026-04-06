@@ -24,7 +24,7 @@ If you plan to redistribute this theme, review the upstream font licensing detai
 
 ## iA Writer Mono
 
-This repository also bundles local `ttf` assets for `iA Writer Mono`, which is used by the developer-focused dark theme for code.
+This repository also bundles local `ttf` assets for `iA Writer Mono` as a legacy mono font set retained in the repository.
 
 Source of bundled font files:
 
@@ -39,3 +39,22 @@ License note:
 - A local copy of the upstream license is included at `docs/iA-Writer-Mono-LICENSE.md`.
 
 If you redistribute the bundled `iA Writer Mono` files, keep the license text and attribution with them.
+
+## JuliaMono
+
+This repository also bundles local `ttf` assets for `JuliaMono`, which is used by the developer-focused dark theme for code.
+
+Source of bundled font files:
+
+- JuliaMono project
+- <https://juliamono.netlify.app>
+- CTAN package `juliamono`
+- <https://ctan.org/pkg/juliamono>
+
+License note:
+
+- The JuliaMono font files are distributed under the SIL Open Font License.
+- The CTAN `juliamono` package metadata points to the JuliaMono project and packages the upstream font files.
+- A local copy of the upstream license is included at `docs/JuliaMono-LICENSE.md`.
+
+If you redistribute the bundled `JuliaMono` files, keep the license text and attribution with them.
