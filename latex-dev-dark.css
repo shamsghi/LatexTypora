@@ -38,8 +38,9 @@
 }
 
 :root {
-    --font-family: "Latin Modern Mono", "Courier New", monospace;
-    --monospace: "JuliaMono", "Latin Modern Mono", "Courier New", monospace;
+    --font-family: "JuliaMono", "Latin Modern Mono", "Courier New", monospace;
+    --monospace: "Latin Modern Mono", "Courier New", monospace;
+    --sans-font: "Latin Modern Mono", "Courier New", monospace;
     --inline-code-bg-color: #080808;
     --inline-code-border-color: rgba(255, 255, 255, 0.22);
     --code-bg-color: #040404;
