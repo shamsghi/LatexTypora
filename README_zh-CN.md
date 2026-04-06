@@ -6,9 +6,9 @@
 
 # ✍️ LaTeX Typora 主题
 
-> 英文说明请见：[English README](../README.md)
+> 英文说明请见：[English README](./README.md)
 
-一组受经典 LaTeX 文档启发的 Typora 主题，并额外提供面向开发者的变体。
+一组受经典 LaTeX 文档启发的 Typora 主题，并提供更偏向代码阅读与编写的深色开发者变体。
 
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
@@ -18,15 +18,15 @@
 ## 特性
 
 - 为正文、代码和界面细节提供 Latin Modern 字体风格
-- 干净的 LaTeX 式间距、居中标题与两端对齐段落
-- 更适合开发文档的内联代码、代码块、表格、图表、链接、截图与快捷键样式
+- `latex` / `latex-dark` 保留经典 LaTeX 式间距与两端对齐正文，`latex-dev-dark` 则采用更利于扫读的左对齐开发者布局
+- 更适合开发文档的内联代码、带独立语言标签的代码块、表格、图表、链接、截图与快捷键样式
 - 与 Typora 侧边栏、源码模式以及打印/导出效果保持一致
 - 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题
 
 ## 主题选择建议
 
 - `latex` / `latex-dark`：更适合论文、文章与长篇阅读
-- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown，并为代码使用 JuliaMono
+- `latex-dev-dark`：更适合深色模式下的 README、设计文档、API 说明、变更日志和代码较多的 Markdown，代码使用 JuliaMono，并将代码块语言标签独立显示在下方
 
 演示文件：
 
@@ -66,7 +66,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 3. 进入 Preferences -> Appearance。
 4. 点击 Open Theme Folder。
 5. 将 `latex.css`、`latex-dark.css`、`latex-dev-dark.css` 和 `latex_fonts` 文件夹复制进去。
-6. 重启 Typora，或在 Themes 菜单中切换一次主题以刷新加载。
+6. 重启 Typora，或在 Themes 菜单中切换到 `latex`、`latex-dark` 或 `latex-dev-dark` 以重新加载。
 
 #### 尽情享受 ❤️!
 

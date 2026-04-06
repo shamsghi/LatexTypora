@@ -112,7 +112,7 @@
     --select-text-bg-color: var(--selection-color);
     --select-text-font-color: var(--text-color);
     --focus-ring-color: rgba(0, 0, 0, 0.22);
-    --rawblock-edit-panel-bd: var(--line-color);
+    --rawblock-edit-panel-bd: var(--code-bg-color);
     --link-color: #183a63;
     --link-hover-color: #0f2745;
     --inline-code-bg-color: #f7f4ee;
@@ -684,6 +684,53 @@ mark {
 
 .mathjax-block .md-mathblock-panel .CodeMirror-cursor {
     border-left: 1px solid var(--text-color);
+}
+
+.md-htmlblock .md-rawblock-tooltip,
+.md-htmlblock .md-rawblock-control:not(.md-rawblock-tooltip),
+.md-htmlblock:hover > .md-rawblock-container,
+.md-htmlblock:hover > .md-rawblock-tooltip,
+.md-htmlblock.md-rawblock-on-edit > .md-rawblock-tooltip {
+    background-color: var(--code-bg-color);
+    transition: none !important;
+    animation: none !important;
+}
+
+.md-htmlblock > .md-rawblock-container,
+.md-htmlblock > .md-rawblock-tooltip {
+    transition: none !important;
+    animation: none !important;
+}
+
+.md-htmlblock:hover > .md-rawblock-container,
+.md-htmlblock.md-rawblock-on-edit > .md-rawblock-container {
+    border: 1px solid var(--line-color);
+    border-radius: 2px;
+    box-shadow: none;
+}
+
+.md-htmlblock .md-rawblock-input,
+.md-htmlblock .CodeMirror,
+.md-htmlblock .CodeMirror-scroll,
+.md-htmlblock .CodeMirror-lines,
+.md-htmlblock .CodeMirror-gutters {
+    background-color: var(--code-bg-color);
+    color: var(--text-color);
+}
+
+.md-htmlblock .md-rawblock-tooltip {
+    border: 1px solid var(--line-color);
+    border-radius: 2px;
+    color: var(--meta-text-color);
+}
+
+.md-htmlblock .md-rawblock-tooltip-name {
+    opacity: 0.8;
+}
+
+.md-htmlblock .md-rawblock-before,
+.md-htmlblock .md-rawblock-after {
+    color: var(--meta-text-color);
 }
 
 .mathjax-block .md-math-container {

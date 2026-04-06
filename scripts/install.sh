@@ -292,7 +292,7 @@ main() {
     success "Installed latex-dev-dark.css"
     success "Installed latex_fonts/*.{otf,ttf}"
 
-    printf '\n%b\n' "${BOLD}${GREEN}Done!${RESET} Restart Typora or switch themes to Latex / Latex Dark / Latex Dev Dark."
+    printf '\n%b\n' "${BOLD}${GREEN}Done!${RESET} Restart Typora or switch to latex / latex-dark / latex-dev-dark in the Themes menu."
 }
 
 main

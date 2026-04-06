@@ -143,7 +143,7 @@ try {
     Detect-SourceDir
     Resolve-ThemeDir
 
-    Write-Host "Installing LatexTypora into:"
+    Write-Host "Installing LaTeX Typora theme files into:"
     Write-Host "  $ResolvedThemeDir"
 
     Install-Theme -SourceDir $SourceDir -ThemeDir $ResolvedThemeDir
@@ -164,7 +164,7 @@ try {
     }
 
     Write-Host ''
-    Write-Host 'Restart Typora or switch to the Latex / Latex Dark / Latex Dev Dark theme from Themes.'
+    Write-Host 'Restart Typora or switch to latex / latex-dark / latex-dev-dark from the Themes menu.'
 }
 finally {
     if ($TempDir -and (Test-Path -LiteralPath $TempDir)) {

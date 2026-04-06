@@ -8,7 +8,7 @@
 
 > 中文说明请见：[简体中文 README](./README_zh-CN.md)
 
-A family of Typora themes inspired by classic LaTeX documents, with additional developer-focused variants.
+A family of Typora themes inspired by classic LaTeX documents, including a more code-forward dark variant for developer-heavy Markdown.
 
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
@@ -18,15 +18,15 @@ A family of Typora themes inspired by classic LaTeX documents, with additional d
 ## Features
 
 - Latin Modern typography for text, code, and UI accents
-- Clean LaTeX-style spacing, centered titles, and justified paragraphs
-- Stronger developer ergonomics for inline code, fenced blocks, tables, diagrams, links, screenshots, and keyboard shortcuts
+- Classic LaTeX-style spacing and justified prose in `latex` / `latex-dark`, plus a scan-friendly left-aligned layout in `latex-dev-dark`
+- Stronger developer ergonomics for inline code, fenced blocks with a separate language label, tables, diagrams, links, screenshots, and keyboard shortcuts
 - Matching Typora sidebar, source mode, and print/export presentation
-- MacOS traffic lights sidebar offset fix
+- macOS traffic lights sidebar offset fix
 
 ## Which theme to use
 
 - `latex` / `latex-dark`: best for essays, papers, and long-form reading
-- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode, with JuliaMono for code
+- `latex-dev-dark`: best for READMEs, design docs, API notes, changelogs, and code-heavy Markdown in dark mode, with JuliaMono for code and a detached fenced-code language label
 
 Demos:
 
@@ -65,7 +65,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 3. Go to Preferences -> Appearance.
 4. Click Open Theme Folder.
 5. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts` folder into there.
-6. Restart Typora or switch themes from the Themes menu to reset.
+6. Restart Typora or switch to `latex`, `latex-dark`, or `latex-dev-dark` from the Themes menu to reload.
 
 #### Enjoy ❤️!
 

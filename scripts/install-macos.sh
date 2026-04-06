@@ -188,7 +188,7 @@ main() {
     detect_source_dir
     resolve_theme_dir
 
-    echo "Installing LatexTypora into:"
+    echo "Installing LaTeX Typora theme files into:"
     echo "  ${RESOLVED_THEME_DIR}"
 
     install_theme "${SOURCE_DIR}" "${RESOLVED_THEME_DIR}"
@@ -208,7 +208,7 @@ main() {
     fi
 
     echo
-    echo "Restart Typora or switch to the Latex / Latex Dark / Latex Dev Dark theme from Themes."
+    echo "Restart Typora or switch to latex / latex-dark / latex-dev-dark from the Themes menu."
 }
 
 main
