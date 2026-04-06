@@ -393,6 +393,10 @@ pre.md-fences {
     caret-color: var(--text-color);
 }
 
+pre.md-fences {
+    overflow: visible;
+}
+
 pre.md-fences code {
     border: none;
     padding: 0;
@@ -404,6 +408,11 @@ pre.md-meta-block {
     font-family: var(--monospace);
     color: var(--text-color);
     caret-color: var(--text-color);
+}
+
+pre.md-fences .CodeMirror-scroll {
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 pre.md-fences .CodeMirror-cursor,
