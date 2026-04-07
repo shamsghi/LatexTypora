@@ -107,6 +107,38 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "New Computer Modern";
+    src: url("./latex_fonts/NewCM10-Book.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "New Computer Modern";
+    src: url("./latex_fonts/NewCM10-Bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "New Computer Modern";
+    src: url("./latex_fonts/NewCM10-BookItalic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "New Computer Modern";
+    src: url("./latex_fonts/NewCM10-BoldItalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
 :root {
     --bg-color: #000000;
     --surface-color: #000000;
@@ -141,7 +173,7 @@
     --syntax-diff-add-color: #8cd39a;
     --syntax-diff-remove-color: #ff9d9d;
 
-    --font-family: "Latin Modern Roman", "Times New Roman", serif;
+    --font-family: "New Computer Modern", "Latin Modern Roman", "Noto Nastaliq Urdu", "Times New Roman", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
     --sans-font: "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
@@ -408,7 +440,7 @@ pre.md-fences {
     overflow: visible;
 }
 
-pre.md-fences.ty-contain-cm {
+pre.md-fences.ty-contain-cm.md-focus {
     margin-bottom: 4.5em;
 }
 
@@ -430,7 +462,7 @@ pre.md-fences .CodeMirror-scroll {
     overflow-y: hidden;
 }
 
-pre.md-fences.ty-contain-cm .md-fences-adv-panel {
+pre.md-fences.ty-contain-cm.md-focus .md-fences-adv-panel {
     position: absolute;
     top: calc(100% + 0.75em);
     left: 0;
@@ -523,10 +555,26 @@ kbd {
 }
 
 .md-diagram-panel {
+    display: block;
+    position: static;
+    clear: both;
     margin: 1.5em 0;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+.md-diagram-panel > svg {
+    display: block;
+    width: auto !important;
+    max-width: 100%;
+    height: auto !important;
+    margin: 0 auto;
 }
 
 .md-diagram-panel-preview {
+    display: block;
+    box-sizing: border-box;
+    max-width: 100%;
     padding: 1em 1.2em;
     border: 1px solid var(--line-color);
     border-radius: 2px;
@@ -536,8 +584,11 @@ kbd {
 }
 
 .md-diagram-panel-preview svg {
+    display: block;
+    width: auto !important;
     max-width: 100%;
-    height: auto;
+    height: auto !important;
+    margin: 0 auto;
 }
 
 .md-diagram-panel-preview svg text,

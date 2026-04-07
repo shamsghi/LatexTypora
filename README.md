@@ -13,11 +13,11 @@ A family of Typora themes inspired by classic LaTeX documents, including a more 
 - `latex.css` for light mode
 - `latex-dark.css` for dark mode
 - `latex-dev-dark.css` for developer-focused dark mode
-- Bundled Latin Modern, JuliaMono, iA Writer Mono, and Noto Nastaliq Urdu assets for offline use
+- Bundled New Computer Modern, Latin Modern, JuliaMono, iA Writer Mono, and Noto Nastaliq Urdu assets for offline use
 
 ## Features
 
-- Latin Modern typography for text, code, and UI accents
+- New Computer Modern body text with strong modern/polytonic Greek coverage, plus Latin Modern for code and UI accents
 - Classic LaTeX-style spacing and justified prose in `latex` / `latex-dark`, plus a scan-friendly left-aligned layout in `latex-dev-dark`
 - Urdu and Persian Nastaliq support in `latex` / `latex-dark` via `lang="ur"` and `lang="fa"` on block or inline content
 - Stronger developer ergonomics for inline code, fenced blocks with a separate language label, tables, diagrams, links, screenshots, and keyboard shortcuts
@@ -36,7 +36,16 @@ Demos:
 
 ## Language Support
 
-For Urdu and Persian Nastaliq text in `latex` or `latex-dark`, add `lang="ur"` or `lang="fa"` to a block or inline span:
+In `latex` or `latex-dark`, serif body text uses bundled New Computer Modern, which includes modern and polytonic Greek (including Ancient Greek editorial marks and numerals) in a Computer Modern-compatible academic style.
+
+Greek text works out of the box, but adding language tags can improve tooling and export semantics:
+
+```html
+<p lang="el">Η τυπογραφία του κειμένου διατηρεί καθαρό ρυθμό και σαφήνεια.</p>
+<p lang="grc">Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.</p>
+```
+
+Arabic-script text can still fall through to bundled Noto Nastaliq Urdu while typing. Add `lang="ur"` or `lang="fa"` when you also want the RTL layout, alignment, and taller Nastaliq spacing rules:
 
 ```html
 <p lang="ur">یہ پیراگراف نستعلیق میں دکھایا جائے گا۔</p>

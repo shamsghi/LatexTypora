@@ -13,11 +13,11 @@
 - `latex.css` 用于浅色模式
 - `latex-dark.css` 用于深色模式
 - `latex-dev-dark.css` 用于面向开发者的深色模式
-- 内置 Latin Modern、JuliaMono、iA Writer Mono 与 Noto Nastaliq Urdu 字体资源，支持离线使用
+- 内置 New Computer Modern、Latin Modern、JuliaMono、iA Writer Mono 与 Noto Nastaliq Urdu 字体资源，支持离线使用
 
 ## 特性
 
-- 为正文、代码和界面细节提供 Latin Modern 字体风格
+- 正文默认使用 New Computer Modern（对现代希腊语与 Polytonic/古希腊字符覆盖更完整），代码与界面细节保留 Latin Modern 风格
 - `latex` / `latex-dark` 保留经典 LaTeX 式间距与两端对齐正文，`latex-dev-dark` 则采用更利于扫读的左对齐开发者布局
 - 在 `latex` / `latex-dark` 中，可通过在块级或行内内容上添加 `lang="ur"` / `lang="fa"` 来启用乌尔都语与波斯语的 Nastaliq 排版
 - 更适合开发文档的内联代码、带独立语言标签的代码块、表格、图表、链接、截图与快捷键样式
@@ -36,7 +36,16 @@
 
 ## 语言支持
 
-如需在 `latex` 或 `latex-dark` 中为乌尔都语或波斯语启用 Nastaliq 排版，可在块级或行内内容上添加 `lang="ur"` 或 `lang="fa"`：
+在 `latex` 或 `latex-dark` 中，正文衬线字体默认使用 New Computer Modern，能够较好支持现代希腊语与 Polytonic/古希腊排版（含学术场景常见字符）。
+
+希腊语内容可直接输入；如需更好的工具链与导出语义，建议添加语言标签：
+
+```html
+<p lang="el">Η τυπογραφία του κειμένου διατηρεί καθαρό ρυθμό και σαφήνεια.</p>
+<p lang="grc">Ἐν ἀρχῇ ἦν ὁ λόγος, καὶ ὁ λόγος ἦν πρὸς τὸν θεόν.</p>
+```
+
+输入阿拉伯文字时仍会优先回退到内置的 Noto Nastaliq Urdu。若还需要 RTL 布局、对齐方式与更高的 Nastaliq 行高，再为块级或行内内容添加 `lang="ur"` 或 `lang="fa"`：
 
 ```html
 <p lang="ur">یہ پیراگراف نستعلیق میں دکھایا جائے گا۔</p>

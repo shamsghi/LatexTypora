@@ -18,9 +18,28 @@ License note:
 
 - CTAN lists the `lm` package under the GUST Font License (GFL).
 - The CTAN package metadata attributes the fonts to B. Jackowski and J.M. Nowacki.
+- A local copy of the GFL text is included at `docs/GUST-FONT-LICENSE.md`.
 - Review the upstream package and license text before redistributing modified font files.
 
 If you plan to redistribute this theme, review the upstream font licensing details and keep this notice with the bundled font files.
+
+## New Computer Modern
+
+This repository also bundles local `otf` assets for `New Computer Modern`, which is used as the serif body text face in `latex` and `latex-dark`.
+
+Source of bundled font files:
+
+- CTAN package `newcomputermodern`
+- <https://ctan.org/pkg/newcomputermodern>
+- <https://download.gnu.org.ua/release/newcm/>
+
+License note:
+
+- CTAN lists the `newcomputermodern` package under the GUST Font License (GFL).
+- The CTAN package metadata attributes the fonts to Antonis Tsolomitis.
+- A local copy of the GFL text is included at `docs/GUST-FONT-LICENSE.md`.
+
+If you redistribute the bundled `New Computer Modern` files, keep the license text and attribution with them.
 
 ## iA Writer Mono
 

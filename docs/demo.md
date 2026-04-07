@@ -81,6 +81,14 @@ flowchart TD
 
 <p>This line keeps English prose in the default face while <span lang="ur">اردو کا یہ حصہ</span> and <span lang="fa">این بخش فارسی</span> switch to Nastaliq inline.</p>
 
+## Greek and Ancient Greek
+
+<p lang="el">Η νέα γραμματοσειρά κειμένου αποδίδει καθαρά τα ελληνικά, με ισορροπημένο ρυθμό και διακριτές μορφές.</p>
+
+<p lang="grc">Ἀνὴρ σοφὸς μέτρον ζητεῖ, καὶ λόγος ἀκριβὴς τὴν διάνοιαν φωτίζει.</p>
+
+<p lang="grc">ἀ, ἁ, ἂ, ἃ, ἄ, ἅ, ἆ, ἇ · ᾄ, ᾅ, ᾆ, ᾇ · ῥ, Ῥ · ᾳ, ῃ, ῳ · ͵Α, ϛ, ϟ, ϡ</p>
+
 ---
 
 ## Closing Note
