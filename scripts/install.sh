@@ -4,6 +4,8 @@ set -euo pipefail
 REPO_OWNER="shamsghi"
 REPO_NAME="LatexTypora"
 DEFAULT_REF="${LATEX_TYPORA_REF:-main}"
+SCRIPT_USAGE_PATH="${LATEX_TYPORA_SCRIPT_USAGE_PATH:-./scripts/install.sh}"
+REMOTE_INSTALL_SCRIPT_URL="${LATEX_TYPORA_INSTALL_SCRIPT_URL:-https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install.sh}"
 
 THEME_DIR="${TYPORA_THEME_DIR:-}"
 REF="$DEFAULT_REF"
@@ -32,8 +34,8 @@ fi
 usage() {
     cat <<EOF
 Usage:
-  ./scripts/install.sh [--theme-dir PATH] [--ref REF]
-  curl -fsSL https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install.sh | bash
+  ${SCRIPT_USAGE_PATH} [--theme-dir PATH] [--ref REF]
+  curl -fsSL ${REMOTE_INSTALL_SCRIPT_URL} | bash
 
 Options:
   --theme-dir PATH  Install into a specific Typora theme directory.
