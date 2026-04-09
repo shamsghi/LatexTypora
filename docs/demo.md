@@ -2,7 +2,7 @@
 
 ## Abstract
 
-The quick brown fox jumps over the lazy dog while **bold text**, *italic text*, `inline code`, and ==highlighted text== sit together in the same paragraph. A link to [Typora](https://typora.io) keeps the treatment minimal and print-friendly.[^demo-note]
+The quick brown fox jumps over the lazy dog while **bold text**, **italic text**, `inline code`, and ==highlighted text== sit together in the same paragraph. A link to [Typora](https://typora.io) keeps the treatment minimal and print-friendly.[^demo-note]
 
 > Good document themes disappear into the reading experience while still giving structure, hierarchy, and a little ceremony to the page.
 

@@ -692,9 +692,23 @@ a:hover {
     color: var(--link-hover-color);
 }
 
-a code,
+a code {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: none;
+}
+
 code a {
     color: inherit;
+    border-bottom: none;
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: none;
 }
 
 strong {
