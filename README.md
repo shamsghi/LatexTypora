@@ -47,7 +47,6 @@ Detects your platform automatically and installs to the correct Typora theme fol
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
 ```
-</details>
 Default theme folders:
 
 | Platform | Path |
