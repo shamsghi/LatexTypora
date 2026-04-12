@@ -22,7 +22,7 @@
 - 所有字体本地打包，无需 CDN，完全支持离线使用
 - 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题
 
-## 安装
+## 自动安装
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
@@ -30,15 +30,12 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 自动检测当前平台并安装到正确的 Typora 主题目录，支持 macOS、Linux 与 Windows（Git Bash / WSL）。
 
-<details>
-<summary>手动安装</summary>
+## 手动安装
 
 1. 从 releases 页面下载并解压最新版本。
 2. 在 Typora 中，前往 **Preferences → Appearance → Open Theme Folder**。
 3. 将 `latex.css`、`latex-dark.css`、`latex-dev-dark.css` 以及 `latex_fonts/` 文件夹复制到主题目录中。
 4. 重启 Typora，然后从 **Themes** 菜单选择对应主题。
-
-</details>
 
 <details>
 <summary>安装选项</summary>
