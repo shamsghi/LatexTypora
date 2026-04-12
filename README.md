@@ -1,19 +1,9 @@
 <div align="center">
 
-<table>
-  <tr>
-    <td align="center" width="50%">
-      <img src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" alt="Light Mode" />
-      <br />
-      <sub>☀️ <strong>Light Mode</strong> &nbsp;—&nbsp; <code>latex.css</code></sub>
-    </td>
-    <td align="center" width="50%">
-      <img src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" alt="Dark Mode" />
-      <br />
-      <sub>🌙 <strong>Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
-    </td>
-  </tr>
-</table>
+<img src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" alt="Light Mode" width="49%" /> <img src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" alt="Dark Mode" width="49%" />
+
+<br />
+<sub>☀️ <strong>Light Mode</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
 
 </div>
 
