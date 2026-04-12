@@ -1,7 +1,6 @@
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/afc4addd-05d3-46bf-8ebf-2a5b738b70e6" alt="light" width="48%" />
-  <img src="https://github.com/user-attachments/assets/19cd41a2-cd5c-4776-93ff-231792d32d2f" alt="dark" width="48%" />
-</p>
+<img width="2098" height="1742" alt="latex" src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" />
+<img width="2098" height="1742" alt="dev-demo" src="https://github.com/user-attachments/assets/9a19c61b-fe83-4be8-95bc-6491db57ab73" />
+<img width="2098" height="1742" alt="latex-dark" src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" />
 
 
 # ✍️ LaTeX Typora 主题
