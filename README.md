@@ -22,7 +22,7 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 - All fonts bundled locally — no CDN, works fully offline
 - macOS traffic lights sidebar offset fix
 
-## Installation
+## Automatic Installation
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
@@ -30,17 +30,13 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 Detects your platform automatically and installs to the correct Typora theme folder. Works on macOS, Linux, and Windows (Git Bash / WSL).
 
-<details>
-<summary>Manual install</summary>
+## Manual Installation
 
 1. Download and unzip the latest release.
 2. In Typora, go to **Preferences → Appearance → Open Theme Folder**.
 3. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts/` folder into the themes directory.
 4. Restart Typora, then pick a theme from the **Themes** menu.
 
-</details>
-
-<details>
 <summary>Install options</summary>
 
 | Flag | Description |
