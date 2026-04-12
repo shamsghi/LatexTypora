@@ -1,6 +1,28 @@
-<img width="2098" height="1742" alt="latex" src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" />
-<img width="2098" height="1742" alt="dev-demo" src="https://github.com/user-attachments/assets/9a19c61b-fe83-4be8-95bc-6491db57ab73" />
-<img width="2098" height="1742" alt="latex-dark" src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" />
+<div align="center">
+
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" alt="Light Mode" />
+      <br />
+      <sub>☀️ <strong>Light Mode</strong> &nbsp;—&nbsp; <code>latex.css</code></sub>
+    </td>
+    <td align="center" width="50%">
+      <img src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" alt="Dark Mode" />
+      <br />
+      <sub>🌙 <strong>Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
+    </td>
+  </tr>
+</table>
+
+<br />
+
+<img width="80%" src="https://github.com/user-attachments/assets/9a19c61b-fe83-4be8-95bc-6491db57ab73" alt="Developer Dark Mode" />
+<br />
+<sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code></sub>
+
+</div>
+
 
 
 # ✍️ LaTeX Typora Theme
