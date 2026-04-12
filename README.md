@@ -36,7 +36,7 @@ Detects your platform automatically and installs to the correct Typora theme fol
 2. In Typora, go to **Preferences → Appearance → Open Theme Folder**.
 3. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts/` folder into the themes directory.
 4. Restart Typora, then pick a theme from the **Themes** menu.
-
+<details>
 <summary>Install options</summary>
 
 | Flag | Description |
@@ -47,7 +47,7 @@ Detects your platform automatically and installs to the correct Typora theme fol
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
 ```
-
+</details>
 Default theme folders:
 
 | Platform | Path |
