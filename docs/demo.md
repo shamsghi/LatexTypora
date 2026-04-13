@@ -13,6 +13,14 @@ $$
 \int_0^1 x^2 \, dx = \frac{1}{3}
 $$
 
+## Alerts
+
+> [!NOTE]
+> Typora can render GitHub-style alerts when the feature is enabled in preferences, and the LaTeX themes now give them a more document-like treatment.
+
+> [!CAUTION]
+> This syntax is Typora- and GitHub-friendly, but it is still less portable than plain blockquotes across older Markdown tooling.
+
 ## Structure
 
 ### Lists

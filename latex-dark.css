@@ -201,6 +201,16 @@
     --quote-bg-color: #050505;
     --quote-border-color: rgba(255, 255, 255, 0.28);
     --image-frame-color: rgba(255, 255, 255, 0.14);
+    --alert-note-accent: #9bc6ff;
+    --alert-note-bg-color: rgba(139, 185, 255, 0.08);
+    --alert-tip-accent: #b6dd9a;
+    --alert-tip-bg-color: rgba(140, 211, 154, 0.08);
+    --alert-important-accent: #dbbcff;
+    --alert-important-bg-color: rgba(213, 179, 255, 0.08);
+    --alert-warning-accent: #ffd29a;
+    --alert-warning-bg-color: rgba(255, 210, 154, 0.08);
+    --alert-caution-accent: #ffb0b0;
+    --alert-caution-bg-color: rgba(255, 157, 157, 0.08);
     --syntax-keyword-color: #bfd4ff;
     --syntax-string-color: #c0d595;
     --syntax-number-color: #d5b3ff;
@@ -404,6 +414,99 @@ blockquote {
 
 blockquote p {
     text-indent: 0;
+}
+
+blockquote.md-alert,
+blockquote:has(.md-alert-text-container) {
+    padding: 1em 1.2em 1em 1.35em;
+    border-left-width: 3px;
+    border-radius: 0 4px 4px 0;
+    background-color: var(--surface-color);
+    color: var(--text-color);
+    font-size: 1em;
+}
+
+blockquote.md-alert :is(p, ul, ol),
+blockquote:has(.md-alert-text-container) :is(p, ul, ol) {
+    color: inherit;
+}
+
+blockquote.md-alert :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution),
+blockquote:has(.md-alert-text-container) :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) {
+    display: flex;
+    align-items: center;
+    gap: 0.55em;
+    margin-bottom: 0.45em;
+}
+
+blockquote.md-alert .md-alert-text-container,
+blockquote:has(.md-alert-text-container) .md-alert-text-container {
+    font-family: var(--sans-font);
+    font-size: 0.82em;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+blockquote.md-alert :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) :is(svg, path),
+blockquote:has(.md-alert-text-container) :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) :is(svg, path) {
+    fill: currentColor;
+    stroke: currentColor;
+}
+
+blockquote.md-alert-note,
+blockquote:has(.md-alert-text-note) {
+    background-color: var(--alert-note-bg-color);
+    border-left-color: var(--alert-note-accent);
+}
+
+blockquote.md-alert-tip,
+blockquote:has(.md-alert-text-tip) {
+    background-color: var(--alert-tip-bg-color);
+    border-left-color: var(--alert-tip-accent);
+}
+
+blockquote.md-alert-important,
+blockquote:has(.md-alert-text-important) {
+    background-color: var(--alert-important-bg-color);
+    border-left-color: var(--alert-important-accent);
+}
+
+blockquote.md-alert-warning,
+blockquote:has(.md-alert-text-warning) {
+    background-color: var(--alert-warning-bg-color);
+    border-left-color: var(--alert-warning-accent);
+}
+
+blockquote.md-alert-caution,
+blockquote:has(.md-alert-text-caution) {
+    background-color: var(--alert-caution-bg-color);
+    border-left-color: var(--alert-caution-accent);
+}
+
+blockquote.md-alert-note :is(.md-alert-text-note, .md-alert-text-container),
+blockquote:has(.md-alert-text-note) :is(.md-alert-text-note, .md-alert-text-container) {
+    color: var(--alert-note-accent);
+}
+
+blockquote.md-alert-tip :is(.md-alert-text-tip, .md-alert-text-container),
+blockquote:has(.md-alert-text-tip) :is(.md-alert-text-tip, .md-alert-text-container) {
+    color: var(--alert-tip-accent);
+}
+
+blockquote.md-alert-important :is(.md-alert-text-important, .md-alert-text-container),
+blockquote:has(.md-alert-text-important) :is(.md-alert-text-important, .md-alert-text-container) {
+    color: var(--alert-important-accent);
+}
+
+blockquote.md-alert-warning :is(.md-alert-text-warning, .md-alert-text-container),
+blockquote:has(.md-alert-text-warning) :is(.md-alert-text-warning, .md-alert-text-container) {
+    color: var(--alert-warning-accent);
+}
+
+blockquote.md-alert-caution :is(.md-alert-text-caution, .md-alert-text-container),
+blockquote:has(.md-alert-text-caution) :is(.md-alert-text-caution, .md-alert-text-container) {
+    color: var(--alert-caution-accent);
 }
 
 ul,
@@ -1315,5 +1418,40 @@ hr {
     .cm-s-typora-default * {
         background-color: transparent !important;
         color: var(--text-color) !important;
+    }
+
+    blockquote.md-alert,
+    blockquote:has(.md-alert-text-container) {
+        color: var(--text-color) !important;
+    }
+
+    blockquote.md-alert-note,
+    blockquote:has(.md-alert-text-note) {
+        background-color: var(--alert-note-bg-color) !important;
+        border-left-color: var(--alert-note-accent) !important;
+    }
+
+    blockquote.md-alert-tip,
+    blockquote:has(.md-alert-text-tip) {
+        background-color: var(--alert-tip-bg-color) !important;
+        border-left-color: var(--alert-tip-accent) !important;
+    }
+
+    blockquote.md-alert-important,
+    blockquote:has(.md-alert-text-important) {
+        background-color: var(--alert-important-bg-color) !important;
+        border-left-color: var(--alert-important-accent) !important;
+    }
+
+    blockquote.md-alert-warning,
+    blockquote:has(.md-alert-text-warning) {
+        background-color: var(--alert-warning-bg-color) !important;
+        border-left-color: var(--alert-warning-accent) !important;
+    }
+
+    blockquote.md-alert-caution,
+    blockquote:has(.md-alert-text-caution) {
+        background-color: var(--alert-caution-bg-color) !important;
+        border-left-color: var(--alert-caution-accent) !important;
     }
 }

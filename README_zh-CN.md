@@ -18,6 +18,7 @@
 - **New Computer Modern** 衬线正文字体，完整支持现代希腊语与 Polytonic 古希腊字符
 - **经典 LaTeX** 两端对齐排版、行距与编号公式，适用于 `latex` / `latex-dark`
 - 通过 `lang="el"`、`lang="grc"`、`lang="ur"` / `lang="fa"` 属性支持**希腊语/古希腊语、乌尔都语与波斯语**的增强排版
+- 支持 **GitHub 风格 Alert / Callout**，在 Typora 1.8+ 中可获得主题原生样式
 - 侧边栏、源码模式与打印/导出样式保持统一
 - 所有字体本地打包，无需 CDN，完全支持离线使用
 - 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题

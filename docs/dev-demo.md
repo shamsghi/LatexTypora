@@ -15,6 +15,20 @@ sfw pnpm test
 > [!NOTE]
 > `latex-dev-dark` keeps the Latin Modern feel, but switches to a left-aligned, easier-to-scan layout for code-heavy documents.
 
+## Alerts
+
+> [!TIP]
+> Callouts now get dedicated theme styling instead of inheriting the plain blockquote treatment.
+
+> [!IMPORTANT]
+> Enable GitHub Style Alerts in Typora preferences first, or these blocks will stay as ordinary blockquotes.
+
+> [!WARNING]
+> If you export to Markdown for older tooling, alerts may not survive as richly as standard paragraphs and headings.
+
+> [!CAUTION]
+> Use alerts for emphasis, not structure. Long specs still read best when most of the hierarchy comes from headings.
+
 ## JSON and YAML
 
 ```json
