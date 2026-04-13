@@ -85,7 +85,7 @@ Academic theme demo: [`docs/demo.md`](./docs/demo.md)
 
 ## Notes
 
-- Licensed under **Apache-2.0**. Keep `LICENSE` and `NOTICE` attribution when redistributing.
-- Font licensing details in [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md).
+- Licensed under **Apache-2.0**. Keep `LICENSE` when redistributing the theme.
+- Bundled font attribution and license details are in [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md); keep the relevant notices when redistributing bundled assets.
 - Designed and tested on macOS; should work on Windows and Linux.
 - Customize colors and spacing via `:root` variables at the top of each theme file.

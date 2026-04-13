@@ -87,7 +87,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 ## 说明
 
-- 采用 **Apache-2.0** 许可证发布，重新分发时请保留 `LICENSE` 与 `NOTICE` 中的署名信息。
-- 字体许可证详见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)。
+- 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
+- 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
 - 如需自定义颜色或间距，可编辑各主题文件顶部的 `:root` 变量。

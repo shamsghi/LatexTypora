@@ -4,6 +4,42 @@
  */
 
 @font-face {
+    font-family: "Backtick Serif Fix";
+    src: url("./latex_fonts/lmroman10-regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0060;
+}
+
+@font-face {
+    font-family: "Backtick Serif Fix";
+    src: url("./latex_fonts/lmroman10-bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0060;
+}
+
+@font-face {
+    font-family: "Backtick Serif Fix";
+    src: url("./latex_fonts/lmroman10-italic.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+    unicode-range: U+0060;
+}
+
+@font-face {
+    font-family: "Backtick Serif Fix";
+    src: url("./latex_fonts/lmroman10-bolditalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+    unicode-range: U+0060;
+}
+
+@font-face {
     font-family: "Latin Modern Roman";
     src: url("./latex_fonts/lmroman10-regular.otf") format("opentype");
     font-weight: 400;
@@ -173,7 +209,7 @@
     --syntax-diff-add-color: #8cd39a;
     --syntax-diff-remove-color: #ff9d9d;
 
-    --font-family: "New Computer Modern", "Latin Modern Roman", "Noto Nastaliq Urdu", "Times New Roman", serif;
+    --font-family: "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman", "Noto Nastaliq Urdu", "Times New Roman", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
     --sans-font: "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
@@ -440,8 +476,14 @@ pre.md-fences {
     overflow: visible;
 }
 
+/* Reserve room above editable fences so the language chip doesn't shift layout on focus. */
+pre.md-fences.ty-contain-cm {
+    position: relative;
+    margin-top: 2.6em;
+}
+
 pre.md-fences.ty-contain-cm.md-focus {
-    margin-bottom: 4.5em;
+    margin-bottom: 1.5em;
 }
 
 pre.md-fences code {
@@ -464,12 +506,14 @@ pre.md-fences .CodeMirror-scroll {
 
 pre.md-fences.ty-contain-cm.md-focus .md-fences-adv-panel {
     position: absolute;
-    top: calc(100% + 0.75em);
+    top: auto;
+    bottom: calc(100% + 0.5em);
     left: 0;
-    right: 0;
+    right: auto;
     margin-top: 0;
     padding: 0;
     overflow: visible;
+    z-index: 1;
 }
 
 pre.md-fences.ty-contain-cm .md-fences-adv-panel .ty-cm-lang-input,
@@ -926,7 +970,7 @@ sup.md-footnote {
 
 #write :is(h2, h3, h4, h5, h6):lang(ur),
 #write :is(h2, h3, h4, h5, h6):lang(fa) {
-    text-align: left;
+    text-align: right;
 }
 
 #write blockquote:lang(ur),
@@ -1205,10 +1249,11 @@ hr {
     color: var(--strong-line-color);
 }
 
+/* Some Typora fence grammars fall back to cm-error; keep them readable instead of inverting the block. */
 .cm-s-inner .cm-error,
 .cm-s-typora-default .cm-error {
-    color: #000000;
-    background-color: #ffffff;
+    color: inherit;
+    background-color: transparent;
 }
 
 .cm-s-inner .CodeMirror-cursor,
@@ -1222,21 +1267,6 @@ hr {
 }
 
 @media print {
-    :root {
-        --bg-color: #000000;
-        --surface-color: #000000;
-        --panel-bg-color: #000000;
-        --text-color: #f3f3f3;
-        --muted-text-color: #bcbcbc;
-        --meta-text-color: #8d8d8d;
-        --line-color: rgba(255, 255, 255, 0.2);
-        --strong-line-color: rgba(255, 255, 255, 0.38);
-        --selection-color: rgba(255, 255, 255, 0.14);
-        --select-text-bg-color: var(--selection-color);
-        --select-text-font-color: var(--text-color);
-        --focus-ring-color: rgba(255, 255, 255, 0.26);
-    }
-
     .typora-export,
     .typora-export-content,
     #write {
