@@ -1207,11 +1207,9 @@ hr {
 @media print {
     .typora-export,
     .typora-export-content,
-    html,
-    body,
     #write {
-        background-color: var(--bg-color) !important;
-        color: var(--text-color) !important;
+        background-color: inherit !important;
+        color: inherit !important;
     }
 
     .typora-export * {
