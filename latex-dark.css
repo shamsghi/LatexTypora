@@ -200,7 +200,6 @@
     --kbd-shadow-color: rgba(0, 0, 0, 0.55);
     --quote-bg-color: #050505;
     --quote-border-color: rgba(255, 255, 255, 0.28);
-    --image-frame-color: rgba(255, 255, 255, 0.14);
     --alert-note-accent: #9bc6ff;
     --alert-note-bg-color: rgba(139, 185, 255, 0.08);
     --alert-tip-accent: #b6dd9a;
@@ -992,7 +991,6 @@ img {
     display: block;
     margin: 2em auto;
     max-width: 100%;
-    border: 1px solid var(--image-frame-color);
 }
 
 .md-image > .md-meta,
