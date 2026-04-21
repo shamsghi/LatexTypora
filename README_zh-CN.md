@@ -15,13 +15,12 @@
 
 ## 特性
 
-- **New Computer Modern** 衬线正文字体，完整支持现代希腊语与 Polytonic 古希腊字符
-- **经典 LaTeX** 两端对齐排版、行距与编号公式，适用于 `latex` / `latex-dark`
-- 通过 `lang="el"`、`lang="grc"`、`lang="ur"` / `lang="fa"` 属性支持**希腊语/古希腊语、乌尔都语与波斯语**的增强排版
-- 支持 **GitHub 风格 Alert / Callout**，在 Typora 1.8+ 中可获得主题原生样式
-- 侧边栏、源码模式与打印/导出样式保持统一
-- 所有字体本地打包，无需 CDN，完全支持离线使用
-- 修复 macOS 下侧边栏与交通灯按钮区域重叠的问题
+- **New Computer Modern 字体** —— 学术级衬线字形，支持现代希腊语与古希腊语
+- **经典 LaTeX 排版** —— 两端对齐正文、统一间距与编号公式
+- **GitHub 风格 Alerts / Callouts** —— 与 Typora 1.8+ 兼容的主题原生提醒样式
+- **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
+- **离线可用且自包含** —— 所有字体均本地打包，无需外部依赖或 CDN
+- **跨平台细节打磨** —— 侧边栏、源码模式与打印/导出样式一致，并包含 macOS 交通灯区域修复
 
 ## 自动安装
 
@@ -74,12 +73,12 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 <br />
 
-专为 README、API 文档、设计说明与变更日志打造，在 `latex-dark` 基础上扩展了以下特性：
+面向 README、API 文档、设计规范与变更日志打造。在 `latex-dark` 基础上扩展：
 
-- **JuliaMono** 用于代码块，**iA Writer Mono** 用于行内代码与界面细节
-- 左对齐布局，更适合纵向快速浏览
-- 代码块语言标签独立显示在块上方
-- 对 `kbd` 快捷键、diff、callout 与宽表格提供更强的视觉表现
+- **JuliaMono** 用于代码块，**iA Writer Mono** 用于行内代码与界面强调
+- 左对齐布局，优化纵向扫描体验
+- 围栏代码块上方独立显示语言标签
+- 为 `kbd` 快捷键、diff、callout 与宽表格提供更强的视觉权重
 
 参考演示文件：[`docs/dev-demo.md`](./docs/dev-demo.md)  
 学术主题演示：[`docs/demo.md`](./docs/demo.md)
