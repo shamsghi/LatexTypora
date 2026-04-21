@@ -259,10 +259,11 @@
     --diagram-error-border-color: rgba(140, 28, 28, 0.2);
     --diagram-error-text-color: #8c1c1c;
     --diagram-error-accent-color: rgba(140, 28, 28, 0.72);
-    --search-hit-bg-color: rgba(196, 162, 97, 0.28);
-    --search-hit-border-color: rgba(135, 87, 32, 0.46);
-    --search-select-bg-color: rgba(196, 162, 97, 0.42);
-    --search-select-border-color: rgba(135, 87, 32, 0.62);
+    --search-hit-bg-color: rgba(196, 162, 97, 0.2);
+    --search-hit-border-color: rgba(135, 87, 32, 0.34);
+    --search-select-bg-color: rgba(176, 126, 58, 0.44);
+    --search-select-border-color: rgba(117, 72, 22, 0.74);
+    --search-select-ring-color: rgba(117, 72, 22, 0.24);
     --mermaid-theme: neutral;
     --mermaid-font-family: var(--sans-font);
     --mermaid-sequence-numbers: off;
@@ -1224,14 +1225,18 @@ span.md-expand .md-meta {
     background-color: var(--search-hit-bg-color);
     border-radius: 1px;
     box-shadow: inset 0 -0.11em 0 var(--search-hit-border-color);
-    color: inherit;
+    color: var(--text-color) !important;
+    -webkit-text-fill-color: var(--text-color);
+    text-shadow: none;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
 }
 
 .md-search-select {
     background-color: var(--search-select-bg-color);
-    box-shadow: inset 0 -0.11em 0 var(--search-select-border-color);
+    box-shadow:
+        inset 0 -0.13em 0 var(--search-select-border-color),
+        0 0 0 1px var(--search-select-ring-color);
 }
 
 sup.md-footnote {

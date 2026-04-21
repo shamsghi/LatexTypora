@@ -261,10 +261,11 @@
     --diagram-error-border-color: rgba(255, 176, 176, 0.24);
     --diagram-error-text-color: #ffbdbd;
     --diagram-error-accent-color: rgba(255, 176, 176, 0.76);
-    --search-hit-bg-color: rgba(255, 210, 154, 0.3);
-    --search-hit-border-color: rgba(255, 224, 190, 0.58);
-    --search-select-bg-color: rgba(255, 210, 154, 0.44);
-    --search-select-border-color: rgba(255, 224, 190, 0.72);
+    --search-hit-bg-color: rgba(255, 210, 154, 0.24);
+    --search-hit-border-color: rgba(255, 224, 190, 0.44);
+    --search-select-bg-color: rgba(166, 126, 74, 0.58);
+    --search-select-border-color: rgba(255, 231, 199, 0.86);
+    --search-select-ring-color: rgba(255, 231, 199, 0.24);
     --mermaid-theme: dark;
     --mermaid-font-family: var(--sans-font);
     --mermaid-sequence-numbers: off;
@@ -1233,7 +1234,9 @@ span.md-expand .md-meta {
 
 .md-search-select {
     background-color: var(--search-select-bg-color);
-    box-shadow: inset 0 -0.11em 0 var(--search-select-border-color);
+    box-shadow:
+        inset 0 -0.13em 0 var(--search-select-border-color),
+        0 0 0 1px var(--search-select-ring-color);
 }
 
 sup.md-footnote {
