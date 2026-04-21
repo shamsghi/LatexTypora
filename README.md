@@ -15,13 +15,12 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 
 ## Features
 
-- **New Computer Modern** serif body text with full modern and polytonic Greek coverage
-- **Classic LaTeX** justified prose, spacing, and numbered display equations in `latex` / `latex-dark`
-- **Greek/Ancient Greek, Urdu and Farsi** Nastaliq and Greek improved support via `lang="el"`, `lang="grc"`,`lang="ur"` / `lang="fa"` attributes
-- **GitHub-style alerts / callouts** with theme-native styling in Typora 1.8+
-- Consistent sidebar, source mode, and print/export styling
-- All fonts bundled locally — no CDN, works fully offline
-- macOS traffic lights sidebar offset fix
+- **New Computer Modern typeface** — Academic-quality serif with support for modern Greek and ancient Greek
+- **Classic LaTeX formatting** — Justified prose, consistent spacing, and numbered equations
+- **GitHub-style alerts & callouts** — Native alert styling compatible with Typora 1.8+
+- - **Noto Nastaliq** — Enhanced support for Urdu, and Farsi with proper script rendering using html lang attributes
+- **Offline & self-contained** — All fonts bundled locally, no external dependencies or CDN required
+- **Cross-platform polish** — Consistent styling across sidebar, source mode, and print/export; includes macOS traffic lights fix
 
 ## Automatic Installation
 
