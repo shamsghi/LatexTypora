@@ -15,21 +15,22 @@ RESOLVED_THEME_DIR=""
 PLATFORM=""
 CREATED_THEME_DIR=0
 
-if [[ -t 1 ]]; then
-    BOLD="\033[1m"
-    RESET="\033[0m"
-    BLUE="\033[34m"
-    GREEN="\033[32m"
-    YELLOW="\033[33m"
-    RED="\033[31m"
-else
-    BOLD=""
-    RESET=""
-    BLUE=""
-    GREEN=""
-    YELLOW=""
-    RED=""
-fi
+BOLD=""
+DIM=""
+RESET=""
+BLUE=""
+MAGENTA=""
+GREEN=""
+YELLOW=""
+RED=""
+
+ENABLE_ANIMATIONS=0
+ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.03}"
+SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
+TITLE_DELAY="${LATEX_TYPORA_TITLE_DELAY:-0.02}"
+TERM_WIDTH=80
+NO_ANIM_FLAG=0
+PLAIN_OUTPUT=0
 
 usage() {
     cat <<EOF
@@ -40,39 +41,257 @@ Usage:
 Options:
   --theme-dir PATH  Install into a specific Typora theme directory.
   --ref REF         Install a specific branch, tag, or commit. Default: ${DEFAULT_REF}
+  --no-anim         Disable animated banner and spinner output.
+  --plain           Disable colors and animations.
   -h, --help        Show this help message.
 
 Environment:
   TYPORA_THEME_DIR  Same as --theme-dir.
   LATEX_TYPORA_REF  Same as --ref.
+  LATEX_TYPORA_NO_ANIM  Set to 1 to disable banner animations.
+  LATEX_TYPORA_NO_COLOR  Set to 1 to disable ANSI colors.
+  NO_COLOR  Standard variable to disable ANSI colors.
+  LATEX_TYPORA_ANIMATION_DELAY  Seconds between banner lines. Default: 0.03
+  LATEX_TYPORA_SPINNER_INTERVAL  Seconds between spinner frames. Default: 0.08
+  LATEX_TYPORA_TITLE_DELAY  Seconds between title lines. Default: 0.02
 EOF
 }
 
+configure_ui() {
+    local color_enabled=0
+    local cols=""
+
+    if [[ "${PLAIN_OUTPUT}" -eq 0 ]] \
+        && [[ -t 1 ]] \
+        && [[ "${TERM:-}" != "dumb" ]] \
+        && [[ -z "${NO_COLOR:-}" ]] \
+        && [[ "${LATEX_TYPORA_NO_COLOR:-0}" != "1" ]]; then
+        color_enabled=1
+    fi
+
+    if [[ "${color_enabled}" -eq 1 ]]; then
+        BOLD="\033[1m"
+        DIM="\033[2m"
+        RESET="\033[0m"
+        BLUE="\033[34m"
+        MAGENTA="\033[90m"
+        GREEN="\033[34m"
+        YELLOW="\033[33m"
+        RED="\033[31m"
+    fi
+
+    if [[ "${PLAIN_OUTPUT}" -eq 0 ]] \
+        && [[ -t 1 ]] \
+        && [[ "${TERM:-}" != "dumb" ]] \
+        && [[ -z "${CI:-}" ]] \
+        && [[ "${LATEX_TYPORA_NO_ANIM:-0}" != "1" ]] \
+        && [[ "${NO_ANIM_FLAG}" -ne 1 ]]; then
+        ENABLE_ANIMATIONS=1
+    else
+        ENABLE_ANIMATIONS=0
+    fi
+
+    cols="${LATEX_TYPORA_TERM_WIDTH:-}"
+    if [[ -z "${cols}" ]] && command -v tput >/dev/null 2>&1 && [[ -t 1 ]]; then
+        cols="$(tput cols 2>/dev/null || true)"
+    fi
+    if [[ "${cols}" =~ ^[0-9]+$ ]] && [[ "${cols}" -gt 0 ]]; then
+        TERM_WIDTH="${cols}"
+    fi
+}
+
+repeat_char() {
+    local char="$1"
+    local count="$2"
+    local out=""
+
+    [[ "${count}" -gt 0 ]] || return 0
+    printf -v out '%*s' "${count}" ''
+    printf '%s' "${out// /${char}}"
+}
+
+print_centered_line() {
+    local color="$1"
+    local line="$2"
+    local line_len pad
+
+    line_len="${#line}"
+    if [[ "${TERM_WIDTH}" -gt "${line_len}" ]]; then
+        pad=$(( (TERM_WIDTH - line_len) / 2 ))
+    else
+        pad=0
+    fi
+    printf '%*s%b\n' "${pad}" '' "${color}${line}${RESET}"
+}
+
+sleep_for() {
+    [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 0
+    sleep "$1" 2>/dev/null || sleep 0.03
+}
+
 print_banner() {
-    printf '%b\n' "${BOLD}${BLUE}╔══════════════════════════════════════════════╗${RESET}"
-    printf '%b\n' "${BOLD}${BLUE}║          LaTeX Typora Theme Installer        ║${RESET}"
-    printf '%b\n' "${BOLD}${BLUE}╚══════════════════════════════════════════════╝${RESET}"
+    local line
+    local rule_width
+
+    rule_width=72
+    if [[ "${TERM_WIDTH}" -gt 6 ]]; then
+        rule_width=$((TERM_WIDTH - 2))
+    fi
+
+    printf '\n'
+    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+
+    if [[ "${TERM_WIDTH}" -ge 74 ]]; then
+        while IFS= read -r line; do
+            print_centered_line "${BOLD}${BLUE}" "${line}"
+            sleep_for "${TITLE_DELAY}"
+        done <<'EOF'
+ooooo                  ooooooooooooo           ooooooo  ooooo 
+`888'                  8'   888   `8            `8888    d8'  
+ 888          .oooo.        888       .ooooo.     Y888..8P    
+ 888         `P  )88b       888      d88' `88b     `8888'     
+ 888          .oP"888       888      888ooo888    .8PY888.    
+ 888       o d8(  888       888      888    .o   d8'  `888b   
+o888ooooood8 `Y888""8o     o888o     `Y8bod8P' o888o  o88888o 
+EOF
+
+        printf '\n'
+        while IFS= read -r line; do
+            print_centered_line "${BOLD}${MAGENTA}" "${line}"
+            sleep_for "${TITLE_DELAY}"
+        done <<'EOF'
+""8""                                 
+  8   e    e eeeee eeeee eeeee  eeeee 
+  8e  8    8 8   8 8  88 8   8  8   8 
+  88  8eeee8 8eee8 8   8 8eee8e 8eee8 
+  88    88   88    8   8 88   8 88  8 
+  88    88   88    8eee8 88   8 88  8 
+EOF
+    else
+        while IFS= read -r line; do
+            print_centered_line "${BOLD}${BLUE}" "${line}"
+            sleep_for "${TITLE_DELAY}"
+        done <<'EOF'
+   _         ______  _      
+\_|_)       (_) |   (_\  /  
+  |     __,     | _    \/   
+ _|    /  |   _ ||/    /\   
+(/\___/\_/|_/(_/ |__/_/  \_/
+EOF
+
+        printf '\n'
+        while IFS= read -r line; do
+            print_centered_line "${BOLD}${MAGENTA}" "${line}"
+            sleep_for "${TITLE_DELAY}"
+        done <<'EOF'
+ __  __          
+|  \/  |___  ___ 
+| |\/| / _ \/ _ \
+|_|  |_\___/\___/
+EOF
+    fi
+
+    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    printf '\n'
 }
 
 step() {
-    printf '%b\n' "${BOLD}${BLUE}→${RESET} ${BOLD}$1${RESET}"
+    printf '%b\n' "${BOLD}${BLUE}=>${RESET} ${BOLD}$1${RESET}"
 }
 
 info() {
-    printf '%b\n' "${BLUE}  •${RESET} $1"
+    printf '%b\n' "${BLUE}  -${RESET} $1"
 }
 
 success() {
-    printf '%b\n' "${GREEN}  ✓${RESET} $1"
+    printf '%b\n' "${GREEN}  [ok]${RESET} $1"
 }
 
 warn() {
-    printf '%b\n' "${YELLOW}  !${RESET} $1"
+    printf '%b\n' "${YELLOW}  [!]${RESET} $1"
+}
+
+print_completion_block() {
+    local rule_width
+
+    rule_width=72
+    if [[ "${TERM_WIDTH}" -gt 6 ]]; then
+        rule_width=$((TERM_WIDTH - 2))
+    fi
+
+    printf '\n%b%s%b\n' "${BOLD}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    print_centered_line "${BOLD}${BLUE}" "INSTALLATION COMPLETE"
+    print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
+    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '-' "${rule_width}")" "${RESET}"
+    info "In Typora, choose a theme: latex, latex-dark, or latex-dev-dark."
+    info "If the themes are missing, restart Typora."
+    printf '%b%s%b\n' "${BOLD}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
 }
 
 die() {
-    printf '%b\n' "${RED}  ✗ $1${RESET}" >&2
+    printf '%b\n' "${RED}  [x] $1${RESET}" >&2
     exit 1
+}
+
+run_with_spinner() {
+    local label="$1"
+    shift
+
+    if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]]; then
+        "$@"
+        return
+    fi
+
+    local spinner='-|\\/'
+    local frame_index=0
+    local command_pid
+    local status
+
+    "$@" &
+    command_pid=$!
+
+    while kill -0 "${command_pid}" 2>/dev/null; do
+        printf '\r%b' "${BLUE}[${spinner:${frame_index}:1}]${RESET} ${label}"
+        frame_index=$(((frame_index + 1) % 4))
+        sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
+    done
+
+    if wait "${command_pid}"; then
+        status=0
+    else
+        status=$?
+    fi
+
+    if [[ "${status}" -eq 0 ]]; then
+        printf '\r%b\n' "${GREEN}[ok]${RESET} ${label}"
+    else
+        printf '\r%b\n' "${RED}[x]${RESET} ${label}"
+    fi
+
+    return "${status}"
+}
+
+render_progress() {
+    local current="$1"
+    local total="$2"
+    local label="$3"
+    local width=28
+    local percent filled empty
+    local filled_bar empty_bar
+
+    [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 0
+    [[ "${total}" -gt 0 ]] || return 0
+
+    percent=$(( current * 100 / total ))
+    filled=$(( current * width / total ))
+    empty=$(( width - filled ))
+
+    printf -v filled_bar '%*s' "${filled}" ''
+    filled_bar="${filled_bar// /=}"
+    printf -v empty_bar '%*s' "${empty}" ''
+    empty_bar="${empty_bar// /.}"
+
+    printf '%b\n' "${MAGENTA}[${filled_bar}${empty_bar}]${RESET} ${percent}%% ${label}"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -87,6 +306,15 @@ while [[ $# -gt 0 ]]; do
             REF="$2"
             shift 2
             ;;
+        --no-anim)
+            NO_ANIM_FLAG=1
+            shift
+            ;;
+        --plain)
+            NO_ANIM_FLAG=1
+            PLAIN_OUTPUT=1
+            shift
+            ;;
         -h|--help)
             usage
             exit 0
@@ -97,6 +325,8 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+configure_ui
 
 require_command() {
     if ! command -v "$1" >/dev/null 2>&1; then
@@ -220,12 +450,12 @@ download_source() {
     require_command curl
     require_command tar
     require_command mktemp
+    require_command find
     TEMP_DIR="$(mktemp -d)"
     archive_path="${TEMP_DIR}/theme.tar.gz"
     archive_url="https://codeload.github.com/${REPO_OWNER}/${REPO_NAME}/tar.gz/${REF}"
-    info "Downloading ${REPO_OWNER}/${REPO_NAME}@${REF}"
-    curl -fsSL "${archive_url}" -o "${archive_path}"
-    tar -xzf "${archive_path}" -C "${TEMP_DIR}"
+    run_with_spinner "Downloading ${REPO_OWNER}/${REPO_NAME}@${REF}" curl -fsSL "${archive_url}" -o "${archive_path}"
+    run_with_spinner "Extracting source snapshot" tar -xzf "${archive_path}" -C "${TEMP_DIR}"
     extracted_dir="$(find "${TEMP_DIR}" -mindepth 1 -maxdepth 1 -type d -print -quit)"
     if [[ -z "${extracted_dir}" ]] || ! is_repo_checkout "${extracted_dir}"; then
         die "Unable to find theme files in downloaded archive."
@@ -261,23 +491,32 @@ install_theme() {
     shopt -u nullglob
     [[ ${#css_files[@]} -gt 0 ]] || die "No latex*.css theme files found in source."
     [[ ${#font_files[@]} -gt 0 ]] || die "No font files found in source."
-    cp "${css_files[@]}" "${theme_dir}/"
-    cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
+    run_with_spinner "Copying latex*.css files" cp "${css_files[@]}" "${theme_dir}/"
+    run_with_spinner "Copying latex font files" cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
 }
 
 main() {
+    local total_steps=5
+    local current_step=0
+
     print_banner
     step "Step 1/5: Checking requirements"
     require_command cp
     validate_ref
     success "Required commands are available"
+    current_step=$((current_step + 1))
+    render_progress "${current_step}" "${total_steps}" "Requirements checked"
 
     step "Step 2/5: Detecting your platform"
     detect_platform
     success "Detected platform: ${PLATFORM}"
+    current_step=$((current_step + 1))
+    render_progress "${current_step}" "${total_steps}" "Platform detected"
 
     step "Step 3/5: Locating installation source"
     detect_source_dir
+    current_step=$((current_step + 1))
+    render_progress "${current_step}" "${total_steps}" "Source ready"
 
     step "Step 4/5: Resolving Typora theme directory"
     resolve_theme_dir
@@ -286,6 +525,8 @@ main() {
         warn "Theme directory does not exist yet; installer will create it."
     fi
     success "Theme directory resolved"
+    current_step=$((current_step + 1))
+    render_progress "${current_step}" "${total_steps}" "Destination ready"
 
     step "Step 5/5: Installing files"
     install_theme "${SOURCE_DIR}" "${RESOLVED_THEME_DIR}"
@@ -293,8 +534,10 @@ main() {
     success "Installed latex-dark.css"
     success "Installed latex-dev-dark.css"
     success "Installed latex_fonts/*.{otf,ttf}"
+    current_step=$((current_step + 1))
+    render_progress "${current_step}" "${total_steps}" "Installation complete"
 
-    printf '\n%b\n' "${BOLD}${GREEN}Done!${RESET} Restart Typora or switch to latex / latex-dark / latex-dev-dark in the Themes menu."
+    print_completion_block
 }
 
 main

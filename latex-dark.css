@@ -218,9 +218,12 @@
     --syntax-diff-add-color: #8cd39a;
     --syntax-diff-remove-color: #ff9d9d;
 
-    --font-family: "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman", "Noto Nastaliq Urdu", "Times New Roman", serif;
+    --font-family:
+        "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
+        "Noto Nastaliq Urdu", "Times New Roman", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
-    --sans-font: "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --sans-font:
+        "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
     --nastaliq-line-height: 2.15;
     --nastaliq-heading-line-height: 1.8;
@@ -243,12 +246,30 @@
     --diagram-note-fill-color: rgba(255, 255, 255, 0.08);
     --diagram-line-color: rgba(255, 255, 255, 0.68);
     --diagram-muted-line-color: rgba(255, 255, 255, 0.34);
-    --search-hit-bg-color: rgba(255, 255, 255, 0.08);
-    --search-hit-border-color: rgba(255, 255, 255, 0.22);
+    --diagram-accent-blue-color: #aac7f2;
+    --diagram-accent-green-color: #b8c3cf;
+    --diagram-accent-purple-color: #e6e2da;
+    --diagram-accent-teal-color: #a4bcc8;
+    --diagram-accent-warm-color: #ead0a2;
+    --diagram-accent-blue-fill-color: rgba(170, 199, 242, 0.14);
+    --diagram-accent-green-fill-color: rgba(184, 195, 207, 0.11);
+    --diagram-accent-purple-fill-color: rgba(230, 226, 218, 0.08);
+    --diagram-accent-warm-fill-color: rgba(234, 208, 162, 0.15);
+    --footnote-bg-color: rgba(255, 255, 255, 0.02);
+    --footnote-border-color: rgba(255, 255, 255, 0.16);
+    --diagram-error-bg-color: rgba(255, 176, 176, 0.08);
+    --diagram-error-border-color: rgba(255, 176, 176, 0.24);
+    --diagram-error-text-color: #ffbdbd;
+    --diagram-error-accent-color: rgba(255, 176, 176, 0.76);
+    --search-hit-bg-color: rgba(255, 210, 154, 0.3);
+    --search-hit-border-color: rgba(255, 224, 190, 0.58);
+    --search-select-bg-color: rgba(255, 210, 154, 0.44);
+    --search-select-border-color: rgba(255, 224, 190, 0.72);
     --mermaid-theme: dark;
     --mermaid-font-family: var(--sans-font);
     --mermaid-sequence-numbers: off;
     --mermaid-flowchart-curve: basis;
+    --diagram-sankey-link-blend-mode: screen;
     --sequence-theme: simple;
 }
 
@@ -319,6 +340,7 @@ pre.md-meta-block ::selection {
     color: var(--text-color);
     text-align: justify;
     hyphens: auto;
+    text-rendering: auto;
     caret-color: var(--text-color);
 }
 
@@ -430,8 +452,22 @@ blockquote:has(.md-alert-text-container) :is(p, ul, ol) {
     color: inherit;
 }
 
-blockquote.md-alert :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution),
-blockquote:has(.md-alert-text-container) :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) {
+blockquote.md-alert
+    :is(
+        .md-alert-text-note,
+        .md-alert-text-tip,
+        .md-alert-text-important,
+        .md-alert-text-warning,
+        .md-alert-text-caution
+    ),
+blockquote:has(.md-alert-text-container)
+    :is(
+        .md-alert-text-note,
+        .md-alert-text-tip,
+        .md-alert-text-important,
+        .md-alert-text-warning,
+        .md-alert-text-caution
+    ) {
     display: flex;
     align-items: center;
     gap: 0.55em;
@@ -447,8 +483,24 @@ blockquote:has(.md-alert-text-container) .md-alert-text-container {
     text-transform: uppercase;
 }
 
-blockquote.md-alert :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) :is(svg, path),
-blockquote:has(.md-alert-text-container) :is(.md-alert-text-note, .md-alert-text-tip, .md-alert-text-important, .md-alert-text-warning, .md-alert-text-caution) :is(svg, path) {
+blockquote.md-alert
+    :is(
+        .md-alert-text-note,
+        .md-alert-text-tip,
+        .md-alert-text-important,
+        .md-alert-text-warning,
+        .md-alert-text-caution
+    )
+    :is(svg, path),
+blockquote:has(.md-alert-text-container)
+    :is(
+        .md-alert-text-note,
+        .md-alert-text-tip,
+        .md-alert-text-important,
+        .md-alert-text-warning,
+        .md-alert-text-caution
+    )
+    :is(svg, path) {
     fill: currentColor;
     stroke: currentColor;
 }
@@ -484,27 +536,35 @@ blockquote:has(.md-alert-text-caution) {
 }
 
 blockquote.md-alert-note :is(.md-alert-text-note, .md-alert-text-container),
-blockquote:has(.md-alert-text-note) :is(.md-alert-text-note, .md-alert-text-container) {
+blockquote:has(.md-alert-text-note)
+    :is(.md-alert-text-note, .md-alert-text-container) {
     color: var(--alert-note-accent);
 }
 
 blockquote.md-alert-tip :is(.md-alert-text-tip, .md-alert-text-container),
-blockquote:has(.md-alert-text-tip) :is(.md-alert-text-tip, .md-alert-text-container) {
+blockquote:has(.md-alert-text-tip)
+    :is(.md-alert-text-tip, .md-alert-text-container) {
     color: var(--alert-tip-accent);
 }
 
-blockquote.md-alert-important :is(.md-alert-text-important, .md-alert-text-container),
-blockquote:has(.md-alert-text-important) :is(.md-alert-text-important, .md-alert-text-container) {
+blockquote.md-alert-important
+    :is(.md-alert-text-important, .md-alert-text-container),
+blockquote:has(.md-alert-text-important)
+    :is(.md-alert-text-important, .md-alert-text-container) {
     color: var(--alert-important-accent);
 }
 
-blockquote.md-alert-warning :is(.md-alert-text-warning, .md-alert-text-container),
-blockquote:has(.md-alert-text-warning) :is(.md-alert-text-warning, .md-alert-text-container) {
+blockquote.md-alert-warning
+    :is(.md-alert-text-warning, .md-alert-text-container),
+blockquote:has(.md-alert-text-warning)
+    :is(.md-alert-text-warning, .md-alert-text-container) {
     color: var(--alert-warning-accent);
 }
 
-blockquote.md-alert-caution :is(.md-alert-text-caution, .md-alert-text-container),
-blockquote:has(.md-alert-text-caution) :is(.md-alert-text-caution, .md-alert-text-container) {
+blockquote.md-alert-caution
+    :is(.md-alert-text-caution, .md-alert-text-container),
+blockquote:has(.md-alert-text-caution)
+    :is(.md-alert-text-caution, .md-alert-text-container) {
     color: var(--alert-caution-accent);
 }
 
@@ -746,13 +806,11 @@ kbd {
     fill: var(--text-color) !important;
     color: var(--text-color) !important;
     font-family: var(--sans-font) !important;
+    stroke: none !important;
+    stroke-width: 0 !important;
+    paint-order: normal !important;
 }
 
-.md-diagram-panel-preview .node rect,
-.md-diagram-panel-preview .node circle,
-.md-diagram-panel-preview .node ellipse,
-.md-diagram-panel-preview .node polygon,
-.md-diagram-panel-preview .node path,
 .md-diagram-panel-preview .cluster rect,
 .md-diagram-panel-preview .actor,
 .md-diagram-panel-preview .labelBox,
@@ -766,11 +824,32 @@ kbd {
     stroke: var(--diagram-line-color) !important;
 }
 
+.md-diagram-panel-preview .node rect,
+.md-diagram-panel-preview .node circle,
+.md-diagram-panel-preview .node ellipse,
+.md-diagram-panel-preview .node polygon,
+.md-diagram-panel-preview .node .basic.label-container,
+.md-diagram-panel-preview .classBox,
+.md-diagram-panel-preview .stateGroup rect,
+.md-diagram-panel-preview .stateGroup path,
+.md-diagram-panel-preview .state-note rect {
+    fill: var(--diagram-accent-green-fill-color) !important;
+    stroke: var(--diagram-accent-green-color) !important;
+}
+
 .md-diagram-panel-preview .note rect,
 .md-diagram-panel-preview .edgeLabel rect,
 .md-diagram-panel-preview .labelBkg {
-    fill: var(--diagram-note-fill-color) !important;
-    stroke: var(--diagram-line-color) !important;
+    fill: var(--diagram-accent-warm-fill-color) !important;
+    stroke: var(--diagram-accent-warm-color) !important;
+}
+
+.md-diagram-panel-preview .cluster rect,
+.md-diagram-panel-preview .section,
+.md-diagram-panel-preview .stateGroup .label rect,
+.md-diagram-panel-preview .stateGroup .divider {
+    fill: var(--diagram-accent-purple-fill-color) !important;
+    stroke: var(--diagram-accent-purple-color) !important;
 }
 
 .md-diagram-panel-preview .edgePath .path,
@@ -780,7 +859,34 @@ kbd {
 .md-diagram-panel-preview .actor-line,
 .md-diagram-panel-preview .loopLine,
 .md-diagram-panel-preview .noteLine {
-    stroke: var(--diagram-line-color) !important;
+    stroke: var(--diagram-accent-purple-color) !important;
+}
+
+.md-diagram-panel-preview .links .link {
+    fill: var(--diagram-accent-blue-color) !important;
+    stroke: var(--diagram-accent-blue-color) !important;
+    opacity: 0.72 !important;
+    mix-blend-mode: var(--diagram-sankey-link-blend-mode) !important;
+}
+
+.md-diagram-panel-preview .links .link:nth-of-type(5n + 2) {
+    fill: var(--diagram-accent-green-color) !important;
+    stroke: var(--diagram-accent-green-color) !important;
+}
+
+.md-diagram-panel-preview .links .link:nth-of-type(5n + 3) {
+    fill: var(--diagram-accent-purple-color) !important;
+    stroke: var(--diagram-accent-purple-color) !important;
+}
+
+.md-diagram-panel-preview .links .link:nth-of-type(5n + 4) {
+    fill: var(--diagram-accent-teal-color) !important;
+    stroke: var(--diagram-accent-teal-color) !important;
+}
+
+.md-diagram-panel-preview .links .link:nth-of-type(5n + 5) {
+    fill: var(--diagram-accent-warm-color) !important;
+    stroke: var(--diagram-accent-warm-color) !important;
 }
 
 .md-diagram-panel-preview .grid .tick line,
@@ -795,6 +901,106 @@ kbd {
 .md-diagram-panel-preview .marker path {
     fill: var(--diagram-line-color) !important;
     stroke: var(--diagram-line-color) !important;
+}
+
+.md-diagram-panel-error:empty {
+    display: none;
+}
+
+.md-diagram-panel-error {
+    margin-top: 0.75em;
+    padding: 0.85em 1em 0.95em;
+    border: 1px solid var(--diagram-error-border-color);
+    border-left: 3px solid var(--diagram-error-accent-color);
+    border-radius: 2px;
+    background-color: var(--diagram-error-bg-color);
+    color: var(--diagram-error-text-color);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    font-family: var(--monospace);
+    font-size: 0.78em;
+    line-height: 1.5;
+}
+
+.md-diagram-panel-preview .error-icon {
+    fill: var(--diagram-error-accent-color) !important;
+}
+
+.md-diagram-panel-preview .error-text {
+    fill: var(--diagram-error-text-color) !important;
+    color: var(--diagram-error-text-color) !important;
+}
+
+.md-diagram-panel-preview .treemapSection,
+.md-diagram-panel-preview .treemapSectionHeader,
+.md-diagram-panel-preview .treemapLeaf,
+.md-diagram-panel-preview .packetBlock,
+.md-diagram-panel-preview .packetByte,
+.md-diagram-panel-preview .kanbanSection,
+.md-diagram-panel-preview .kanbanItem {
+    stroke-width: 1.2px !important;
+}
+
+.md-diagram-panel-preview .treemapSection,
+.md-diagram-panel-preview .treemapSectionHeader,
+.md-diagram-panel-preview .packetBlock,
+.md-diagram-panel-preview .kanbanSection {
+    fill: var(--diagram-accent-purple-fill-color) !important;
+    stroke: var(--diagram-accent-purple-color) !important;
+}
+
+.md-diagram-panel-preview .treemapLeaf,
+.md-diagram-panel-preview .packetByte,
+.md-diagram-panel-preview .kanbanItem {
+    fill: var(--diagram-accent-green-fill-color) !important;
+    stroke: var(--diagram-accent-green-color) !important;
+}
+
+.md-diagram-panel-preview .treemapTitle,
+.md-diagram-panel-preview .treemapLabel,
+.md-diagram-panel-preview .treemapSectionLabel,
+.md-diagram-panel-preview .treemapSectionValue,
+.md-diagram-panel-preview .treemapValue,
+.md-diagram-panel-preview .packetTitle,
+.md-diagram-panel-preview .packetLabel,
+.md-diagram-panel-preview .kanban-label,
+.md-diagram-panel-preview .kanban-definition {
+    fill: var(--text-color) !important;
+    color: var(--text-color) !important;
+}
+
+.md-diagram-panel-preview .treemapLeaf:nth-of-type(3n + 2),
+.md-diagram-panel-preview .packetByte:nth-of-type(3n + 2),
+.md-diagram-panel-preview .kanbanSection:nth-of-type(3n + 2),
+.md-diagram-panel-preview .kanbanItem:nth-of-type(3n + 2) {
+    fill: var(--diagram-accent-blue-fill-color) !important;
+    stroke: var(--diagram-accent-blue-color) !important;
+}
+
+.md-diagram-panel-preview .treemapLeaf:nth-of-type(3n),
+.md-diagram-panel-preview .packetByte:nth-of-type(3n),
+.md-diagram-panel-preview .kanbanSection:nth-of-type(3n),
+.md-diagram-panel-preview .kanbanItem:nth-of-type(3n) {
+    fill: var(--diagram-accent-warm-fill-color) !important;
+    stroke: var(--diagram-accent-warm-color) !important;
+}
+
+.md-diagram-panel-preview [class*="bar-plot"] .bar,
+.md-diagram-panel-preview .bar {
+    fill: var(--diagram-accent-blue-color) !important;
+    stroke: var(--diagram-accent-blue-color) !important;
+}
+
+.md-diagram-panel-preview [class*="line-plot"] path,
+.md-diagram-panel-preview [class*="line-plot"] polyline,
+.md-diagram-panel-preview [class*="line-plot"] line {
+    stroke: var(--diagram-accent-purple-color) !important;
+}
+
+.md-diagram-panel-preview [class*="point-plot"] circle,
+.md-diagram-panel-preview .plot .point {
+    fill: var(--diagram-accent-blue-color) !important;
+    stroke: var(--diagram-accent-blue-color) !important;
 }
 
 .md-table-wrap {
@@ -1015,10 +1221,19 @@ span.md-expand .md-meta {
     padding: 0 0.15em;
 }
 
-.md-search-hit {
+.md-search-hit,
+.md-search-select {
     background-color: var(--search-hit-bg-color);
-    border-radius: 2px;
-    box-shadow: 0 0 0 1px var(--search-hit-border-color);
+    border-radius: 1px;
+    box-shadow: inset 0 -0.11em 0 var(--search-hit-border-color);
+    color: inherit;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+}
+
+.md-search-select {
+    background-color: var(--search-select-bg-color);
+    box-shadow: inset 0 -0.11em 0 var(--search-select-border-color);
 }
 
 sup.md-footnote {
@@ -1029,8 +1244,11 @@ sup.md-footnote {
 
 .md-footnotes {
     margin-top: 3em;
-    padding-top: 1em;
-    border-top: 1px solid var(--strong-line-color);
+    padding: 1em 1.25em 1.15em;
+    border: 1px solid var(--footnote-border-color);
+    border-top-color: var(--strong-line-color);
+    border-radius: 3px;
+    background-color: var(--footnote-bg-color);
     font-size: 0.9em;
     color: var(--muted-text-color);
 }
@@ -1263,6 +1481,27 @@ hr {
     color: var(--text-color);
     border: 1px solid var(--control-border-color);
     font-family: var(--sans-font);
+}
+
+.code-tooltip.md-hover-tip.md-f-tooltip {
+    background-color: var(--code-bg-color);
+    color: var(--muted-text-color);
+    border: 1px solid var(--footnote-border-color);
+    border-radius: 3px;
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.42);
+}
+
+.md-f-tooltip .code-tooltip-content {
+    color: inherit;
+    font-family: var(--font-family);
+    line-height: 1.45;
+}
+
+.md-f-tooltip .md-arrow:after {
+    background-color: var(--code-bg-color);
+    box-shadow:
+        0 0 0 1px var(--footnote-border-color),
+        0 10px 18px rgba(0, 0, 0, 0.3);
 }
 
 .cm-s-inner,
