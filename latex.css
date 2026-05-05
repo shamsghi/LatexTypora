@@ -796,6 +796,12 @@ kbd {
     margin: 0 auto;
 }
 
+.md-diagram-panel svg text,
+.md-diagram-panel svg tspan,
+.md-diagram-panel .nodeLabel,
+.md-diagram-panel .edgeLabel,
+.md-diagram-panel .cluster-label,
+.md-diagram-panel .label,
 .md-diagram-panel-preview svg text,
 .md-diagram-panel-preview svg tspan,
 .md-diagram-panel-preview .nodeLabel,
