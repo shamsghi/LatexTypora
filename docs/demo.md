@@ -70,6 +70,36 @@ flowchart TD
     C --> D["Export"]
 ```
 
+## CJK Mixed Typography
+
+This untagged paragraph mixes English with 中文标点、Japanese punctuation「約物」、and Korean 문장 부호 to show the conservative default behavior for ordinary Markdown.
+
+<h3 lang="zh">中文标题：排版、标点与节奏</h3>
+
+<p lang="zh">这是一段中文正文，用来测试行高、避头尾标点与中英文混排效果。The theme should keep Latin words readable while Chinese punctuation，例如逗号、句号、冒号、引号“示例”，保持自然的排版节奏。</p>
+
+<blockquote lang="zh">
+<p>中文引用块用于检查引用中的 CJK 行高、标点节奏和整体灰度。引用块里的中文应该比默认拉丁行高更舒展。</p>
+</blockquote>
+
+<h3 lang="ja">日本語の見出し：約物と行間</h3>
+
+<p lang="ja">これは日本語本文のテストです。句読点、括弧「サンプル」、中黒・ダッシュ、そして English words を混ぜたときの読みやすさを確認します。行間が詰まりすぎず、見出しとの間隔も自然に見えることを確認してください。</p>
+
+<ul lang="ja">
+<li>番号付きではないリストで日本語の行間を確認します。</li>
+<li>混在する Markdown、Typora、PDF export の語を含みます。</li>
+</ul>
+
+<h3 lang="ko">한국어 제목: 줄 간격과 문장 부호</h3>
+
+<p lang="ko">이 문단은 한국어 본문 테스트입니다. 한글 문장 부호, 괄호(예시), 따옴표 “샘플”, 그리고 English words 가 섞였을 때 줄바꿈과 글꼴 선택이 자연스러운지 확인합니다.</p>
+
+<ul lang="ko">
+<li>목록 항목에서 한글 줄 높이와 여백을 확인합니다.</li>
+<li>긴 단어와 라틴 단어가 함께 있을 때 어색하게 잘리지 않는지 봅니다.</li>
+</ul>
+
 ## Urdu and Persian
 
 <div lang="ur">

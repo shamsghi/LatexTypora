@@ -88,6 +88,13 @@
     --code-border-color: rgba(255, 255, 255, 0.26);
     --kbd-bg-color: #080808;
     --kbd-border-color: rgba(255, 255, 255, 0.26);
+    --cjk-line-height: 1.72;
+    --cjk-heading-line-height: 1.32;
+    --cjk-heading-margin-top: 1.65em;
+    --cjk-heading-margin-bottom: 0.7em;
+    --cjk-paragraph-spacing: 0.55em;
+    --cjk-list-item-spacing: 0.32em;
+    --cjk-punctuation-spacing: 0.01em;
 }
 
 body {

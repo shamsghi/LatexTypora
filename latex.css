@@ -230,6 +230,13 @@
     --nastaliq-font: "Noto Nastaliq Urdu";
     --nastaliq-line-height: 2.15;
     --nastaliq-heading-line-height: 1.8;
+    --cjk-line-height: 1.68;
+    --cjk-heading-line-height: 1.28;
+    --cjk-heading-margin-top: 1.8em;
+    --cjk-heading-margin-bottom: 0.85em;
+    --cjk-paragraph-spacing: 0.35em;
+    --cjk-list-item-spacing: 0.28em;
+    --cjk-punctuation-spacing: 0.02em;
 
     --primary-color: #000000;
     --primary-btn-border-color: #000000;
@@ -342,6 +349,8 @@ pre.md-meta-block ::selection {
     color: var(--text-color);
     text-align: justify;
     hyphens: auto;
+    line-break: auto;
+    overflow-wrap: break-word;
     text-rendering: auto;
     caret-color: var(--text-color);
 }
@@ -1260,6 +1269,49 @@ sup.md-footnote {
     border-top: 1px solid var(--strong-line-color);
     font-size: 0.9em;
     color: var(--muted-text-color);
+}
+
+@supports (text-autospace: normal) {
+    #write {
+        text-autospace: normal;
+    }
+}
+
+@supports (text-spacing-trim: normal) {
+    #write {
+        text-spacing-trim: normal;
+    }
+}
+
+#write :is(p, li, blockquote, th, td, .footnote-line):is(:lang(zh), :lang(ja), :lang(ko)) {
+    line-height: var(--cjk-line-height);
+    letter-spacing: var(--cjk-punctuation-spacing);
+    line-break: strict;
+    word-break: normal;
+    hyphens: none;
+}
+
+#write :is(p, li, blockquote, th, td, .footnote-line):lang(ko) {
+    word-break: keep-all;
+    overflow-wrap: break-word;
+}
+
+#write :is(h1, h2, h3, h4, h5, h6):is(:lang(zh), :lang(ja), :lang(ko)) {
+    margin-top: var(--cjk-heading-margin-top);
+    margin-bottom: var(--cjk-heading-margin-bottom);
+    line-height: var(--cjk-heading-line-height);
+    letter-spacing: normal;
+    line-break: strict;
+    hyphens: none;
+    text-wrap: balance;
+}
+
+#write p:is(:lang(zh), :lang(ja), :lang(ko)) {
+    margin-bottom: var(--cjk-paragraph-spacing);
+}
+
+#write li:is(:lang(zh), :lang(ja), :lang(ko)) {
+    margin-bottom: var(--cjk-list-item-spacing);
 }
 
 #write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
