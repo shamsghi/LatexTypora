@@ -74,7 +74,7 @@ Default theme folders:
 
 Built for READMEs, API docs, design specs, and changelogs. Extends `latex-dark` with:
 
-- **JuliaMono** for code blocks, **iA Writer Mono** for inline code and UI accents
+- **JuliaMono** for body text, **iA Writer Mono** for inline code and UI accents
 - Left-aligned layout optimised for vertical scanning
 - Detached language label above fenced code blocks
 - Stronger visual weight for `kbd` shortcuts, diffs, callouts, and wide tables

@@ -220,13 +220,17 @@
 
     --font-family:
         "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
-        "Noto Nastaliq Urdu", "Times New Roman", "Songti SC", "STSong",
+        "Noto Nastaliq Urdu", "Songti SC", "Times New Roman", "STSong",
         "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
     --sans-font:
         "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, "Heiti SC",
         "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
         "SimHei", sans-serif;
+    --cjk-heading-font:
+        "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
+        "Heiti SC", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC",
+        "Noto Sans CJK SC", "SimHei", sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
     --nastaliq-line-height: 2.15;
     --nastaliq-heading-line-height: 1.8;
@@ -370,6 +374,7 @@ h6 {
 }
 
 h1 {
+    font-family: var(--cjk-heading-font);
     font-size: 1.8em;
     font-weight: normal;
     text-align: center;
@@ -1164,6 +1169,16 @@ mark {
     animation: none !important;
 }
 
+.md-htmlblock > .md-rawblock-container {
+    box-sizing: border-box;
+    padding-left: 0.85em;
+    padding-right: 0.85em;
+}
+
+.md-htmlblock.md-rawblock-on-edit {
+    margin-bottom: 2.4em;
+}
+
 .md-htmlblock:hover > .md-rawblock-container,
 .md-htmlblock.md-rawblock-on-edit > .md-rawblock-container {
     border: 1px solid var(--line-color);
@@ -1297,6 +1312,7 @@ sup.md-footnote {
 }
 
 #write :is(h1, h2, h3, h4, h5, h6):is(:lang(zh), :lang(ja), :lang(ko)) {
+    font-family: var(--cjk-heading-font);
     margin-top: var(--cjk-heading-margin-top);
     margin-bottom: var(--cjk-heading-margin-bottom);
     line-height: var(--cjk-heading-line-height);
@@ -1304,6 +1320,20 @@ sup.md-footnote {
     line-break: strict;
     hyphens: none;
     text-wrap: balance;
+}
+
+#write .md-htmlblock > .md-rawblock-container :is(h1, h2, h3, h4, h5, h6) {
+    margin-top: 0.75em;
+    margin-bottom: 0.75em;
+}
+
+#write .md-htmlblock > .md-rawblock-container h1 {
+    margin-top: 0.65em;
+}
+
+#write .md-htmlblock > .md-rawblock-container :is(ul, ol) {
+    margin-left: 0;
+    padding-left: 1.75em;
 }
 
 #write p:is(:lang(zh), :lang(ja), :lang(ko)) {
