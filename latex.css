@@ -220,10 +220,13 @@
 
     --font-family:
         "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
-        "Noto Nastaliq Urdu", "Times New Roman", serif;
+        "Noto Nastaliq Urdu", "Times New Roman", "Songti SC", "STSong",
+        "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
     --monospace: "Latin Modern Mono", "Courier New", monospace;
     --sans-font:
-        "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, "Heiti SC",
+        "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
+        "SimHei", sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
     --nastaliq-line-height: 2.15;
     --nastaliq-heading-line-height: 1.8;

@@ -70,9 +70,18 @@
 }
 
 :root {
-    --font-family: "JuliaMono", "iA Writer Mono", "Courier New", monospace;
-    --monospace: "iA Writer Mono", "Courier New", monospace;
-    --sans-font: "iA Writer Mono", "Courier New", monospace;
+    --font-family:
+        "JuliaMono", "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
+    --monospace:
+        "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
+    --sans-font:
+        "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
     --inline-code-bg-color: #080808;
     --inline-code-border-color: rgba(255, 255, 255, 0.22);
     --code-bg-color: #040404;

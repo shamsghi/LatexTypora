@@ -19,6 +19,7 @@
 - **经典 LaTeX 排版** —— 两端对齐正文、统一间距与编号公式
 - **GitHub 风格 Alerts / Callouts** —— 与 Typora 1.8+ 兼容的主题原生提醒样式
 - **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
+- **跨平台 CJK 字体支持** —— macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC，Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei，Linux 使用 Source Han / Noto CJK 字体
 - **离线可用且自包含** —— 所有字体均本地打包，无需外部依赖或 CDN
 - **跨平台细节打磨** —— 侧边栏、源码模式与打印/导出样式一致，并包含 macOS 交通灯区域修复
 

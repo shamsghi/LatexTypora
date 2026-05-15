@@ -19,6 +19,7 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 - **Classic LaTeX formatting** — Justified prose, consistent spacing, and numbered equations
 - **GitHub-style alerts & callouts** — Native alert styling compatible with Typora 1.8+
 - **Noto Nastaliq** — Enhanced support for Urdu, and Farsi with proper script rendering using html lang attributes
+- **Cross-platform CJK font support** — Uses Songti SC / Heiti SC and STSong / PingFang SC on macOS, SimSun / NSimSun / Microsoft YaHei / SimHei on Windows, and Source Han / Noto CJK fonts on Linux
 - **Offline & self-contained** — All fonts bundled locally, no external dependencies or CDN required
 - **Cross-platform polish** — Consistent styling across sidebar, source mode, and print/export; includes macOS traffic lights fix
 
