@@ -1171,8 +1171,8 @@ mark {
 
 .md-htmlblock > .md-rawblock-container {
     box-sizing: border-box;
-    padding-left: 0.85em;
-    padding-right: 0.85em;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #write .md-htmlblock > .md-rawblock-container div:has(> [style*="float"]) {

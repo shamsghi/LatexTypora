@@ -161,8 +161,8 @@ table,
 
 .md-htmlblock > .md-rawblock-container {
     box-sizing: border-box;
-    padding-left: 1.4em;
-    padding-right: 1.4em;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #write .md-htmlblock > .md-rawblock-container div:has(> [style*="float"]) {
