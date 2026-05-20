@@ -163,6 +163,14 @@ table,
     padding-right: 1.4em;
 }
 
+#write .md-htmlblock > .md-rawblock-container div:has(> [style*="float"]) {
+    display: flow-root;
+}
+
+#write .md-htmlblock > .md-rawblock-container [style*="float"][style*="width"] {
+    min-width: max-content;
+}
+
 #write .md-htmlblock > .md-rawblock-container :is(ul, ol) {
     margin-left: 0;
     padding-left: 2em;

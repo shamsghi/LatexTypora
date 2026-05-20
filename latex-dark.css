@@ -1177,6 +1177,14 @@ mark {
     padding-right: 0.85em;
 }
 
+#write .md-htmlblock > .md-rawblock-container div:has(> [style*="float"]) {
+    display: flow-root;
+}
+
+#write .md-htmlblock > .md-rawblock-container [style*="float"][style*="width"] {
+    min-width: max-content;
+}
+
 .md-htmlblock.md-rawblock-on-edit {
     margin-bottom: 2.4em;
 }
