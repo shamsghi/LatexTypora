@@ -369,12 +369,12 @@ h3,
 h4,
 h5,
 h6 {
+    font-family: var(--cjk-heading-font);
     color: var(--text-color);
     page-break-after: avoid;
 }
 
 h1 {
-    font-family: var(--cjk-heading-font);
     font-size: 1.8em;
     font-weight: normal;
     text-align: center;
