@@ -1195,6 +1195,13 @@ mark {
 .md-htmlblock .CodeMirror-gutters {
     background-color: var(--code-bg-color);
     color: var(--text-color);
+    caret-color: var(--text-color);
+}
+
+.md-htmlblock .CodeMirror-cursor,
+.md-htmlblock .cm-fat-cursor {
+    border-left: 1px solid var(--text-color) !important;
+    caret-color: var(--text-color);
 }
 
 .md-htmlblock .md-rawblock-tooltip {
