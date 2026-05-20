@@ -144,6 +144,14 @@
 }
 
 @font-face {
+    font-family: "JuliaMono";
+    src: url("./latex_fonts/JuliaMono-Regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
     font-family: "New Computer Modern";
     src: url("./latex_fonts/NewCM10-Book.otf") format("opentype");
     font-weight: 400;
@@ -1199,6 +1207,9 @@ mark {
 .md-htmlblock .CodeMirror-scroll,
 .md-htmlblock .CodeMirror-lines,
 .md-htmlblock .CodeMirror-gutters {
+    font-family: "JuliaMono", var(--monospace);
+    font-size: 0.96em;
+    line-height: 1.45;
     background-color: var(--code-bg-color);
     color: var(--text-color);
 }
