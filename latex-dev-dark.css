@@ -311,13 +311,6 @@ pre.md-meta-block {
     font-variant-ligatures: contextual;
 }
 
-/* The chip is positioned outside the box, so the fence itself cannot clip;
-   scroll the code instead when a line runs past the measure. */
-pre.md-fences > code {
-    display: block;
-    overflow-x: auto;
-}
-
 /* A fence wider than the measure scrolls; give it a scrollbar that is
    visible at rest so it reads as scrollable rather than as truncated. */
 pre.md-fences .CodeMirror-scroll::-webkit-scrollbar,

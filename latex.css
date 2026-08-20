@@ -879,6 +879,16 @@ pre.md-fences {
     overflow: visible;
 }
 
+/* The fence itself keeps overflow visible so the language chip Typora
+   draws above a focused block is not clipped. That leaves an exported
+   fence — a <code> block with no CodeMirror to scroll it — free to run its
+   longest line straight out of the frame and off the page, so scroll the
+   code instead. */
+pre.md-fences > code {
+    display: block;
+    overflow-x: auto;
+}
+
 /* Reserve room above editable fences so the language chip doesn't shift layout on focus. */
 pre.md-fences.ty-contain-cm {
     position: relative;
