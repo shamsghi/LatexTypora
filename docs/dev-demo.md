@@ -58,12 +58,47 @@ jobs:
 
 ## Diff Review
 
-```diff
-- color: inherit;
-+ color: var(--link-color);
+Added and removed lines tint the whole row and carry a gutter mark, so a
+review reads as a review rather than as coloured text.
 
-- background-color: var(--surface-color);
-+ background-color: var(--code-bg-color);
+```diff
+--- a/latex-dev-dark.css
++++ b/latex-dev-dark.css
+@@ -114,7 +114,7 @@
+     --toc-title: "";
+-    --content-measure: 60em;
+-    --table-bleed: 0em;
++    --content-measure: 46em;
++    --table-bleed: var(--page-padding-x);
+     --body-line-height: 1.55;
+ }
+```
+
+## Fence Labels and Overflow
+
+A fence with no language gets no label; the two below do, and the label
+stays put in reading mode and in exports.
+
+```
+$ git log --oneline -3
+c39bfa6 chore(docs): relocate font licenses into LICENSES folder
+d0a9fb1 feat(theme): improve LaTeX typographic fidelity
+```
+
+A line far wider than the measure should scroll horizontally with a
+scrollbar visible at rest, not look truncated:
+
+```sh
+docker run --rm -it --network host -v "$PWD:/work" -w /work -e CI=1 -e NODE_OPTIONS=--max-old-space-size=4096 node:22-bookworm bash -lc 'corepack enable && pnpm install --frozen-lockfile && pnpm test -- --reporter=verbose'
+```
+
+Digits and letters that collide in most faces — `0O` `1lI` `5S` `8B` `2Z`
+— should stay distinct at code size:
+
+```python
+CHECKSUM = 0xB0071E5
+timeout_ms = 30000
+ratio = 1.0 / 3.0  # 0.333...
 ```
 
 ## Task List
@@ -81,6 +116,34 @@ jobs:
 | `/api/themes/{id}` | `PATCH` | Required | Updates theme metadata and returns the saved record. | `curl -X PATCH https://example.dev/api/themes/latex-dev-dark -d '{"enabled":true}'` |
 | `/api/previews/export` | `POST` | Required | Generates a preview bundle for docs review. | `curl -X POST https://example.dev/api/previews/export -F file=@README.md` |
 
+## Option Table
+
+Header cells align with their column, rows stripe, and figures line up.
+
+| Flag | Default | Timeout (ms) | Retries | Description |
+| :-- | :-- | --: | --: | :-- |
+| `--theme-dir` | *(platform)* | 0 | 0 | Override the target Typora theme directory. |
+| `--ref` | `main` | 15000 | 3 | Install from a specific branch, tag, or commit. |
+| `--concurrency` | `4` | 900 | 10 | Parallel download slots for bundled font files. |
+| `--verify` | `true` | 120000 | 1 | Re-hash every installed asset after writing it. |
+| `--log-level` | `info` | 50 | 0 | One of `silent`, `error`, `warn`, `info`, `debug`. |
+
+Long values wrap inside the cell instead of forcing the whole table to
+scroll: see `https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh`
+and `~/Library/Application Support/abnerworks.Typora/themes/latex-dev-dark.css`.
+
+## Nested Structure
+
+1. Resolve the theme directory
+   - macOS sandboxed path first
+   - then `~/.config/Typora/themes`
+     - finally `%APPDATA%\Typora\themes`
+2. Copy `latex_fonts/`
+3. Verify the install[^verify]
+
+[^verify]: Footnotes keep the `\footnotesize` treatment from the base theme
+and sit under a rule at the end of the document.
+
 ## Architecture Sketch
 
 ```mermaid
@@ -96,3 +159,15 @@ flowchart LR
 ## Mixed Prose
 
 Keep `README.md` readable in preview, make code examples easy to scan, and preserve enough typographic discipline that long-form docs still feel deliberate instead of looking like a generic app note.
+
+## Non-Latin Text
+
+<p lang="zh">这一段用来检查中日韩文本的行距与段落节奏：开发主题保留正文的等宽字体，但把行高和段间距调整到适合阅读长文档的比例。</p>
+
+<p lang="ur">یہ سطر اردو رسم الخط کی جانچ کے لیے ہے۔ ترقیاتی تھیم میں بھی متن دائیں سے بائیں ہی چلنا چاہیے۔</p>
+
+## Print Check
+
+Export this page to PDF. The output should be dark text on white with the
+syntax highlighting intact — the dark palette is a reading choice, not a
+document.

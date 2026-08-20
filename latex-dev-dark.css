@@ -74,6 +74,10 @@
         "JuliaMono", "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
         "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
         monospace;
+    /* Fences and inline code. iA Writer Mono has no coding ligatures; swap
+       this to the "JuliaMono" stack above if you want `!=` and `->` to
+       ligate inside fences — the contextual-alternates rule below is
+       already in place for it. */
     --monospace:
         "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
         "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
@@ -95,11 +99,24 @@
     --cjk-paragraph-spacing: 0.55em;
     --cjk-list-item-spacing: 0.32em;
     --cjk-punctuation-spacing: 0.01em;
+    /* Nastaliq keeps its own face — no monospace stack covers Urdu — but
+       drops to this variant's tighter rhythm. */
+    --nastaliq-line-height: 1.95;
+    --nastaliq-heading-line-height: 1.7;
+
+    /* Whole-row tint behind `+` and `-` lines in a ```diff fence. */
+    --diff-add-bg-color: rgba(140, 211, 154, 0.1);
+    --diff-remove-bg-color: rgba(255, 157, 157, 0.1);
+    --table-stripe-color: rgba(255, 255, 255, 0.028);
+    --scrollbar-thumb-color: rgba(255, 255, 255, 0.18);
+    --scrollbar-thumb-hover-color: rgba(255, 255, 255, 0.32);
 
     /* This variant is for READMEs and specs, not papers: no first-line
        indent, no section numbers, no \tableofcontents title, and a wider
-       measure than the LaTeX article geometry. */
-    --content-measure: 60em;
+       measure than the LaTeX article geometry. 46em of a 0.6em-advance
+       monospace is ~76 characters per line — the same reading measure the
+       32em serif column gives, not the ~100 characters 60em would. */
+    --content-measure: 46em;
     --page-padding-x: 3.25em;
     --page-padding-top: 2.75em;
     --page-padding-bottom: 8em;
@@ -110,7 +127,7 @@
     --list-nested-indent: 2em;
     --list-topsep: 1em;
     --list-itemsep: 0.25em;
-    --table-bleed: 0em;
+    --table-bleed: var(--page-padding-x);
     --quote-indent: 0em;
     --quote-rule-width: 3px;
     --quote-padding: 0.9em 1.2em 0.9em 1.4em;
@@ -185,9 +202,180 @@ table,
     font-weight: inherit;
 }
 
+/* Checklists share the list indent instead of the LaTeX bullet indent, and
+   run tighter than prose lists — a changelog is a column of one-liners. */
+ul.task-list {
+    padding-left: var(--list-indent);
+}
+
+ul.task-list > li.task-list-item {
+    margin-bottom: var(--list-itemsep);
+}
+
+li.task-list-item > input[type="checkbox"] {
+    accent-color: var(--muted-text-color);
+}
+
+/* ---------------------------------------------------------------------
+   Fenced code
+   --------------------------------------------------------------------- */
+
+/* The language sits above every fence, not only the focused one, so it
+   survives reading mode and export. Typora's own editable chip takes over
+   on focus. */
+pre.md-fences {
+    position: relative;
+}
+
+pre.md-fences[lang]:not([lang=""]) {
+    margin-top: 2.6em;
+}
+
+pre.md-fences[lang]:not([lang=""])::before {
+    content: attr(lang);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5em);
+    z-index: 1;
+    display: inline-block;
+    min-width: 7.5em;
+    max-width: calc(100% - 2.4em);
+    box-sizing: border-box;
+    padding: 0.25em 1em;
+    border: 1px solid var(--code-border-color);
+    border-radius: 2px;
+    background-color: var(--code-bg-color);
+    color: var(--meta-text-color);
+    font-family: var(--sans-font);
+    font-size: 0.8em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-indent: 0;
+    text-transform: lowercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+pre.md-fences.md-focus[lang]:not([lang=""])::before {
+    content: none;
+}
+
+/* Contextual alternates left on so a ligature-carrying --monospace stack
+   works without further edits. Neither bundled face ships coding
+   ligatures, so this is inert until one is swapped in. */
+pre.md-fences,
+pre.md-meta-block {
+    font-variant-ligatures: contextual;
+}
+
+/* The chip is positioned outside the box, so the fence itself cannot clip;
+   scroll the code instead when a line runs past the measure. */
+pre.md-fences > code {
+    display: block;
+    overflow-x: auto;
+}
+
+/* A fence wider than the measure scrolls; give it a scrollbar that is
+   visible at rest so it reads as scrollable rather than as truncated. */
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar,
+pre.md-fences > code::-webkit-scrollbar,
+pre.md-fences::-webkit-scrollbar,
+.md-table-wrap::-webkit-scrollbar,
+.md-diagram-panel::-webkit-scrollbar {
+    height: 0.6em;
+    width: 0.6em;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-track,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-track,
+pre.md-fences > code::-webkit-scrollbar-track,
+pre.md-fences::-webkit-scrollbar-track,
+.md-table-wrap::-webkit-scrollbar-track,
+.md-diagram-panel::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-thumb,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-thumb,
+pre.md-fences > code::-webkit-scrollbar-thumb,
+pre.md-fences::-webkit-scrollbar-thumb,
+.md-table-wrap::-webkit-scrollbar-thumb,
+.md-diagram-panel::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 0.3em;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-thumb:hover,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover,
+pre.md-fences > code::-webkit-scrollbar-thumb:hover,
+pre.md-fences::-webkit-scrollbar-thumb:hover,
+.md-table-wrap::-webkit-scrollbar-thumb:hover,
+.md-diagram-panel::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color);
+}
+
+/* ```diff reads as a review, so tint the whole row and mark the gutter
+   rather than only recolouring the glyphs. CodeMirror wraps each line
+   while editing; export emits one span per line inside <code>. */
+pre.md-fences .CodeMirror-line:has(.cm-positive) {
+    background-color: var(--diff-add-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-add-color);
+}
+
+pre.md-fences .CodeMirror-line:has(.cm-negative) {
+    background-color: var(--diff-remove-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color);
+}
+
+pre.md-fences > code .cm-positive,
+pre.md-fences > code .cm-negative {
+    display: inline-block;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+pre.md-fences > code .cm-positive {
+    background-color: var(--diff-add-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-add-color);
+}
+
+pre.md-fences > code .cm-negative {
+    background-color: var(--diff-remove-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color);
+}
+
+/* ---------------------------------------------------------------------
+   Tables
+   --------------------------------------------------------------------- */
+
+/* Option and field tables, not paper floats: headers align with their
+   column, rows stripe, and numbers line up. An explicit `:--:` alignment
+   still wins — Typora writes it inline. */
 table,
 figure > table {
     width: 100%;
+    font-variant-numeric: tabular-nums;
+}
+
+th {
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--table-stripe-color);
+}
+
+/* Paths, flags and URLs are the usual cell contents here, and they are
+   long; let them wrap instead of forcing the whole figure to scroll. */
+th,
+td {
+    overflow-wrap: break-word;
 }
 
 code,
@@ -196,11 +384,22 @@ tt {
     border: 1px solid var(--inline-code-border-color);
     padding: 0.08em 0.35em;
     border-radius: 2px;
+    overflow-wrap: break-word;
+}
+
+/* In a cell, a path or URL may break mid-token — the alternative is the
+   whole table scrolling. In prose it may not: a flag stays one word. */
+th code,
+td code,
+th tt,
+td tt {
+    overflow-wrap: anywhere;
 }
 
 a {
     border-bottom: 1px solid currentColor;
     text-underline-offset: 0.12em;
+    overflow-wrap: anywhere;
 }
 
 a:hover {
@@ -243,46 +442,183 @@ blockquote {
     color: var(--muted-text-color);
 }
 
-#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
-#write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(fa),
-#write :is(p, li, blockquote, th, td, .footnote-line):lang(ur),
-#write :is(p, li, blockquote, th, td, .footnote-line):lang(fa),
-#write :is(h1, h2, h3, h4, h5, h6):lang(ur),
-#write :is(h1, h2, h3, h4, h5, h6):lang(fa) {
-    font-family: inherit;
-    line-height: inherit;
-    direction: inherit;
-    unicode-bidi: normal;
-    text-align: inherit;
-    hyphens: inherit;
-    letter-spacing: inherit;
-}
-
+/* RTL keeps the base's direction and mirroring — only the frame radius
+   and the h1 alignment follow this variant instead of the article one. */
 #write blockquote:lang(ur),
 #write blockquote:lang(fa) {
-    padding: 0.9em 1.2em 0.9em 1.4em;
-    border-left: 3px solid var(--quote-border-color);
-    border-right: none;
-    border-radius: 0 4px 4px 0;
+    border-right-width: var(--quote-rule-width);
+    border-radius: 4px 0 0 4px;
 }
 
-#write :is(ul, ol):lang(ur),
-#write :is(ul, ol):lang(fa) {
-    padding-left: 2em;
-    padding-right: 0;
-}
-
-#write ul.task-list:lang(ur),
-#write ul.task-list:lang(fa) {
-    padding-right: 0;
-}
-
-#write li.task-list-item:lang(ur) > input[type="checkbox"],
-#write li.task-list-item:lang(fa) > input[type="checkbox"] {
-    margin-left: 0;
-    margin-right: 0.55em;
+#write h1:lang(ur),
+#write h1:lang(fa) {
+    text-align: right;
 }
 
 .md-diagram-panel-preview {
     text-align: left;
+}
+
+/* ---------------------------------------------------------------------
+   Print / PDF export
+   --------------------------------------------------------------------- */
+
+/* A dark page is a reading choice, not a document. Exports flip to the
+   light palette of latex.css while keeping this variant's monospace face,
+   left alignment and layout. */
+@media print {
+    :root {
+        --bg-color: #ffffff;
+        --surface-color: #ffffff;
+        --panel-bg-color: #ffffff;
+        --text-color: #000000;
+        --muted-text-color: #4d4d4d;
+        --meta-text-color: #707070;
+        --line-color: rgba(0, 0, 0, 0.16);
+        --strong-line-color: rgba(0, 0, 0, 0.32);
+        --link-color: #183a63;
+        --link-hover-color: #0f2745;
+        --inline-code-bg-color: #f7f4ee;
+        --inline-code-border-color: rgba(0, 0, 0, 0.12);
+        --code-bg-color: #fbfaf7;
+        --code-border-color: rgba(0, 0, 0, 0.18);
+        --kbd-bg-color: #f8f6f1;
+        --kbd-border-color: rgba(0, 0, 0, 0.22);
+        --kbd-shadow-color: rgba(0, 0, 0, 0.08);
+        --quote-bg-color: #faf7f0;
+        --quote-border-color: rgba(0, 0, 0, 0.28);
+        --alert-note-accent: #2c5a85;
+        --alert-note-bg-color: rgba(24, 58, 99, 0.06);
+        --alert-tip-accent: #3b5f35;
+        --alert-tip-bg-color: rgba(85, 102, 47, 0.08);
+        --alert-important-accent: #5d4773;
+        --alert-important-bg-color: rgba(100, 68, 122, 0.08);
+        --alert-warning-accent: #875720;
+        --alert-warning-bg-color: rgba(135, 87, 32, 0.09);
+        --alert-caution-accent: #8c1c1c;
+        --alert-caution-bg-color: rgba(140, 28, 28, 0.08);
+        --syntax-keyword-color: #2f3c61;
+        --syntax-string-color: #55662f;
+        --syntax-number-color: #64447a;
+        --syntax-type-color: #1f615f;
+        --syntax-comment-color: #6e665b;
+        --syntax-diff-add-color: #255c34;
+        --syntax-diff-remove-color: #8c1c1c;
+        --diff-add-bg-color: rgba(37, 92, 52, 0.08);
+        --diff-remove-bg-color: rgba(140, 28, 28, 0.07);
+        --table-stripe-color: rgba(0, 0, 0, 0.035);
+        --footnote-bg-color: rgba(0, 0, 0, 0.02);
+        --footnote-border-color: rgba(0, 0, 0, 0.16);
+        --diagram-fill-color: rgba(0, 0, 0, 0.035);
+        --diagram-note-fill-color: rgba(0, 0, 0, 0.06);
+        --diagram-line-color: rgba(0, 0, 0, 0.58);
+        --diagram-muted-line-color: rgba(0, 0, 0, 0.3);
+        --diagram-accent-blue-color: #1f3a5f;
+        --diagram-accent-green-color: #5b6672;
+        --diagram-accent-purple-color: #2f2f2b;
+        --diagram-accent-teal-color: #48606b;
+        --diagram-accent-warm-color: #8c6731;
+        --diagram-accent-blue-fill-color: rgba(31, 58, 95, 0.1);
+        --diagram-accent-green-fill-color: rgba(91, 102, 114, 0.08);
+        --diagram-accent-purple-fill-color: rgba(47, 47, 43, 0.045);
+        --diagram-accent-warm-fill-color: rgba(140, 103, 49, 0.12);
+        --diagram-error-bg-color: rgba(140, 28, 28, 0.06);
+        --diagram-error-border-color: rgba(140, 28, 28, 0.2);
+        --diagram-error-text-color: #8c1c1c;
+        --diagram-error-accent-color: rgba(140, 28, 28, 0.72);
+        --diagram-sankey-link-blend-mode: multiply;
+    }
+
+    html,
+    body,
+    .typora-export,
+    .typora-export-content {
+        background-color: #ffffff !important;
+    }
+
+    /* The base print rules flatten every fence to one ink colour so a dark
+       theme stays legible on paper; on a light ground the highlighting is
+       worth keeping. */
+    .cm-s-inner .cm-keyword,
+    .cm-s-inner .cm-tag,
+    .cm-s-inner .cm-qualifier,
+    .cm-s-inner .cm-operator,
+    .cm-s-inner .cm-attribute,
+    .cm-s-inner .cm-property,
+    .cm-s-inner .cm-def,
+    .cm-s-inner .cm-builtin,
+    pre.md-fences .cm-keyword,
+    pre.md-fences .cm-tag,
+    pre.md-fences .cm-qualifier,
+    pre.md-fences .cm-operator,
+    pre.md-fences .cm-attribute,
+    pre.md-fences .cm-property,
+    pre.md-fences .cm-def,
+    pre.md-fences .cm-builtin {
+        color: var(--syntax-keyword-color) !important;
+    }
+
+    .cm-s-inner .cm-string,
+    .cm-s-inner .cm-string-2,
+    pre.md-fences .cm-string,
+    pre.md-fences .cm-string-2 {
+        color: var(--syntax-string-color) !important;
+    }
+
+    .cm-s-inner .cm-number,
+    .cm-s-inner .cm-atom,
+    pre.md-fences .cm-number,
+    pre.md-fences .cm-atom {
+        color: var(--syntax-number-color) !important;
+    }
+
+    .cm-s-inner .cm-variable-2,
+    .cm-s-inner .cm-variable-3,
+    .cm-s-inner .cm-type,
+    pre.md-fences .cm-variable-2,
+    pre.md-fences .cm-variable-3,
+    pre.md-fences .cm-type {
+        color: var(--syntax-type-color) !important;
+    }
+
+    .cm-s-inner .cm-comment,
+    .cm-s-inner .cm-meta,
+    pre.md-fences .cm-comment,
+    pre.md-fences .cm-meta {
+        color: var(--syntax-comment-color) !important;
+    }
+
+    .cm-s-inner .cm-positive,
+    pre.md-fences .cm-positive {
+        color: var(--syntax-diff-add-color) !important;
+        background-color: var(--diff-add-bg-color) !important;
+    }
+
+    .cm-s-inner .cm-negative,
+    pre.md-fences .cm-negative {
+        color: var(--syntax-diff-remove-color) !important;
+        background-color: var(--diff-remove-bg-color) !important;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: var(--table-stripe-color) !important;
+    }
+
+    /* The base print rules drop every box-shadow; the diff gutter mark is
+       an affordance, not decoration, so it comes back. */
+    pre.md-fences .CodeMirror-line:has(.cm-positive),
+    pre.md-fences > code .cm-positive {
+        box-shadow: inset 2px 0 0 var(--syntax-diff-add-color) !important;
+    }
+
+    pre.md-fences .CodeMirror-line:has(.cm-negative),
+    pre.md-fences > code .cm-negative {
+        box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color) !important;
+    }
+
+    pre.md-fences[lang]:not([lang=""])::before {
+        background-color: var(--code-bg-color) !important;
+        color: var(--meta-text-color) !important;
+        border-color: var(--code-border-color) !important;
+    }
 }

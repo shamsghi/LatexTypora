@@ -78,10 +78,18 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 面向 README、API 文档、设计规范与变更日志打造。在 `latex-dark` 基础上扩展：
 
-- **JuliaMono** 用于代码块，**iA Writer Mono** 用于行内代码与界面强调
-- 左对齐布局，优化纵向扫描体验
-- 围栏代码块上方独立显示语言标签
-- 为 `kbd` 快捷键、diff、callout 与宽表格提供更强的视觉权重
+- **JuliaMono** 用于正文，**iA Writer Mono** 用于行内代码与界面强调
+- 左对齐布局，版心约 76 个等宽字符——取消首行缩进、章节编号与 `[toc]` 标题
+- **常驻语言标签**：每个围栏代码块上方都显示语言，阅读模式与导出同样保留，而不仅在获得焦点时出现
+- **diff 审阅样式**：`diff` 围栏中的 `+`／`-` 行整行着色并带有左侧标记
+- **文档型表格**：表头左对齐、隔行底色，单元格会换行显示长路径与 URL，而不是让整张表格横向滚动
+- **可见滚动条**：围栏代码、宽表格与图表溢出时显示滚动条，避免看起来像被截断
+- **浅色 PDF 导出**：打印时切换为白底黑字并保留语法高亮，屏幕上仍保持深色
+- 沿用 `latex-dark` 的带边框 callout、引用块与 `kbd` 样式
+
+围栏代码使用的 iA Writer Mono 不含编程连字。若希望 `!=`、`->` 显示为连字，
+只需把 `--monospace` 指向文件中紧邻上方的 `"JuliaMono"` 字体栈——相关的
+contextual-alternates 规则已经就位。
 
 参考演示文件：[`docs/dev-demo.md`](./docs/dev-demo.md)  
 学术主题演示：[`docs/demo.md`](./docs/demo.md)
@@ -107,7 +115,14 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | `--table-bleed` | `var(--page-padding-x)` | 表格宽于版心时，可向页边距外延伸的距离；超出后由 figure 横向滚动。设为 `0em` 可让所有表格严格保持在版心内。 |
 | `--list-indent`、`--list-topsep`、`--list-itemsep` | `2.5em`、`0.7em`、`0.32em` | 对应 `\leftmargini`、`\topsep` 与 `\itemsep`。 |
 
-`latex-dev-dark.css` 会覆盖上述变量以适配开发文档：取消首行缩进、取消章节编号、取消 `[toc]` 标题，并使用更宽的版心、左对齐正文、带边框的引用块与满宽表格。
+`latex-dev-dark.css` 会覆盖上述变量以适配开发文档：取消首行缩进、取消章节编号、取消 `[toc]` 标题，版心为 46em 等宽（约 76 字符）、左对齐正文、带边框的引用块，以及可延伸到页边距的满宽表格。它还新增了几个变量：
+
+| 变量 | 默认值 | 作用 |
+| :-- | :-- | :-- |
+| `--diff-add-bg-color`、`--diff-remove-bg-color` | 淡绿／淡红 | `diff` 围栏中 `+`／`-` 行的整行底色。 |
+| `--table-stripe-color` | 极淡白色 | 表格偶数行的隔行底色，设为 `transparent` 可关闭。 |
+| `--scrollbar-thumb-color`、`--scrollbar-thumb-hover-color` | 半透明白色 | 围栏代码、宽表格与图表的滚动条颜色。 |
+| `--nastaliq-line-height` | `1.95` | 乌尔都语／波斯语行距，较基础主题的 `2.15` 更紧凑。 |
 
 ## 说明
 
