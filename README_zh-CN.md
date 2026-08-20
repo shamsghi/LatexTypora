@@ -87,9 +87,10 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - **浅色 PDF 导出**：打印时切换为白底黑字并保留语法高亮，屏幕上仍保持深色
 - 沿用 `latex-dark` 的带边框 callout、引用块与 `kbd` 样式
 
-围栏代码使用的 iA Writer Mono 不含编程连字。若希望 `!=`、`->` 显示为连字，
-只需把 `--monospace` 指向文件中紧邻上方的 `"JuliaMono"` 字体栈——相关的
-contextual-alternates 规则已经就位。
+围栏代码使用的 iA Writer Mono 不含任何连字查找表。若希望 `->`、`=>`、`<->`
+连写成箭头，只需把 `--monospace` 指向文件中紧邻上方的 `"JuliaMono"` 字体
+栈——相关的 contextual-alternates 规则已经就位。两款内置字体都不会把 `!=`、
+`==`、`::` 连写。
 
 参考演示文件：[`docs/dev-demo.md`](./docs/dev-demo.md)  
 学术主题演示：[`docs/demo.md`](./docs/demo.md)

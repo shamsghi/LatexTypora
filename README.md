@@ -88,9 +88,10 @@ Built for READMEs, API docs, design specs, and changelogs. Extends `latex-dark` 
 - **Light PDF export** — printing flips to ink-on-paper with syntax highlighting kept, while the screen stays dark
 - Framed callouts and blockquotes, and `kbd` shortcuts carried over from `latex-dark`
 
-Fences use iA Writer Mono, which has no coding ligatures. Point `--monospace`
-at the `"JuliaMono"` stack defined just above it in the file if you want `!=`
-and `->` to ligate — the contextual-alternates rule is already in place.
+Fences use iA Writer Mono, which carries no ligature lookups. Point
+`--monospace` at the `"JuliaMono"` stack defined just above it in the file if
+you want `->`, `=>` and `<->` to ligate into arrows — the contextual-alternates
+rule is already in place. Neither bundled face ligates `!=`, `==` or `::`.
 
 Reference demo: [`docs/dev-demo.md`](./docs/dev-demo.md)  
 Academic theme demo: [`docs/demo.md`](./docs/demo.md)

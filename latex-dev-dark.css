@@ -74,10 +74,11 @@
         "JuliaMono", "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
         "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
         monospace;
-    /* Fences and inline code. iA Writer Mono has no coding ligatures; swap
-       this to the "JuliaMono" stack above if you want `!=` and `->` to
-       ligate inside fences — the contextual-alternates rule below is
-       already in place for it. */
+    /* Fences and inline code. iA Writer Mono carries no ligature lookups
+       at all; swap this to the "JuliaMono" stack above if you want `->`,
+       `=>` and `<->` to ligate into arrows inside fences — the
+       contextual-alternates rule below is already in place for it.
+       Neither face ligates `!=`, `==` or `::`. */
     --monospace:
         "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
         "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
@@ -266,8 +267,9 @@ pre.md-fences.md-focus[lang]:not([lang=""])::before {
 }
 
 /* Contextual alternates left on so a ligature-carrying --monospace stack
-   works without further edits. Neither bundled face ships coding
-   ligatures, so this is inert until one is swapped in. */
+   works without further edits. JuliaMono's arrow ligatures live in calt,
+   which this enables; iA Writer Mono has no lookups at all, so the default
+   stack renders exactly as it would without this rule. */
 pre.md-fences,
 pre.md-meta-block {
     font-variant-ligatures: contextual;
