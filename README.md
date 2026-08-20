@@ -16,7 +16,9 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 ## Features
 
 - **New Computer Modern typeface** — Academic-quality serif with support for modern Greek and ancient Greek
-- **Classic LaTeX formatting** — Justified prose, consistent spacing, and numbered equations
+- **`article` class geometry** — Line measure, `\parindent`, `\parskip`, heading sizes and section skips taken from `article.cls` at 11pt on letterpaper
+- **Numbered sections** — `##`/`###`/`####` are numbered `1`, `1.1`, `1.1.1` and separated from the title by a `\quad`, exactly like `\section`
+- **LaTeX environments** — First-line paragraph indentation, `quote`-style blockquotes, `itemize`/`enumerate` label glyphs (`•` `–` `∗`, `1.` `(a)` `i.`), `booktabs` rules on tables, and `\footnotesize` footnotes under a `\footnoterule`
 - **GitHub-style alerts & callouts** — Native alert styling compatible with Typora 1.8+
 - **Noto Nastaliq** — Enhanced support for Urdu, and Farsi with proper script rendering using html lang attributes
 - **Cross-platform CJK font support** —
@@ -87,9 +89,30 @@ Academic theme demo: [`docs/demo.md`](./docs/demo.md)
 
 ---
 
+## Customization
+
+Every LaTeX metric the themes depend on is a `:root` variable at the top of `latex.css` and `latex-dark.css`, so you can retune the page without hunting through selectors.
+
+| Variable | Default | What it controls |
+| :-- | :-- | :-- |
+| `--content-measure` | `32em` | Text measure. `32em` is `article.cls`'s 345pt `\textwidth` and gives ~70 characters per line; raise it for a wider column. |
+| `--paragraph-indent` | `1.55em` | `\parindent`. Set to `0em` and raise `--paragraph-spacing` for spaced rather than indented paragraphs. |
+| `--paragraph-spacing` | `0em` | `\parskip`. |
+| `--body-line-height` | `1.38` | Leading. LaTeX's own `\baselineskip` ratio at 11pt is `1.236`. |
+| `--cjk-paragraph-indent` | `2em` | First-line indent for `zh`/`ja`/`ko` paragraphs — two full-width characters, per CJK convention. |
+| `--section-number-h2/h3/h4` | `counter(...)` | Heading numbers. Set all three to `""` to switch numbering off. |
+| `--equation-number` | `""` | Display-equation numbers. `$$…$$` is LaTeX's unnumbered `\[ \]`, so this is off by default; set it to `"(" counter(latex-equation) ")"` to number equations flush right like `equation`. |
+| `--toc-title` | `"Contents"` | Title printed above `[toc]`, like `\tableofcontents`. Set to `""` to drop it. |
+| `--quote-indent`, `--quote-rule-width`, `--quote-padding`, `--quote-tint` | `2.5em`, `0px`, `0em`, `transparent` | Blockquotes render as LaTeX's bare `quote` environment. For the framed panel look, set the rule width to `2px`, the padding to `0.9em 1.2em 0.9em 1.4em` and the tint to `var(--quote-bg-color)`. |
+| `--inline-code-bg-color` | faint tint | Inline `code` has no border, matching `\texttt`. Set to `transparent` to remove the tint too. |
+| `--table-bleed` | `var(--page-padding-x)` | How far a table too wide for the measure may extend into the page margin before the figure scrolls. Set to `0em` to keep every table inside the measure. |
+| `--list-indent`, `--list-topsep`, `--list-itemsep` | `2.5em`, `0.7em`, `0.32em` | `\leftmargini`, `\topsep` and `\itemsep`. |
+
+`latex-dev-dark.css` overrides these for developer documentation: no indentation, no section numbers, no `[toc]` title, a wider measure, left-aligned text, framed blockquotes and full-width tables.
+
 ## Notes
 
 - Licensed under **Apache-2.0**. Keep `LICENSE` when redistributing the theme.
 - Bundled font attribution and license details are in [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md); keep the relevant notices when redistributing bundled assets.
 - Designed and tested on macOS; should work on Windows and Linux.
-- Customize colors and spacing via `:root` variables at the top of each theme file.
+- Colors, fonts and every LaTeX metric are `:root` variables at the top of each theme file — see [Customization](#customization).

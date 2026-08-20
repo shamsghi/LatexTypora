@@ -16,7 +16,9 @@
 ## 特性
 
 - **New Computer Modern 字体** —— 学术级衬线字形，支持现代希腊语与古希腊语
-- **经典 LaTeX 排版** —— 两端对齐正文、统一间距与编号公式
+- **`article` 类页面几何** —— 行长、`\parindent`、`\parskip`、标题字号与章节间距均取自 letterpaper 11pt 的 `article.cls`
+- **章节自动编号** —— `##`/`###`/`####` 依次编号为 `1`、`1.1`、`1.1.1`，编号与标题之间以 `\quad` 分隔，与 `\section` 一致
+- **LaTeX 环境还原** —— 首行缩进、`quote` 式引用块、`itemize`/`enumerate` 标号（`•` `–` `∗`，`1.` `(a)` `i.`）、表格 `booktabs` 横线，以及 `\footnoterule` 下的 `\footnotesize` 脚注
 - **GitHub 风格 Alerts / Callouts** —— 与 Typora 1.8+ 兼容的主题原生提醒样式
 - **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
 - **跨平台 CJK 字体支持** —— macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC，Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei，Linux 使用 Source Han / Noto CJK 字体
@@ -86,9 +88,30 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 ---
 
+## 自定义
+
+主题依赖的每一项 LaTeX 度量都是 `latex.css` 与 `latex-dark.css` 顶部的 `:root` 变量，无需翻找选择器即可调整版面。
+
+| 变量 | 默认值 | 作用 |
+| :-- | :-- | :-- |
+| `--content-measure` | `32em` | 正文行长。`32em` 即 `article.cls` 的 345pt `\textwidth`，约每行 70 字符；需要更宽的版心可调大。 |
+| `--paragraph-indent` | `1.55em` | `\parindent`。若偏好段间留白而非首行缩进，可设为 `0em` 并调大 `--paragraph-spacing`。 |
+| `--paragraph-spacing` | `0em` | `\parskip`。 |
+| `--body-line-height` | `1.38` | 行距。LaTeX 在 11pt 下的 `\baselineskip` 比例为 `1.236`。 |
+| `--cjk-paragraph-indent` | `2em` | `zh`/`ja`/`ko` 段落的首行缩进，按中文排版惯例为两个全角字符。 |
+| `--section-number-h2/h3/h4` | `counter(...)` | 标题编号。三者均设为 `""` 即可关闭编号。 |
+| `--equation-number` | `""` | 行间公式编号。`$$…$$` 对应 LaTeX 不编号的 `\[ \]`，故默认关闭；设为 `"(" counter(latex-equation) ")"` 可像 `equation` 那样右对齐编号。 |
+| `--toc-title` | `"Contents"` | `[toc]` 上方的标题，对应 `\tableofcontents`。设为 `""` 即可去掉。 |
+| `--quote-indent`、`--quote-rule-width`、`--quote-padding`、`--quote-tint` | `2.5em`、`0px`、`0em`、`transparent` | 引用块按 LaTeX 的 `quote` 环境渲染。若想恢复带边框的面板样式，可将线宽设为 `2px`、内边距设为 `0.9em 1.2em 0.9em 1.4em`、底色设为 `var(--quote-bg-color)`。 |
+| `--inline-code-bg-color` | 极浅底色 | 行内 `code` 不再描边，与 `\texttt` 一致。设为 `transparent` 可连底色一并去掉。 |
+| `--table-bleed` | `var(--page-padding-x)` | 表格宽于版心时，可向页边距外延伸的距离；超出后由 figure 横向滚动。设为 `0em` 可让所有表格严格保持在版心内。 |
+| `--list-indent`、`--list-topsep`、`--list-itemsep` | `2.5em`、`0.7em`、`0.32em` | 对应 `\leftmargini`、`\topsep` 与 `\itemsep`。 |
+
+`latex-dev-dark.css` 会覆盖上述变量以适配开发文档：取消首行缩进、取消章节编号、取消 `[toc]` 标题，并使用更宽的版心、左对齐正文、带边框的引用块与满宽表格。
+
 ## 说明
 
 - 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
 - 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
-- 如需自定义颜色或间距，可编辑各主题文件顶部的 `:root` 变量。
+- 颜色、字体与全部 LaTeX 度量均为各主题文件顶部的 `:root` 变量，详见[自定义](#自定义)。

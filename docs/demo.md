@@ -6,6 +6,12 @@ The quick brown fox jumps over the lazy dog while **bold text**, **italic text**
 
 > Good document themes disappear into the reading experience while still giving structure, hierarchy, and a little ceremony to the page.
 
+## Prose
+
+Paragraphs follow the `article` class: `\parskip` is zero and a new paragraph is announced by its first-line indent instead of by a blank band of space. The first paragraph after a heading is left flush, exactly as LaTeX does without the `indentfirst` package.
+
+This second paragraph is indented, which is the whole point of the demonstration. Justification and automatic hyphenation are on, so the right edge stays flush and the word spacing stays even across the measure.
+
 ## Formulas
 
 Inline math such as $e^{i\pi} + 1 = 0$ blends into the prose, while display math gets a little more room:
@@ -27,10 +33,14 @@ $$
 
 - Serif body text for long-form reading
 - Monospace blocks for code and metadata
+  - Nested levels use LaTeX's own labels
+    - Bullet, en dash, then asterisk
 - Subtle rules for quotes, tables, and footnotes
 
 1. Open the file in Typora.
 2. Switch between `latex` and `latex-dark`.
+   1. Nested enumerations are lettered
+   2. Just as `\labelenumii` prescribes
 3. Scroll slowly and notice the spacing.
 
 ### Tasks

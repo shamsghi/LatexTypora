@@ -95,15 +95,34 @@
     --cjk-paragraph-spacing: 0.55em;
     --cjk-list-item-spacing: 0.32em;
     --cjk-punctuation-spacing: 0.01em;
-}
 
-body {
-    line-height: 1.55;
+    /* This variant is for READMEs and specs, not papers: no first-line
+       indent, no section numbers, no \tableofcontents title, and a wider
+       measure than the LaTeX article geometry. */
+    --content-measure: 60em;
+    --page-padding-x: 3.25em;
+    --page-padding-top: 2.75em;
+    --page-padding-bottom: 8em;
+    --body-line-height: 1.55;
+    --paragraph-indent: 0em;
+    --paragraph-spacing: 0.95em;
+    --list-indent: 2em;
+    --list-nested-indent: 2em;
+    --list-topsep: 1em;
+    --list-itemsep: 0.25em;
+    --table-bleed: 0em;
+    --quote-indent: 0em;
+    --quote-rule-width: 3px;
+    --quote-padding: 0.9em 1.2em 0.9em 1.4em;
+    --quote-tint: var(--quote-bg-color);
+    --cjk-paragraph-indent: 0em;
+    --section-number-h2: "";
+    --section-number-h3: "";
+    --section-number-h4: "";
+    --toc-title: "";
 }
 
 #write {
-    max-width: 980px;
-    padding: 2.75em 3.25em 8em;
     text-align: left;
     hyphens: none;
 }
@@ -131,10 +150,6 @@ h2 {
     border-top: 1px solid var(--line-color);
 }
 
-p {
-    margin-bottom: 0.95em;
-}
-
 li > p,
 blockquote p,
 blockquote p:first-child {
@@ -159,6 +174,49 @@ table,
     margin-bottom: 1em;
 }
 
+/* Conventional Markdown affordances instead of the LaTeX article ones. */
+#write ul ul > li:not(.task-list-item)::marker,
+#write ul ul ul > li:not(.task-list-item)::marker,
+#write ul ul ul ul > li:not(.task-list-item)::marker,
+#write ol ol > li:not(.task-list-item)::marker,
+#write ol ol ol > li:not(.task-list-item)::marker,
+#write ol ol ol ol > li:not(.task-list-item)::marker {
+    content: normal;
+    font-weight: inherit;
+}
+
+table,
+figure > table {
+    width: 100%;
+}
+
+code,
+tt {
+    font-size: 0.95em;
+    border: 1px solid var(--inline-code-border-color);
+    padding: 0.08em 0.35em;
+    border-radius: 2px;
+}
+
+a {
+    border-bottom: 1px solid currentColor;
+    text-underline-offset: 0.12em;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.md-toc {
+    font-family: var(--sans-font);
+    font-size: 0.95em;
+    color: var(--muted-text-color);
+}
+
+.md-toc::before {
+    display: none;
+}
+
 .md-htmlblock > .md-rawblock-container {
     box-sizing: border-box;
     padding-left: 0;
@@ -178,9 +236,11 @@ table,
     padding-left: 2em;
 }
 
+/* Keep the panelled callout look this variant was designed around; the
+   frame itself comes from the --quote-* variables above. */
 blockquote {
-    border-left-width: 3px;
     border-radius: 0 4px 4px 0;
+    color: var(--muted-text-color);
 }
 
 #write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
