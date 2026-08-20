@@ -416,15 +416,6 @@ tt {
     overflow-wrap: break-word;
 }
 
-/* In a cell, a path or URL may break mid-token — the alternative is the
-   whole table scrolling. In prose it may not: a flag stays one word. */
-th code,
-td code,
-th tt,
-td tt {
-    overflow-wrap: anywhere;
-}
-
 a {
     border-bottom: 1px solid currentColor;
     text-underline-offset: 0.12em;
