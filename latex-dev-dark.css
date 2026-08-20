@@ -335,10 +335,13 @@ pre.md-fences .CodeMirror-line:has(.cm-negative) {
     box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color);
 }
 
+/* min-width, not width: `width: 100%` resolves against the visible width
+   of the scroller, so a line wider than the fence would lose its tint and
+   its gutter mark the moment you scrolled right. */
 pre.md-fences > code .cm-positive,
 pre.md-fences > code .cm-negative {
     display: inline-block;
-    width: 100%;
+    min-width: 100%;
     box-sizing: border-box;
 }
 
