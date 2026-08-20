@@ -1382,6 +1382,12 @@ mark {
     color: var(--text-color);
 }
 
+/* Typora renders inline math as an inline-block. Reset the inherited paragraph
+   indent so the formula's own first line does not receive \parindent again. */
+.md-inline-math {
+    text-indent: 0;
+}
+
 /* \abovedisplayskip / \belowdisplayskip are ~1 baseline at 11pt. */
 .md-math-block {
     margin-top: 1rem;
