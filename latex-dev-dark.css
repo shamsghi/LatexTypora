@@ -232,6 +232,13 @@ pre.md-fences[lang]:not([lang=""]) {
     margin-top: 2.6em;
 }
 
+/* A README that opens with an install snippet puts a fence first, where
+   `#write > *:first-child` zeroes the top margin and leaves the chip
+   hanging in the page's top padding. Keep the reservation there. */
+#write > pre.md-fences[lang]:not([lang=""]):first-child {
+    margin-top: 2.6em;
+}
+
 pre.md-fences[lang]:not([lang=""])::before {
     content: attr(lang);
     position: absolute;
