@@ -273,6 +273,23 @@ pre.md-fences.md-focus[lang]:not([lang=""])::before {
     content: none;
 }
 
+/* A rendered diagram is a picture, not source, so the label above it is
+   chrome. Typora renders exactly three fence languages as diagrams; the
+   :has() also covers the fence once the panel has been built. */
+#write pre.md-fences:has(.md-diagram-panel)::before,
+#write pre.md-fences[lang="mermaid" i]::before,
+#write pre.md-fences[lang="sequence" i]::before,
+#write pre.md-fences[lang="flow" i]::before {
+    content: none;
+}
+
+/* With no chip there is nothing to reserve room for. Only for a fence
+   that carries no CodeMirror: an editable one still needs the space for
+   Typora's own language input when it takes focus. */
+#write pre.md-fences:not(.ty-contain-cm):has(.md-diagram-panel) {
+    margin-top: 1em;
+}
+
 /* Contextual alternates left on so a ligature-carrying --monospace stack
    works without further edits. JuliaMono's arrow ligatures live in calt,
    which this enables; iA Writer Mono has no lookups at all, so the default
