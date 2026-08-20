@@ -273,6 +273,19 @@ pre.md-fences.md-focus[lang]:not([lang=""])::before {
     content: none;
 }
 
+/* Typora's editable input sits exactly where the chip was, so give it the
+   chip's metrics too — otherwise the label changes size and colour the
+   moment the fence takes focus. */
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .ty-cm-lang-input,
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .md-lang {
+    padding: 0.25em 1em;
+    color: var(--meta-text-color);
+    font-family: var(--sans-font);
+    font-size: 0.8em;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+}
+
 /* A rendered diagram is a picture, not source, so the label above it is
    chrome. Typora renders exactly three fence languages as diagrams; the
    :has() also covers the fence once the panel has been built. */
