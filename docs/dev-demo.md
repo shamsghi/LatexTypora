@@ -62,9 +62,7 @@ Added and removed lines tint the whole row and carry a gutter mark, so a
 review reads as a review rather than as coloured text.
 
 ```diff
---- a/latex-dev-dark.css
-+++ b/latex-dev-dark.css
-@@ -114,7 +114,7 @@
+@@ -114,5 +114,5 @@
      --toc-title: "";
 -    --content-measure: 60em;
 -    --table-bleed: 0em;
@@ -73,6 +71,10 @@ review reads as a review rather than as coloured text.
      --body-line-height: 1.55;
  }
 ```
+
+CodeMirror tokenises a line by its first character, so a pasted `--- a/file`
+and `+++ b/file` pair reads as one removal and one addition and tints like
+one. Paste hunks rather than whole-file diffs where that would read oddly.
 
 ## Fence Labels and Overflow
 

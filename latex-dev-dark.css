@@ -262,7 +262,6 @@ pre.md-fences[lang]:not([lang=""])::before {
     letter-spacing: 0.08em;
     text-align: center;
     text-indent: 0;
-    text-transform: lowercase;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
