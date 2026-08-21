@@ -1,11 +1,11 @@
 <div align="center">
 
-<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora light theme" width="43%" />&nbsp;&nbsp;&nbsp;<img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora dark theme" width="43%" />
+<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora light theme" width="45%" />&nbsp;&nbsp;&nbsp;<img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora dark theme" width="45%" />
 
 <sub>☀️ <strong>Light</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>Dark</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
 
 <br>
-<img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="52%" />
+<img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="53%" />
 
 <br />
 <sub>📄 <strong>Attention Is All You Need</strong> rendered with the light theme</sub>
