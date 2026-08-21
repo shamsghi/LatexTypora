@@ -35,6 +35,13 @@ TERM_WIDTH=80
 NO_ANIM_FLAG=0
 PLAIN_OUTPUT=0
 
+# PID of the command a spinner is currently supervising, so an interrupt can
+# stop it instead of leaving a detached curl running. Empty when idle.
+BACKGROUND_PID=""
+# Whether we have hidden the terminal cursor and still owe the user a
+# restore, even on an abnormal exit.
+CURSOR_HIDDEN=0
+
 usage() {
     cat <<EOF
 Usage:
@@ -131,6 +138,27 @@ print_centered_line() {
 sleep_for() {
     [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 0
     sleep "$1" 2>/dev/null || sleep 0.03
+}
+
+# The cursor blinks on top of an in-place spinner, so park it while one is
+# running. Only ever hidden when we are already emitting ANSI, and always
+# restored through cleanup().
+hide_cursor() {
+    [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 0
+    CURSOR_HIDDEN=1
+    printf '\033[?25l'
+}
+
+show_cursor() {
+    [[ "${CURSOR_HIDDEN}" -eq 1 ]] || return 0
+    CURSOR_HIDDEN=0
+    printf '\033[?25h'
+}
+
+# Return to column 0 and erase the row. Rewriting with \r alone leaves the
+# tail of a longer previous frame on screen.
+reset_line() {
+    printf '\r\033[2K'
 }
 
 print_banner() {
@@ -252,30 +280,38 @@ run_with_spinner() {
         return
     fi
 
-    local spinner='-|\\/'
+    # Single quotes, so these are four literal frames: - \ | /
+    local spinner='-\|/'
+    local frames="${#spinner}"
     local frame_index=0
-    local command_pid
     local status
 
     "$@" &
-    command_pid=$!
+    BACKGROUND_PID=$!
+    hide_cursor
 
-    while kill -0 "${command_pid}" 2>/dev/null; do
-        printf '\r%b' "${BLUE}[${spinner:${frame_index}:1}]${RESET} ${label}"
-        frame_index=$(((frame_index + 1) % 4))
+    while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
+        reset_line
+        printf '%b' "${BLUE}[${spinner:${frame_index}:1}]${RESET} ${label}"
+        frame_index=$(((frame_index + 1) % frames))
         sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
 
-    if wait "${command_pid}"; then
+    # The loop exits once the child is gone; wait then only harvests its
+    # status.
+    if wait "${BACKGROUND_PID}"; then
         status=0
     else
         status=$?
     fi
+    BACKGROUND_PID=""
+    show_cursor
 
+    reset_line
     if [[ "${status}" -eq 0 ]]; then
-        printf '\r%b\n' "${GREEN}[ok]${RESET} ${label}"
+        printf '%b\n' "${GREEN}[ok]${RESET} ${label}"
     else
-        printf '\r%b\n' "${RED}[x]${RESET} ${label}"
+        printf '%b\n' "${RED}[x]${RESET} ${label}"
     fi
 
     return "${status}"
@@ -357,13 +393,25 @@ validate_ref() {
     fi
 }
 
+# Runs on every exit path, including Ctrl-C. Ordered so the terminal is
+# usable again before we spend time deleting anything, and written to be
+# safe to run twice (an interrupt runs it, then the exit trap runs it again).
 cleanup() {
+    show_cursor
+    if [[ -n "${BACKGROUND_PID}" ]] && kill -0 "${BACKGROUND_PID}" 2>/dev/null; then
+        kill "${BACKGROUND_PID}" 2>/dev/null || true
+        wait "${BACKGROUND_PID}" 2>/dev/null || true
+    fi
+    BACKGROUND_PID=""
     if [[ -n "${TEMP_DIR}" && -d "${TEMP_DIR}" ]]; then
         rm -rf "${TEMP_DIR}"
     fi
 }
 
 trap cleanup EXIT
+# 128 + signal number, the conventional shell exit status for a signal.
+trap 'cleanup; exit 130' INT
+trap 'cleanup; exit 143' TERM
 
 detect_platform() {
     local uname_out
