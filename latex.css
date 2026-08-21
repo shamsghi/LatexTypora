@@ -2,6 +2,15 @@
  * LaTeX Theme for Typora
  * The canonical shared stylesheet, with light theme defaults.
  * Dark variants import this file and override only their differences.
+ *
+ * Those variants override :root and nothing else, so every colour in a
+ * rule below has to come from a var() token -- never a literal. A literal
+ * reaches the dark themes unchanged, where a light value is wrong on a
+ * black page, and because it still renders correctly here it is easy to
+ * ship without noticing. Metrics, geometry and font stacks are free to be
+ * literal; the constraint is on colour alone.
+ *
+ * To corroborate: scripts/check-theme-tokens.sh
  */
 
 @font-face {
