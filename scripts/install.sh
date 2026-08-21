@@ -289,9 +289,29 @@ print_completion_block() {
     print_centered_line "${BOLD}${BLUE}" "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
     printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '-' "${rule_width}")" "${RESET}"
-    info "In Typora, choose a theme: latex, latex-dark, or latex-dev-dark."
+    info "In Typora, choose a theme: $(join_list "${INSTALLED_THEMES[@]}")."
     info "If the themes are missing, restart Typora."
     printf '%b%s%b\n' "${BOLD}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+}
+
+# "1 stylesheet" / "3 stylesheets". Only ever used on words that take a
+# plain -s plural.
+plural() {
+    local count="$1" word="$2"
+    if [[ "${count}" -eq 1 ]]; then
+        printf '%s %s' "${count}" "${word}"
+    else
+        printf '%s %ss' "${count}" "${word}"
+    fi
+}
+
+join_list() {
+    local out="" item
+    for item in "$@"; do
+        [[ -n "${out}" ]] && out+=", "
+        out+="${item}"
+    done
+    printf '%s' "${out}"
 }
 
 die() {
@@ -577,7 +597,6 @@ download_source() {
         die "Unable to find theme files in downloaded archive."
     fi
     SOURCE_DIR="${extracted_dir}"
-    success "Downloaded source snapshot"
 }
 
 detect_source_dir() {
@@ -600,6 +619,11 @@ detect_source_dir() {
 # one it dropped -- a renamed font otherwise sits in the theme folder for
 # good, since copying alone never removes anything.
 INSTALLED_RELPATHS=()
+
+# Theme names as Typora lists them in its menu: the installed stylesheet
+# file names without the .css extension. Reported at the end so the closing
+# advice names the themes this run actually wrote.
+INSTALLED_THEMES=()
 
 is_owned_path() {
     # Only ever consider paths this installer writes, and never a user's
@@ -664,7 +688,7 @@ install_theme() {
     local source_dir="$1" theme_dir="$2"
     local css_files=()
     local font_files=()
-    local f
+    local f base name pass
     mkdir -p "${theme_dir}"
     mkdir -p "${theme_dir}/latex_fonts"
     shopt -s nullglob
@@ -688,8 +712,30 @@ install_theme() {
         INSTALLED_RELPATHS+=("latex_fonts/$(basename "${f}")")
     done
 
+    # Theme menu names, base themes ahead of their variants: two passes,
+    # because glob order alone lists latex-dark.css before latex.css ('-'
+    # sorts before '.').
+    INSTALLED_THEMES=()
+    for pass in base variant; do
+        for f in "${css_files[@]}"; do
+            base="$(basename "${f}")"
+            # A <theme>.user.css is a user override, not a theme of its own.
+            [[ "${base}" == *.user.css ]] && continue
+            name="${base%.css}"
+            [[ "${pass}" == "base" && "${name}" == *-* ]] && continue
+            [[ "${pass}" == "variant" && "${name}" != *-* ]] && continue
+            INSTALLED_THEMES+=("${name}")
+        done
+    done
+
     prune_stale "${theme_dir}"
     write_manifest "${theme_dir}"
+
+    # Report what was copied, not what this version happens to ship: the
+    # lists above come from the globs, so a renamed or dropped file shows up
+    # here instead of being announced anyway.
+    success "Installed $(plural "${#INSTALLED_THEMES[@]}" "theme"): $(join_list "${INSTALLED_THEMES[@]}")"
+    success "Installed $(plural "${#font_files[@]}" "file") into latex_fonts/"
 }
 
 main() {
@@ -721,10 +767,6 @@ main() {
 
     step "Installing files"
     install_theme "${SOURCE_DIR}" "${RESOLVED_THEME_DIR}"
-    success "Installed latex.css"
-    success "Installed latex-dark.css"
-    success "Installed latex-dev-dark.css"
-    success "Installed latex_fonts/*.{otf,ttf,css}"
     progress_tick
 
     print_completion_block
