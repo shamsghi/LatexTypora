@@ -291,20 +291,32 @@ die() {
     exit 1
 }
 
+# Runs a command, reporting it as one status line. Animated runs spin a
+# frame in place while it works; everything else still prints the same
+# resolved line, so a piped log or a --plain run keeps a record of each
+# download, extraction, and copy instead of a silent gap between steps.
 run_with_spinner() {
     local label="$1"
     shift
 
+    local status
+
     if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]]; then
-        "$@"
-        return
+        # set -e would abort before the failure could be reported, so take
+        # the status by hand here and let the caller act on the return.
+        if "$@"; then
+            status=0
+        else
+            status=$?
+        fi
+        report_status "${status}" "${label}"
+        return "${status}"
     fi
 
     # Single quotes, so these are four literal frames: - \ | /
     local spinner='-\|/'
     local frames="${#spinner}"
     local frame_index=0
-    local status
 
     "$@" &
     BACKGROUND_PID=$!
@@ -328,13 +340,18 @@ run_with_spinner() {
     show_cursor
 
     reset_line
+    report_status "${status}" "${label}"
+
+    return "${status}"
+}
+
+report_status() {
+    local status="$1" label="$2"
     if [[ "${status}" -eq 0 ]]; then
         success "${label}"
     else
         status_line "${RED}" "[x]" "${label}"
     fi
-
-    return "${status}"
 }
 
 render_progress() {
@@ -345,7 +362,9 @@ render_progress() {
     local percent filled empty
     local filled_bar empty_bar
 
-    [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 0
+    # Suppressed only by --plain. The bar is one whole line per step, never
+    # an in-place redraw, so it stays readable in a log file.
+    [[ "${PLAIN_OUTPUT}" -eq 0 ]] || return 0
     [[ "${total}" -gt 0 ]] || return 0
 
     percent=$(( current * 100 / total ))
