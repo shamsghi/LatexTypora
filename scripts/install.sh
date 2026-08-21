@@ -752,6 +752,9 @@ detect_platform() {
 resolve_theme_dir() {
     if [[ -n "${THEME_DIR}" ]]; then
         RESOLVED_THEME_DIR="${THEME_DIR}"
+        if [[ ! -d "${RESOLVED_THEME_DIR}" ]]; then
+            CREATED_THEME_DIR=1
+        fi
         return
     fi
 
