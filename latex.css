@@ -1154,7 +1154,6 @@ kbd {
 .md-diagram-panel-preview .node polygon,
 .md-diagram-panel-preview .node path,
 .md-diagram-panel-preview .node .label-container,
-.md-diagram-panel-preview .classBox,
 .md-diagram-panel-preview .statediagram-state rect,
 .md-diagram-panel-preview .stateGroup rect,
 .md-diagram-panel-preview .stateGroup path,
@@ -1182,6 +1181,7 @@ kbd {
 .md-diagram-panel-preview .classBox {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
+    stroke-width: 1px !important;
 }
 
 .md-diagram-panel-preview [aria-roledescription="er"] .node rect,
@@ -1222,13 +1222,10 @@ kbd {
    amber the second series is built on. */
 .md-diagram-panel-preview rect.note,
 .md-diagram-panel-preview .note > rect,
-.md-diagram-panel-preview .noteText,
 .md-diagram-panel-preview .statediagram-note rect,
 .md-diagram-panel-preview .statediagram-note path,
 .md-diagram-panel-preview .statediagram-note .label-container,
-.md-diagram-panel-preview .state-note rect,
-.md-diagram-panel-preview .labelBox,
-.md-diagram-panel-preview polygon.labelBox {
+.md-diagram-panel-preview .state-note rect {
     fill: var(--diagram-note-fill-color) !important;
     stroke: var(--diagram-note-line-color) !important;
 }
@@ -1239,7 +1236,6 @@ kbd {
 .md-diagram-panel-preview .transition,
 .md-diagram-panel-preview .messageLine0,
 .md-diagram-panel-preview .messageLine1,
-.md-diagram-panel-preview .loopLine,
 .md-diagram-panel-preview .edge,
 .md-diagram-panel-preview .architecture-edges .edge {
     stroke: var(--diagram-edge-color) !important;
@@ -1298,7 +1294,11 @@ kbd {
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .loopLine,
+.md-diagram-panel-preview .loopLine {
+    stroke: var(--diagram-series-6) !important;
+    fill: none !important;
+}
+
 .md-diagram-panel-preview .loopText,
 .md-diagram-panel-preview .loopText tspan {
     stroke: var(--diagram-series-6) !important;
