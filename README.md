@@ -9,7 +9,7 @@
 <br />
 <sub>📄 <strong>Attention Is All You Need</strong> rendered with the light theme</sub>
 <br />
-<sub>All screenshots were captured in Typora at <strong>150% zoom</strong>.</sub>
+<sub>The screenshots above were captured in Typora at <strong>150% zoom</strong>.</sub>
 
 </div>
 

@@ -9,7 +9,7 @@
 <br />
 <sub>📄 使用浅色主题渲染的 <strong>《Attention Is All You Need》</strong></sub>
 <br />
-<sub>所有截图均在 Typora 中以 <strong>150% 缩放比例</strong>拍摄。</sub>
+<sub>以上截图均在 Typora 中以 <strong>150% 缩放比例</strong>拍摄。</sub>
 
 </div>
 
