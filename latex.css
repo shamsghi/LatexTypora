@@ -193,6 +193,8 @@
     --line-color: rgba(0, 0, 0, 0.16);
     --strong-line-color: rgba(0, 0, 0, 0.32);
     --selection-color: rgba(0, 0, 0, 0.1);
+    --highlight-bg-color: #fff104;
+    --highlight-text-color: #000000;
     --select-text-bg-color: var(--selection-color);
     --select-text-font-color: var(--text-color);
     --focus-ring-color: rgba(0, 0, 0, 0.22);
@@ -1373,8 +1375,8 @@ i i {
 }
 
 mark {
-    color: inherit;
-    background-color: var(--selection-color);
+    color: var(--highlight-text-color);
+    background-color: var(--highlight-bg-color);
 }
 
 .md-math-block,
