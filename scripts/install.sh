@@ -347,12 +347,17 @@ print_centered_line() {
 # per-character banding costs a loop iteration and an escape sequence for
 # every cell, which bash feels on a nineteen-line wordmark. The band index
 # folds in the row, so the color runs diagonally rather than in stripes.
+#
+# The result lands in PAINTED rather than on stdout: this runs once per row
+# per frame, and a command substitution to capture it would fork a process
+# every time.
+PAINTED=""
 paint_line() {
     local line="$1" row="$2" offset="$3"
     local band=2 i=0 out="" stops="${#GRADIENT[@]}"
 
     if [[ "${stops}" -eq 0 ]]; then
-        printf '%s' "${line}"
+        PAINTED="${line}"
         return
     fi
 
@@ -360,7 +365,7 @@ paint_line() {
         out+="${GRADIENT[$(( ((i / band) + row + offset) % stops ))]}${line:i:band}"
         i=$((i + band))
     done
-    printf '%s%s' "${out}" "${ESC_RESET}"
+    PAINTED="${out}${ESC_RESET}"
 }
 
 # True when the showpiece animations should run at all: they need color,
@@ -370,6 +375,64 @@ can_paint() {
     [[ "${#GRADIENT[@]}" -gt 0 ]] || return 1
     [[ "${TERM_HEIGHT}" -gt $(( $1 + 3 )) ]] || return 1
     return 0
+}
+
+# Rolls the gradient through a block that has just been printed, then lets
+# it settle into the theme color so the wordmark never ends mid-spectrum.
+# The cursor walks back up over the block and repaints it in place, which is
+# what can_paint() checks there is room for.
+roll_gradient() {
+    local pad="$1" color="$2"
+    shift 2
+    local -a lines=("$@")
+    local rows="${#lines[@]}"
+    local frames=12 frame row
+
+    hide_cursor
+    for ((frame = 1; frame <= frames; frame++)); do
+        printf '\033[%dA' "${rows}"
+        for ((row = 0; row < rows; row++)); do
+            paint_line "${lines[row]}" "${row}" "${frame}"
+            printf '\r\033[2K%*s%s\n' "${pad}" '' "${PAINTED}"
+        done
+        sleep_for "${ANIMATION_DELAY}"
+    done
+
+    printf '\033[%dA' "${rows}"
+    for ((row = 0; row < rows; row++)); do
+        printf '\r\033[2K%*s%b%s%b\n' "${pad}" '' "${color}" "${lines[row]}" "${RESET}"
+    done
+    show_cursor
+}
+
+# The line under the wordmark, typed out with a cursor trailing it and
+# colored along the same ramp.
+print_tagline() {
+    local text="LaTeX typography for Typora"
+    local pad=0 i=0
+
+    if [[ "${FRAME_WIDTH}" -gt "${#text}" ]]; then
+        pad=$(( (FRAME_WIDTH - ${#text}) / 2 ))
+    fi
+    pad=$((FRAME_INDENT + pad))
+
+    if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]] || [[ "${#GRADIENT[@]}" -eq 0 ]]; then
+        printf '%*s%b%s%b\n' "${pad}" '' "${DIM}${C_MUTED}" "${text}" "${RESET}"
+        return
+    fi
+
+    hide_cursor
+    while [[ "${i}" -lt "${#text}" ]]; do
+        i=$((i + 1))
+        reset_line
+        paint_line "${text:0:i}" 0 "${i}"
+        printf '%*s%s%b%s%b' "${pad}" '' "${PAINTED}" "${DIM}" "_" "${RESET}"
+        sleep_for "${ANIMATION_DELAY}"
+    done
+    reset_line
+    paint_line "${text}" 0 0
+    printf '%*s%s\n' "${pad}" '' "${PAINTED}"
+    show_cursor
 }
 
 # Centers a block of ASCII art as one rigid unit: every line shifts by the
@@ -397,10 +460,21 @@ print_art_block() {
     fi
     pad=$((FRAME_INDENT + pad))
 
+    # With a gradient to roll, the block is laid down at once in light ink
+    # and the color is the reveal. Without one, each line is set in light
+    # ink and darkens into place, so the wordmark still arrives as something
+    # being typeset rather than pasted in.
+    local rolling=0
+    if can_paint "${#lines[@]}"; then
+        rolling=1
+    fi
+
     hide_cursor
     for line in "${lines[@]}"; do
-        # Each line is set in light ink first and then darkens into place,
-        # so the wordmark reads as being typeset rather than pasted in.
+        if [[ "${rolling}" -eq 1 ]]; then
+            printf '%*s%b%s%b\n' "${pad}" '' "${DIM}" "${line}" "${RESET}"
+            continue
+        fi
         if [[ "${ENABLE_ANIMATIONS}" -eq 1 && -n "${line}" ]]; then
             printf '%*s%b%s%b' "${pad}" '' "${DIM}" "${line}" "${RESET}"
             sleep_for "${ANIMATION_DELAY}"
@@ -410,6 +484,10 @@ print_art_block() {
         sleep_for "${TITLE_DELAY}"
     done
     show_cursor
+
+    if [[ "${rolling}" -eq 1 ]]; then
+        roll_gradient "${pad}" "${color}" "${lines[@]}"
+    fi
 }
 
 # Shows $HOME as ~, so a long install path stays inside the measure and a
@@ -501,6 +579,8 @@ EOF
 EOF
     fi
 
+    printf '\n'
+    print_tagline
     print_rule "${DIM}${C_ACCENT}" "${RULE_HEAVY}"
     printf '\n'
 }
