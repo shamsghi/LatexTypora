@@ -48,6 +48,15 @@ ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.03}"
 SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
 TITLE_DELAY="${LATEX_TYPORA_TITLE_DELAY:-0.02}"
 TERM_WIDTH=80
+# The output is laid out on a fixed measure, centered in the terminal,
+# rather than stretched edge to edge: a rule drawn across a 200-column
+# window dwarfs the 55 columns of art it is meant to frame. FRAME_WIDTH is
+# that measure, FRAME_INDENT the left offset that centers it, and FRAME_PAD
+# the same offset as literal spaces. All three are derived in configure_ui.
+MAX_MEASURE="${LATEX_TYPORA_MAX_WIDTH:-76}"
+FRAME_WIDTH=76
+FRAME_INDENT=0
+FRAME_PAD=""
 NO_ANIM_FLAG=0
 PLAIN_OUTPUT=0
 
@@ -81,6 +90,7 @@ Environment:
   LATEX_TYPORA_ANIMATION_DELAY  Seconds between banner lines. Default: 0.03
   LATEX_TYPORA_SPINNER_INTERVAL  Seconds between spinner frames. Default: 0.08
   LATEX_TYPORA_TITLE_DELAY  Seconds between title lines. Default: 0.02
+  LATEX_TYPORA_MAX_WIDTH  Widest the framed output may be drawn. Default: 76
 EOF
 }
 
@@ -125,6 +135,29 @@ configure_ui() {
     if [[ "${cols}" =~ ^[0-9]+$ ]] && [[ "${cols}" -gt 0 ]]; then
         TERM_WIDTH="${cols}"
     fi
+
+    if [[ ! "${MAX_MEASURE}" =~ ^[0-9]+$ ]] || [[ "${MAX_MEASURE}" -lt 20 ]]; then
+        MAX_MEASURE=76
+    fi
+
+    # Two columns of breathing room inside the terminal, capped at the
+    # measure, then centered. Narrow terminals simply get everything.
+    FRAME_WIDTH=$((TERM_WIDTH - 2))
+    if [[ "${FRAME_WIDTH}" -gt "${MAX_MEASURE}" ]]; then
+        FRAME_WIDTH="${MAX_MEASURE}"
+    fi
+    if [[ "${FRAME_WIDTH}" -lt 20 ]]; then
+        FRAME_WIDTH=20
+    fi
+
+    FRAME_INDENT=$(( (TERM_WIDTH - FRAME_WIDTH) / 2 ))
+    if [[ "${FRAME_INDENT}" -lt 0 ]]; then
+        FRAME_INDENT=0
+    fi
+    printf -v FRAME_PAD '%*s' "${FRAME_INDENT}" ''
+    # Status lines hang two columns inside the frame's left edge, so body
+    # text and rules belong to the same column of type.
+    printf -v GUTTER '%*s' "$((FRAME_INDENT + 2))" ''
 }
 
 repeat_char() {
@@ -137,18 +170,64 @@ repeat_char() {
     printf '%s' "${out// /${char}}"
 }
 
+print_rule() {
+    local color="$1" char="$2"
+    printf '%b%s%b\n' "${FRAME_PAD}${color}" "$(repeat_char "${char}" "${FRAME_WIDTH}")" "${RESET}"
+}
+
 print_centered_line() {
     local color="$1"
     local line="$2"
-    local line_len pad
+    local pad=0
 
-    line_len="${#line}"
-    if [[ "${TERM_WIDTH}" -gt "${line_len}" ]]; then
-        pad=$(( (TERM_WIDTH - line_len) / 2 ))
-    else
-        pad=0
+    if [[ "${FRAME_WIDTH}" -gt "${#line}" ]]; then
+        pad=$(( (FRAME_WIDTH - ${#line}) / 2 ))
     fi
-    printf '%*s%b\n' "${pad}" '' "${color}${line}${RESET}"
+    # The line itself is printed with %s. Under %b a backslash in the ASCII
+    # art would be read as an escape sequence.
+    printf '%*s%b%s%b\n' "$((FRAME_INDENT + pad))" '' "${color}" "${line}" "${RESET}"
+}
+
+# Centers a block of ASCII art as one rigid unit: every line shifts by the
+# same amount, measured from the widest line once trailing whitespace is
+# stripped. Centering each line on its own length instead would rely on the
+# art being hand-padded to equal width, which any editor or hook that trims
+# trailing whitespace would silently undo, skewing the logo with no error.
+print_art_block() {
+    local color="$1"
+    local -a lines=()
+    local line trailing trimmed width=0 pad
+
+    while IFS= read -r line; do
+        trailing="${line##*[![:space:]]}"
+        trimmed="${line%${trailing}}"
+        lines+=("${trimmed}")
+        if [[ "${#trimmed}" -gt "${width}" ]]; then
+            width="${#trimmed}"
+        fi
+    done
+
+    pad=0
+    if [[ "${FRAME_WIDTH}" -gt "${width}" ]]; then
+        pad=$(( (FRAME_WIDTH - width) / 2 ))
+    fi
+    pad=$((FRAME_INDENT + pad))
+
+    for line in "${lines[@]}"; do
+        printf '%*s%b%s%b\n' "${pad}" '' "${color}" "${line}" "${RESET}"
+        sleep_for "${TITLE_DELAY}"
+    done
+}
+
+# Shows $HOME as ~, so a long install path stays inside the measure and a
+# screenshot does not carry the account name.
+display_path() {
+    local path="$1"
+    if [[ -n "${HOME:-}" && "${path}" == "${HOME}/"* ]]; then
+        printf '~/%s' "${path#"${HOME}/"}"
+    else
+        printf '%s' "${path}"
+    fi
 }
 
 sleep_for() {
@@ -178,22 +257,13 @@ reset_line() {
 }
 
 print_banner() {
-    local line
-    local rule_width
-
-    rule_width=72
-    if [[ "${TERM_WIDTH}" -gt 6 ]]; then
-        rule_width=$((TERM_WIDTH - 2))
-    fi
-
     printf '\n'
-    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    print_rule "${DIM}${C_ACCENT}" '='
 
-    if [[ "${TERM_WIDTH}" -ge 62 ]]; then
-        while IFS= read -r line; do
-            print_centered_line "${BOLD}${C_ACCENT}" "${line}"
-            sleep_for "${TITLE_DELAY}"
-        done <<'EOF'
+    # Two sets of wordmarks. The wide pair needs 59 columns of measure; the
+    # narrow pair is drawn whenever the frame is tighter than that.
+    if [[ "${FRAME_WIDTH}" -ge 60 ]]; then
+        print_art_block "${BOLD}${C_ACCENT}" <<'EOF'
       ooooo      o   ooooooooooooo       ooooooo  ooooo
      `888'     888  8'   888   `8        `8888    d8'  
      888     8  88      888  oooooooooooo Y888..8P     
@@ -206,10 +276,7 @@ print_banner() {
 EOF
 
         printf '\n'
-        while IFS= read -r line; do
-            print_centered_line "${BOLD}${C_MUTED}" "${line}"
-            sleep_for "${TITLE_DELAY}"
-        done <<'EOF'
+        print_art_block "${BOLD}${C_MUTED}" <<'EOF'
 """88"""                                                   
 """88"""                                                   
    88   ee      ee  eeeeeeee  eeeeeeee  eeeeeeee   eeeeeeee
@@ -221,10 +288,7 @@ EOF
    888     888      888       88eeee88  888     8  888   88
 EOF
     else
-        while IFS= read -r line; do
-            print_centered_line "${BOLD}${C_ACCENT}" "${line}"
-            sleep_for "${TITLE_DELAY}"
-        done <<'EOF'
+        print_art_block "${BOLD}${C_ACCENT}" <<'EOF'
 8      88888     Yb  dP
 8   db   8  8888  YbdP 
 8  dPYb  8  8www  dPYb 
@@ -233,10 +297,7 @@ EOF
 EOF
 
         printf '\n'
-        while IFS= read -r line; do
-            print_centered_line "${BOLD}${C_MUTED}" "${line}"
-            sleep_for "${TITLE_DELAY}"
-        done <<'EOF'
+        print_art_block "${BOLD}${C_MUTED}" <<'EOF'
 88888                            
   8   Yb  dP 88b. .d8b. 8d8b .d88
   8    YbdP  8  8 8' .8 8P   8  8
@@ -245,7 +306,7 @@ EOF
 EOF
     fi
 
-    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    print_rule "${DIM}${C_ACCENT}" '='
     printf '\n'
 }
 
@@ -266,7 +327,7 @@ status_prefix() {
 
 step() {
     CURRENT_STEP=$((CURRENT_STEP + 1))
-    printf '%b\n' "${BOLD}${C_ACCENT}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
+    printf '%b\n' "${FRAME_PAD}${BOLD}${C_ACCENT}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
 }
 
 info() {
@@ -282,20 +343,17 @@ warn() {
 }
 
 print_completion_block() {
-    local rule_width
-
-    rule_width=72
-    if [[ "${TERM_WIDTH}" -gt 6 ]]; then
-        rule_width=$((TERM_WIDTH - 2))
-    fi
-
-    printf '\n%b%s%b\n' "${BOLD}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    printf '\n'
+    print_rule "${BOLD}${C_ACCENT}" '='
     print_centered_line "${BOLD}${C_ACCENT}" "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
-    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '-' "${rule_width}")" "${RESET}"
+    print_rule "${DIM}${C_ACCENT}" '-'
+    # The install path is named again here: it was last mentioned four steps
+    # ago, and this block is the one people scroll back to.
+    info "Installed to: $(display_path "${RESOLVED_THEME_DIR}")"
     info "In Typora, choose a theme: $(join_list "${INSTALLED_THEMES[@]}")."
     info "If the themes are missing, restart Typora."
-    printf '%b%s%b\n' "${BOLD}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    print_rule "${BOLD}${C_ACCENT}" '='
 }
 
 # "1 stylesheet" / "3 stylesheets". Only ever used on words that take a
@@ -762,7 +820,7 @@ main() {
 
     step "Resolving Typora theme directory"
     resolve_theme_dir
-    info "Target directory: ${RESOLVED_THEME_DIR}"
+    info "Target directory: $(display_path "${RESOLVED_THEME_DIR}")"
     if [[ "${CREATED_THEME_DIR}" -eq 1 ]]; then
         warn "Theme directory does not exist yet; installer will create it."
     fi
