@@ -390,7 +390,24 @@
     --search-select-border-color: rgba(117, 72, 22, 0.74);
     --search-select-ring-color: rgba(117, 72, 22, 0.24);
     --mermaid-theme: neutral;
-    --mermaid-font-family: var(--sans-font);
+    /* Typora reads --mermaid-font-family only when --mermaid-theme names
+       something outside its built-in set (base, default, dark, forest,
+       neutral, night). Ours is in that set, so Typora ignores this and
+       hands Mermaid a hardcoded "sans-serif". What actually decides the
+       label face is --diagram-label-font below, applied by stylesheet.
+       Mermaid measures each label after that rule lands, so the two agree
+       -- keep it that way, and change the face there, not here. */
+    --mermaid-font-family: var(--diagram-label-font);
+
+    /* Mermaid measures a label in a scratch node outside .md-diagram-panel,
+       so this rule is not in scope yet and it measures in Typora's
+       "sans-serif" instead. The box is therefore sized for Helvetica and
+       painted in whatever is set here, and a face wider than Helvetica
+       overflows a box it cannot resize. Measured on the flowchart, worst
+       label vs its box: Latin Modern Sans -25.4px, New Computer Modern
+       -23.0px, JuliaMono +4.2px -- JuliaMono clips "Report error", the
+       other two have room to spare. Keep a proportional face here. */
+    --diagram-label-font: "JuliaMono", var(--sans-font);
     --mermaid-sequence-numbers: off;
     --mermaid-flowchart-curve: basis;
     --diagram-pie-fill-opacity: 1;
@@ -1123,7 +1140,7 @@ kbd {
 .md-diagram-panel-preview .label {
     fill: var(--text-color) !important;
     color: var(--text-color) !important;
-    font-family: var(--sans-font) !important;
+    font-family: var(--diagram-label-font) !important;
     stroke: none !important;
     stroke-width: 0 !important;
     paint-order: normal !important;
