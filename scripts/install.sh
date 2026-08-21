@@ -193,21 +193,27 @@ configure_ui() {
 
     if [[ "${COLOR_DEPTH}" -ge 256 ]]; then
         # Pastels along a single arc of the wheel -- blue through cyan and
-        # green to a pale yellow -- rather than the whole spectrum, which
+        # green to a yellow-green -- rather than the whole spectrum, which
         # looks less like a decision and more like a default. The stops are
-        # an even 30 degrees apart at identical saturation and value, all
-        # in the top rows of the color cube, so the tints stay light on
-        # either terminal background and none jumps out of the set.
+        # an even 30 degrees apart (210, 180, 150, 120, 90) at identical
+        # saturation and value, all in the top rows of the color cube, so
+        # the tints stay light on either terminal background and none jumps
+        # out of the set.
         #
-        # The ramp runs out to yellow and back rather than wrapping, so the
-        # loop has no seam at the join and reads as one wave; both ends are
-        # doubled so the turns carry the same weight as the middle. It
-        # begins at the blue end, which is what the banner settles into.
+        # The warm end stops at 90 degrees. A true yellow sits at 60, and
+        # the cube holds nothing between the two at this saturation -- its
+        # only greener yellow, 192, is half again as saturated and would
+        # read as the one loud stop in the set.
+        #
+        # The ramp runs out and back rather than wrapping, so the loop has
+        # no seam at the join and reads as one wave; both ends are doubled
+        # so the turns carry the same weight as the middle. It begins at
+        # the blue end, which is what the banner settles into.
         GRADIENT=(
             $'\033[38;5;153m' $'\033[38;5;153m' $'\033[38;5;159m'
             $'\033[38;5;158m' $'\033[38;5;157m' $'\033[38;5;193m'
-            $'\033[38;5;229m' $'\033[38;5;229m' $'\033[38;5;193m'
-            $'\033[38;5;157m' $'\033[38;5;158m' $'\033[38;5;159m'
+            $'\033[38;5;193m' $'\033[38;5;157m' $'\033[38;5;158m'
+            $'\033[38;5;159m'
         )
         ESC_RESET=$'\033[0m'
     elif [[ "${COLOR_DEPTH}" -ge 8 ]]; then
