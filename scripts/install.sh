@@ -192,30 +192,30 @@ configure_ui() {
     fi
 
     if [[ "${COLOR_DEPTH}" -ge 256 ]]; then
-        # Pastels drawn from one quarter of the wheel -- pale cyan through
-        # blue and lilac to rose -- rather than the whole spectrum, which
-        # looks less like a decision and more like a default. Every stop
-        # sits in the top rows of the color cube, so the tints stay light
-        # against either terminal background.
+        # Pastels along a single arc of the wheel -- blue through cyan and
+        # green to a pale yellow -- rather than the whole spectrum, which
+        # looks less like a decision and more like a default. The stops are
+        # an even 30 degrees apart at identical saturation and value, all
+        # in the top rows of the color cube, so the tints stay light on
+        # either terminal background and none jumps out of the set.
         #
-        # The ramp runs out to rose and back rather than wrapping, so it
-        # loops without a seam at the join and reads as one wave. It begins
-        # next to the theme's blue, which is what the banner settles into.
+        # The ramp runs out to yellow and back rather than wrapping, so the
+        # loop has no seam at the join and reads as one wave; both ends are
+        # doubled so the turns carry the same weight as the middle. It
+        # begins at the blue end, which is what the banner settles into.
         GRADIENT=(
-            $'\033[38;5;159m' $'\033[38;5;153m' $'\033[38;5;147m'
-            $'\033[38;5;183m' $'\033[38;5;219m' $'\033[38;5;218m'
-            $'\033[38;5;217m'
-            $'\033[38;5;218m' $'\033[38;5;219m' $'\033[38;5;183m'
-            $'\033[38;5;147m' $'\033[38;5;153m'
+            $'\033[38;5;153m' $'\033[38;5;153m' $'\033[38;5;159m'
+            $'\033[38;5;158m' $'\033[38;5;157m' $'\033[38;5;193m'
+            $'\033[38;5;229m' $'\033[38;5;229m' $'\033[38;5;193m'
+            $'\033[38;5;157m' $'\033[38;5;158m' $'\033[38;5;159m'
         )
         ESC_RESET=$'\033[0m'
     elif [[ "${COLOR_DEPTH}" -ge 8 ]]; then
         # Eight colors hold no pastels; the bright variants are the palest
-        # thing available, and the same out-and-back shape keeps them from
-        # reading as a primary-color cycle.
+        # thing available. Same arc, same out-and-back shape.
         GRADIENT=(
-            $'\033[97m' $'\033[96m' $'\033[94m'
-            $'\033[95m' $'\033[94m' $'\033[96m'
+            $'\033[94m' $'\033[94m' $'\033[96m' $'\033[92m'
+            $'\033[93m' $'\033[93m' $'\033[92m' $'\033[96m'
         )
         ESC_RESET=$'\033[0m'
     fi
