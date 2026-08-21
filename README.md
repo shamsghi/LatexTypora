@@ -1,12 +1,11 @@
 <div align="center">
 
-<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora light theme" width="49%" /> <img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora dark theme" width="49%" />
+<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora light theme" width="43%" /> <img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora dark theme" width="43%" />
 
-<br />
 <sub>☀️ <strong>Light</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>Dark</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
 
-<br /><br />
-<img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="82%" />
+<br>
+<img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="52%" />
 
 <br />
 <sub>📄 <strong>Attention Is All You Need</strong> rendered with the light theme</sub>
@@ -23,18 +22,16 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 
 ## Features
 
-- **New Computer Modern typeface** — Academic-quality serif with support for modern Greek and ancient Greek
+- **New Computer Modern typeface** — Academic-quality serif with support for a wider amount of characters
 - **`article` class geometry** — Line measure, `\parindent`, `\parskip`, heading sizes and section skips taken from `article.cls` at 11pt on letterpaper
 - **Numbered sections** — `##`/`###`/`####` are numbered `1`, `1.1`, `1.1.1` and separated from the title by a `\quad`, exactly like `\section`
 - **LaTeX environments** — First-line paragraph indentation, `quote`-style blockquotes, `itemize`/`enumerate` label glyphs (`•` `–` `∗`, `1.` `(a)` `i.`), `booktabs` rules on tables, and `\footnotesize` footnotes under a `\footnoterule`
-- **GitHub-style alerts & callouts** — Native alert styling compatible with Typora 1.8+
 - **Noto Nastaliq** — Enhanced support for Urdu, and Farsi with proper script rendering using html lang attributes
 - **Cross-platform CJK font support** —
   - Uses Songti SC / Heiti SC and STSong / PingFang SC on macOS
   - SimSun / NSimSun / Microsoft YaHei / SimHei on Windows
   - Source Han / Noto CJK fonts on Linux
 - **Offline & self-contained** — All fonts bundled locally, no external dependencies or CDN required. CJK fonts are bundled by your current OS natively
-- **Cross-platform polish** — Consistent styling across sidebar, source mode, and print/export; includes macOS traffic lights fix
 
 ## Automatic Installation
 
@@ -78,7 +75,7 @@ Default theme folders:
 ## `latex-dev-dark` — Developer Variant
 
 <div align="center">
-  <img width="85%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
+  <img width="70%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
   <br />
   <sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; captured at <strong>150% zoom</strong></sub>
 </div>
