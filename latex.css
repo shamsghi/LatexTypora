@@ -1314,16 +1314,25 @@ kbd {
     stroke: var(--diagram-series-6) !important;
 }
 
-/* autonumber. Mermaid draws a filled disc behind the counter; without
-   this the disc and the (document-ink) number are the same colour. */
-.md-diagram-panel-preview .sequenceNumber {
+/* autonumber. Mermaid draws a filled disc and then sets the counter on
+   top of it, so the number has to knock out of the disc -- left alone,
+   both are document ink and the counter disappears.
+
+   The disc is the text's PRECEDING sibling, which no combinator reaches,
+   so it is selected by :has() looking forward instead. Both selectors are
+   qualified by element: unqualified they weigh 0,2,0 and lose to the
+   `svg text` rule at the top of this section, which is what kept the
+   knockout from ever applying. */
+.md-diagram-panel-preview text.sequenceNumber,
+.md-diagram-panel-preview text.sequenceNumber tspan {
     fill: var(--diagram-knockout-color) !important;
     stroke: none !important;
 }
 
 .md-diagram-panel-preview circle.sequenceNumber,
-.md-diagram-panel-preview .sequenceNumber ~ circle {
+.md-diagram-panel-preview circle:has(~ text.sequenceNumber) {
     fill: var(--diagram-ink-color) !important;
+    stroke: none !important;
 }
 
 /* ── Gantt ────────────────────────────────────────────────────────── */
