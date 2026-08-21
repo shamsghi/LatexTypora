@@ -269,6 +269,18 @@ packet-beta
 192-255: "Data"
 ```
 
+## Markdown Label Indentation
+
+```mermaid
+flowchart LR
+  plain["Plain node label"]
+  markdown["`This **is** _Markdown_`"]
+  done["Done"]
+
+  plain -- "plain edge label" --> markdown
+  markdown -- "`Bold **Markdown edge label**`" --> done
+```
+
 ## Kanban
 
 ```mermaid
