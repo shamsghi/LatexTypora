@@ -1289,9 +1289,13 @@ kbd {
     fill: none !important;
 }
 
-.md-diagram-panel-preview .loopText,
+/* An alt/loop/opt label names the frame it sits in, so it takes the
+   frame's own ink. Stroking a glyph outlines it rather than colouring it,
+   which at label size reads as a smudge, so this is a fill. */
+.md-diagram-panel-preview text.loopText,
 .md-diagram-panel-preview .loopText tspan {
-    stroke: var(--diagram-series-6) !important;
+    fill: var(--diagram-series-6) !important;
+    stroke: none !important;
 }
 
 .md-diagram-panel-preview .labelBox,
