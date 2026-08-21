@@ -133,4 +133,4 @@ Every shared LaTeX metric is a `:root` variable at the top of `latex.css`, while
 - Licensed under **Apache-2.0**. Keep `LICENSE` when redistributing the theme.
 - Bundled font attribution and license details are in [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md); keep the relevant notices when redistributing bundled assets.
 - Designed and tested on macOS; should work on Windows and Linux.
-- Shared fonts and LaTeX metrics live in `latex.css`; each dark variant imports its parent and keeps its palette or layout overrides near the top — see [Customization](#customization).
+- Shared fonts and LaTeX metrics live in `latex.css`; each dark variant imports its parent and adds only the tokens and rules that differ — see [Customization](#customization).

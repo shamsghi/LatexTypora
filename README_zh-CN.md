@@ -135,4 +135,4 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
 - 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
-- 共用字体与 LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，并在文件顶部保留各自的配色或版式覆盖，详见[自定义](#自定义)。
+- 共用字体与 LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，仅新增各自差异化的变量与规则，详见[自定义](#自定义)。
