@@ -145,18 +145,20 @@ print_banner() {
     printf '\n'
     printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
 
-    if [[ "${TERM_WIDTH}" -ge 74 ]]; then
+    if [[ "${TERM_WIDTH}" -ge 62 ]]; then
         while IFS= read -r line; do
             print_centered_line "${BOLD}${BLUE}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
-ooooo                  ooooooooooooo           ooooooo  ooooo 
-`888'                  8'   888   `8            `8888    d8'  
- 888          .oooo.        888       .ooooo.     Y888..8P    
- 888         `P  )88b       888      d88' `88b     `8888'     
- 888          .oP"888       888      888ooo888    .8PY888.    
- 888       o d8(  888       888      888    .o   d8'  `888b   
-o888ooooood8 `Y888""8o     o888o     `Y8bod8P' o888o  o88888o 
+      ooooo      o   ooooooooooooo       ooooooo  ooooo
+     `888'     888  8'   888   `8        `8888    d8'  
+     888     8  88      888  oooooooooooo Y888..8P     
+     888    8oooo88     888  `888'     `8  `8888'      
+    888  o88o  o888o   888   888         .8PY888.      
+   888       o        888   888oooo8   d8'  `888b      
+ o888ooooood8       o888o  888    " o888o  o88888o     
+                           888       o                 
+                         o888ooooood8                  
 EOF
 
         printf '\n'
@@ -164,23 +166,26 @@ EOF
             print_centered_line "${BOLD}${MAGENTA}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
-""8""                                 
-  8   e    e eeeee eeeee eeeee  eeeee 
-  8e  8    8 8   8 8  88 8   8  8   8 
-  88  8eeee8 8eee8 8   8 8eee8e 8eee8 
-  88    88   88    8   8 88   8 88  8 
-  88    88   88    8eee8 88   8 88  8 
+"""88"""                                                   
+"""88"""                                                   
+   88   ee      ee  eeeeeeee  eeeeeeee  eeeeeeee   eeeeeeee
+   88e  88      88  88    88  88    88  88    88   88    88
+   88e  88      88  88    88  88    88  88    88   88    88
+   888  88eeeeee88  88eeee88  88    88  88eeee88e  88eeee88
+   888     888      888       88    88  888     8  888   88
+   888     888      888       88    88  888     8  888   88
+   888     888      888       88eeee88  888     8  888   88
 EOF
     else
         while IFS= read -r line; do
             print_centered_line "${BOLD}${BLUE}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
-   _         ______  _      
-\_|_)       (_) |   (_\  /  
-  |     __,     | _    \/   
- _|    /  |   _ ||/    /\   
-(/\___/\_/|_/(_/ |__/_/  \_/
+8      88888     Yb  dP
+8   db   8  8888  YbdP 
+8  dPYb  8  8www  dPYb 
+8888     8  8    dP  Yb
+            8888       
 EOF
 
         printf '\n'
@@ -188,10 +193,11 @@ EOF
             print_centered_line "${BOLD}${MAGENTA}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
- __  __          
-|  \/  |___  ___ 
-| |\/| / _ \/ _ \
-|_|  |_\___/\___/
+88888                            
+  8   Yb  dP 88b. .d8b. 8d8b .d88
+  8    YbdP  8  8 8' .8 8P   8  8
+  8     dP   88P' `Y8P' 8    `Y88
+       dP    8                   
 EOF
     fi
 
