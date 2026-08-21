@@ -83,6 +83,16 @@ ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.012}"
 SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
 TITLE_DELAY="${LATEX_TYPORA_TITLE_DELAY:-0.02}"
 
+# How much color this terminal admits to: 0 none, 8 the basic ANSI set, 256
+# the extended palette. GRADIENT is the ramp the showpiece animations paint
+# with, ordered so it loops seamlessly; it holds real escape bytes rather
+# than the literal "\033[" strings the palette above uses, because the art
+# it colors is printed with %s (a %b would read backslashes in the art as
+# escapes). ESC_RESET is its matching terminator.
+COLOR_DEPTH=0
+GRADIENT=()
+ESC_RESET=""
+
 # Glyph sets, chosen in configure_ui. The Unicode set is only reached for
 # when the locale says the terminal can render it; Git Bash and a bare C
 # locale get the ASCII set.
@@ -106,6 +116,9 @@ MAX_MEASURE="${LATEX_TYPORA_MAX_WIDTH:-76}"
 FRAME_WIDTH=76
 FRAME_INDENT=0
 FRAME_PAD=""
+# Terminal height, so a banner animation that walks the cursor back up the
+# block can decline when the block would not fit on screen.
+TERM_HEIGHT=24
 NO_ANIM_FLAG=0
 PLAIN_OUTPUT=0
 
@@ -164,6 +177,39 @@ configure_ui() {
     fi
 
     if [[ "${color_enabled}" -eq 1 ]]; then
+        COLOR_DEPTH=8
+        # COLORTERM is set by terminals that mean it; TERM is the older
+        # signal; tput is the last resort and may not be installed.
+        if [[ "${COLORTERM:-}" == *truecolor* ]] || [[ "${COLORTERM:-}" == *24bit* ]] \
+            || [[ "${TERM:-}" == *256color* ]]; then
+            COLOR_DEPTH=256
+        elif command -v tput >/dev/null 2>&1; then
+            if [[ "$(tput colors 2>/dev/null || echo 8)" -ge 256 ]]; then
+                COLOR_DEPTH=256
+            fi
+        fi
+    fi
+
+    if [[ "${COLOR_DEPTH}" -ge 256 ]]; then
+        # A loop through the spectrum that leaves from blue and comes back
+        # to it, so the roll can settle into the theme's own color without
+        # a visible seam.
+        GRADIENT=(
+            $'\033[38;5;33m'  $'\033[38;5;39m'  $'\033[38;5;45m'  $'\033[38;5;51m'
+            $'\033[38;5;86m'  $'\033[38;5;120m' $'\033[38;5;190m' $'\033[38;5;226m'
+            $'\033[38;5;214m' $'\033[38;5;208m' $'\033[38;5;203m' $'\033[38;5;198m'
+            $'\033[38;5;201m' $'\033[38;5;165m' $'\033[38;5;99m'  $'\033[38;5;63m'
+        )
+        ESC_RESET=$'\033[0m'
+    elif [[ "${COLOR_DEPTH}" -ge 8 ]]; then
+        GRADIENT=(
+            $'\033[34m' $'\033[36m' $'\033[32m'
+            $'\033[33m' $'\033[31m' $'\033[35m'
+        )
+        ESC_RESET=$'\033[0m'
+    fi
+
+    if [[ "${color_enabled}" -eq 1 ]]; then
         BOLD="\033[1m"
         DIM="\033[2m"
         RESET="\033[0m"
@@ -191,6 +237,14 @@ configure_ui() {
     fi
     if [[ "${cols}" =~ ^[0-9]+$ ]] && [[ "${cols}" -gt 0 ]]; then
         TERM_WIDTH="${cols}"
+    fi
+
+    local rows=""
+    if command -v tput >/dev/null 2>&1 && [[ -t 1 ]]; then
+        rows="$(tput lines 2>/dev/null || true)"
+    fi
+    if [[ "${rows}" =~ ^[0-9]+$ ]] && [[ "${rows}" -gt 0 ]]; then
+        TERM_HEIGHT="${rows}"
     fi
 
     # Braille spins far more smoothly than four ASCII frames, and a solid
@@ -287,6 +341,35 @@ print_centered_line() {
     # The line itself is printed with %s. Under %b a backslash in the ASCII
     # art would be read as an escape sequence.
     printf '%*s%b%s%b\n' "$((FRAME_INDENT + pad))" '' "${color}" "${line}" "${RESET}"
+}
+
+# Colors one line across the gradient, in bands a couple of columns wide:
+# per-character banding costs a loop iteration and an escape sequence for
+# every cell, which bash feels on a nineteen-line wordmark. The band index
+# folds in the row, so the color runs diagonally rather than in stripes.
+paint_line() {
+    local line="$1" row="$2" offset="$3"
+    local band=2 i=0 out="" stops="${#GRADIENT[@]}"
+
+    if [[ "${stops}" -eq 0 ]]; then
+        printf '%s' "${line}"
+        return
+    fi
+
+    while [[ "${i}" -lt "${#line}" ]]; do
+        out+="${GRADIENT[$(( ((i / band) + row + offset) % stops ))]}${line:i:band}"
+        i=$((i + band))
+    done
+    printf '%s%s' "${out}" "${ESC_RESET}"
+}
+
+# True when the showpiece animations should run at all: they need color,
+# motion, and enough room to redraw the block in place.
+can_paint() {
+    [[ "${ENABLE_ANIMATIONS}" -eq 1 ]] || return 1
+    [[ "${#GRADIENT[@]}" -gt 0 ]] || return 1
+    [[ "${TERM_HEIGHT}" -gt $(( $1 + 3 )) ]] || return 1
+    return 0
 }
 
 # Centers a block of ASCII art as one rigid unit: every line shifts by the
