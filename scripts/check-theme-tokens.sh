@@ -1,6 +1,17 @@
 #!/usr/bin/env bash
 #
-# Checks that latex.css keeps every colour in a var() token.
+# A check, and only a check. This script reads latex.css and prints what it
+# finds. It never edits a file, installs anything, or touches your Typora
+# theme folder, so running it cannot break the theme or your setup. The
+# worst it can do is tell you something is wrong.
+#
+# It is also no part of installation. Nothing runs it for you: not
+# scripts/install.sh, which only copies latex*.css and the fonts into the
+# Typora theme folder, and not any git hook. It is a maintainer's tool --
+# run it yourself, whenever you want to confirm the colours are still in
+# order. Users installing the theme never need it.
+#
+# What it confirms: that latex.css keeps every colour in a var() token.
 #
 # latex-dark.css imports latex.css and overrides only :root, so a colour
 # written as a literal in a rule body reaches the dark variants unchanged.
