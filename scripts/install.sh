@@ -1,5 +1,33 @@
 #!/usr/bin/env bash
+#
+# Installs the LaTeX Typora theme, either from the checkout this script sits
+# in or from a tarball of the requested ref.
+#
+# What it writes, and nothing outside it:
+#
+#   <theme dir>/latex*.css               the theme stylesheets
+#   <theme dir>/latex_fonts/*.otf|*.ttf  the bundled faces
+#   <theme dir>/latex_fonts/*.css        the generated @font-face sheets
+#   <theme dir>/.latex-typora-manifest   the paths this run installed
+#
+# The only files it ever deletes are ones listed in the previous run's
+# manifest, or fonts sitting in its own latex_fonts folder, that this
+# version no longer ships -- see is_owned_path() for the whitelist and
+# prune_stale() for the rule. Your own <theme>.user.css overrides are
+# excluded by name; --no-prune skips the removal entirely.
+#
+# Downloaded sources are unpacked into a mktemp directory that cleanup()
+# removes on every exit path, including Ctrl-C.
+#
+# Reading order: settings, then terminal state, then the output primitives,
+# then argument parsing, then one function per stage of the install, with
+# main() at the bottom as the running order.
+
 set -euo pipefail
+
+# --------------------------------------------------------------------------
+# Repository and run settings
+# --------------------------------------------------------------------------
 
 REPO_OWNER="shamsghi"
 REPO_NAME="LatexTypora"
@@ -7,6 +35,7 @@ DEFAULT_REF="${LATEX_TYPORA_REF:-main}"
 SCRIPT_USAGE_PATH="${LATEX_TYPORA_SCRIPT_USAGE_PATH:-./scripts/install.sh}"
 REMOTE_INSTALL_SCRIPT_URL="${LATEX_TYPORA_INSTALL_SCRIPT_URL:-https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install.sh}"
 
+# Overridable by flag or environment; resolved into the variables below.
 THEME_DIR="${TYPORA_THEME_DIR:-}"
 REF="$DEFAULT_REF"
 TEMP_DIR=""
@@ -14,6 +43,10 @@ SOURCE_DIR=""
 RESOLVED_THEME_DIR=""
 PLATFORM=""
 CREATED_THEME_DIR=0
+
+# --------------------------------------------------------------------------
+# Terminal state: palette, glyphs, and page geometry
+# --------------------------------------------------------------------------
 
 # Colors are named for the role they play, not the ink they happen to use:
 # the palette deliberately answers "ok" in the theme's blue rather than the
@@ -83,6 +116,10 @@ BACKGROUND_PID=""
 # restore, even on an abnormal exit.
 CURSOR_HIDDEN=0
 
+# --------------------------------------------------------------------------
+# Output primitives
+# --------------------------------------------------------------------------
+
 usage() {
     cat <<EOF
 Usage:
@@ -110,6 +147,10 @@ Environment:
 EOF
 }
 
+# Decides once what this terminal can be shown -- color, animation, Unicode
+# glyphs -- and derives the page geometry from its width. Everything below
+# reads those decisions rather than re-testing the terminal, so a single set
+# of rules governs the whole run.
 configure_ui() {
     local color_enabled=0
     local cols=""
@@ -200,6 +241,9 @@ configure_ui() {
     printf -v GUTTER '%*s' "$((FRAME_INDENT + 2))" ''
 }
 
+# A run of one character. Built by padding with spaces and substituting, so
+# no subshell or seq is needed for what is a very hot path during the rule
+# and bar animations.
 repeat_char() {
     local char="$1"
     local count="$2"
@@ -210,6 +254,7 @@ repeat_char() {
     printf '%s' "${out// /${char}}"
 }
 
+# A horizontal rule the full width of the measure.
 print_rule() {
     local color="$1" char="$2"
     local frames=12 i drawn
@@ -230,6 +275,7 @@ print_rule() {
     printf '%b%s%b\n' "${FRAME_PAD}${color}" "$(repeat_char "${char}" "${FRAME_WIDTH}")" "${RESET}"
 }
 
+# One line centered inside the measure, not inside the terminal.
 print_centered_line() {
     local color="$1"
     local line="$2"
@@ -320,6 +366,8 @@ reset_line() {
     printf '\r\033[2K'
 }
 
+# The LATEX / Typora lockup. Both wordmarks are heredocs so they can be
+# read and edited as the pictures they are.
 print_banner() {
     printf '\n'
     print_rule "${DIM}${C_ACCENT}" "${RULE_HEAVY}"
@@ -395,6 +443,7 @@ status_prefix() {
     printf '%s' "${GUTTER}${color}${tag}$(repeat_char ' ' "${pad}")${RESET} "
 }
 
+# A stage heading. Numbering is derived, never written by the caller.
 step() {
     CURRENT_STEP=$((CURRENT_STEP + 1))
     printf '%b\n' "${FRAME_PAD}${BOLD}${C_ACCENT}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
@@ -412,6 +461,8 @@ warn() {
     status_line "${C_WARN}" "[!]" "$1"
 }
 
+# The closing panel. Reads the globals that install_theme filled in, so it
+# describes the run that actually happened.
 print_completion_block() {
     printf '\n'
     print_rule "${BOLD}${C_ACCENT}" "${RULE_HEAVY}"
@@ -440,6 +491,7 @@ plural() {
     fi
 }
 
+# "a, b, c" -- for naming installed themes in prose.
 join_list() {
     local out="" item
     for item in "$@"; do
@@ -449,6 +501,7 @@ join_list() {
     printf '%s' "${out}"
 }
 
+# Every failure leaves through here: one marker, one line, stderr, nonzero.
 die() {
     status_line "${C_ERR}" "[x]" "$1" >&2
     exit 1
@@ -506,6 +559,8 @@ run_with_spinner() {
     return "${status}"
 }
 
+# The resolved line a run_with_spinner call leaves behind, whichever path
+# produced it.
 report_status() {
     local status="$1" label="$2"
     if [[ "${status}" -eq 0 ]]; then
@@ -553,6 +608,8 @@ render_progress() {
     PROGRESS_LAST="${percent}"
 }
 
+# One frame of the progress bar, without a trailing newline so the animated
+# path can redraw it in place.
 draw_bar() {
     local percent="$1" width="$2"
     local filled empty body="" track=""
@@ -577,6 +634,13 @@ draw_bar() {
     printf '%b%3d%%' "${GUTTER}${C_MUTED}[${body}${track}]${RESET} " "${percent}"
 }
 
+# --------------------------------------------------------------------------
+# Command line
+# --------------------------------------------------------------------------
+
+# Parsed before configure_ui runs, since --plain and --no-anim decide what
+# configure_ui is allowed to turn on. die() is safe to call here: with the
+# palette still empty it simply prints without color.
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --theme-dir)
@@ -615,12 +679,18 @@ done
 
 configure_ui
 
+# --------------------------------------------------------------------------
+# Preconditions and cleanup
+# --------------------------------------------------------------------------
+
 require_command() {
     if ! command -v "$1" >/dev/null 2>&1; then
         die "Missing required command: $1"
     fi
 }
 
+# --ref is interpolated into a codeload URL, so it is restricted to the
+# characters a branch, tag, or SHA can contain, with .. excluded outright.
 validate_ref() {
     if [[ -z "${REF}" ]]; then
         die "Ref cannot be empty."
@@ -650,6 +720,10 @@ trap cleanup EXIT
 trap 'cleanup; exit 130' INT
 trap 'cleanup; exit 143' TERM
 
+# --------------------------------------------------------------------------
+# Where we are, and where the theme goes
+# --------------------------------------------------------------------------
+
 detect_platform() {
     local uname_out
     uname_out="$(uname -s 2>/dev/null || true)"
@@ -669,6 +743,12 @@ detect_platform() {
     esac
 }
 
+# Typora keeps its themes in a different place per platform, and per
+# install method within a platform: a Mac App Store copy is sandboxed under
+# ~/Library/Containers, a Linux Flatpak under ~/.var/app. Prefer a directory
+# that already exists -- its existence is the strongest signal of which
+# install is real -- and fall back to the standard location, noting that we
+# will have to create it.
 resolve_theme_dir() {
     if [[ -n "${THEME_DIR}" ]]; then
         RESOLVED_THEME_DIR="${THEME_DIR}"
@@ -724,6 +804,7 @@ resolve_theme_dir() {
     fi
 }
 
+# The marker files that tell a repository checkout from any other folder.
 is_repo_checkout() {
     local candidate="$1"
     [[ -f "${candidate}/latex.css" ]] \
@@ -731,6 +812,8 @@ is_repo_checkout() {
         && [[ -d "${candidate}/latex_fonts" ]]
 }
 
+# Accepts the checkout root itself or scripts/ inside it, which is where
+# this file normally lives.
 resolve_local_checkout_root() {
     local base_dir="$1"
     if is_repo_checkout "${base_dir}"; then
@@ -744,6 +827,8 @@ resolve_local_checkout_root() {
     return 1
 }
 
+# Fetches the ref as a tarball rather than requiring git, and verifies the
+# unpacked tree really is a checkout before anything is copied out of it.
 download_source() {
     local archive_path extracted_dir archive_url
     require_command curl
@@ -762,6 +847,9 @@ download_source() {
     SOURCE_DIR="${extracted_dir}"
 }
 
+# Prefer the checkout this script was run from, so a local edit installs
+# without a round trip through GitHub. Piped through curl there is no such
+# checkout, and BASH_SOURCE is empty, so the download path takes over.
 detect_source_dir() {
     local script_path script_dir checkout_root
     script_path="${BASH_SOURCE[0]:-$0}"
@@ -842,11 +930,19 @@ prune_stale() {
     fi
 }
 
+# --------------------------------------------------------------------------
+# Installing, pruning, and the manifest
+# --------------------------------------------------------------------------
+
+# The manifest is plain text, one relative path per line, sorted so a diff
+# between runs is readable.
 write_manifest() {
     local theme_dir="$1" rel
     printf '%s\n' "${INSTALLED_RELPATHS[@]}" | LC_ALL=C sort > "${theme_dir}/${MANIFEST_NAME}"
 }
 
+# Copies the theme into place, removes what this version dropped, then
+# records what is now installed.
 install_theme() {
     local source_dir="$1" theme_dir="$2"
     local css_files=()
@@ -900,6 +996,10 @@ install_theme() {
     success "Installed $(plural "${#INSTALLED_THEMES[@]}" "theme"): $(join_list "${INSTALLED_THEMES[@]}")"
     success "Installed $(plural "${#font_files[@]}" "file") into latex_fonts/"
 }
+
+# --------------------------------------------------------------------------
+# Running order
+# --------------------------------------------------------------------------
 
 main() {
     print_banner
