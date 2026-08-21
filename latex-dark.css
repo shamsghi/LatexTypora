@@ -63,9 +63,14 @@
     --control-active-bg-color: rgba(255, 255, 255, 0.1);
     --control-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
 
-    /* The light and dark themes use the same six categorical hues. The dark
-       ink tier is lifted above 9:1 contrast on black; the wash tier is held
-       to L* 31-36 so filled regions remain readable without glowing. */
+    /* Diagrams (Mermaid, and Typora's flowchart/sequence renderers).
+       The same six-ink categorical ramp as the light variant, at hue
+       angles 271, 96, 123, 320, 155 and 219 degrees -- within 11 degrees
+       of the light plate inks, close enough that a figure keeps its
+       identity across the two themes -- but lifted to L* 71-82 so it sits
+       on black instead of paper. Every series ink clears 9.5:1 against the
+       page. The light variant's grayscale caveat applies here too. See
+       latex.css for the reasoning. */
     --diagram-ink-color: rgba(255, 255, 255, 0.78);
     --diagram-muted-line-color: rgba(255, 255, 255, 0.3);
     --diagram-surface-color: rgba(255, 255, 255, 0.06);
@@ -77,6 +82,11 @@
     --diagram-note-line-color: rgba(223, 205, 123, 0.66);
     --diagram-note-fill-color: #403a1d;
     --diagram-edge-color: rgba(255, 255, 255, 0.68);
+
+    /* The same two tiers as latex.css at the same six hues, inverted for a
+       black page: the ink tier lightens well clear of 9:1, the wash tier
+       darkens to L* 31-36 so a ribbon reads as colour without glowing.
+       Theme text holds above 6.7:1 on every wash. */
     --diagram-series-1: #8fb4e8;
     --diagram-series-2: #dfcd7b;
     --diagram-series-3: #b0d17c;
@@ -89,6 +99,7 @@
     --diagram-series-4-fill: #57405f;
     --diagram-series-5-fill: #2f553f;
     --diagram-series-6-fill: #33555e;
+
     --diagram-error-bg-color: rgba(255, 176, 176, 0.08);
     --diagram-error-border-color: rgba(255, 176, 176, 0.24);
     --diagram-error-text-color: #ffbdbd;
