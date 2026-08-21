@@ -534,20 +534,20 @@ print_banner() {
     if [[ "${FRAME_WIDTH}" -ge 60 ]]; then
         print_art_block "${BOLD}${C_ACCENT}" <<'EOF'
       ooooo      o   ooooooooooooo       ooooooo  ooooo
-     `888'     888  8'   888   `8        `8888    d8'  
-     888     8  88      888  oooooooooooo Y888..8P     
-     888    8oooo88     888  `888'     `8  `8888'      
-    888  o88o  o888o   888   888         .8PY888.      
-   888       o        888   888oooo8   d8'  `888b      
- o888ooooood8       o888o  888    " o888o  o88888o     
-                           888       o                 
-                         o888ooooood8                  
+     `888'     888  8'   888   `8        `8888    d8'
+     888     8  88      888  oooooooooooo Y888..8P
+     888    8oooo88     888  `888'     `8  `8888'
+    888  o88o  o888o   888   888         .8PY888.
+   888       o        888   888oooo8   d8'  `888b
+ o888ooooood8       o888o  888    " o888o  o88888o
+                           888       o
+                         o888ooooood8
 EOF
 
         printf '\n'
         print_art_block "${BOLD}${C_MUTED}" <<'EOF'
 11188111
-"""88"""                                                   
+"""88"""
    88   ee      ee  eeeeeeee  eeeeeeee  eeeeeeee   eeeeeeee
    88e  88      88  88    88  88    88  88    88   88    88
    88e  88      88  88    88  88    88  88    88   88    88
@@ -559,19 +559,19 @@ EOF
     else
         print_art_block "${BOLD}${C_ACCENT}" <<'EOF'
 8      88888     Yb  dP
-8   db   8  8888  YbdP 
-8  dPYb  8  8www  dPYb 
+8   db   8  8888  YbdP
+8  dPYb  8  8www  dPYb
 8888     8  8    dP  Yb
-            8888       
+            8888
 EOF
 
         printf '\n'
         print_art_block "${BOLD}${C_MUTED}" <<'EOF'
-88888                            
+88888
   8   Yb  dP 88b. .d8b. 8d8b .d88
   8    YbdP  8  8 8' .8 8P   8  8
   8     dP   88P' `Y8P' 8    `Y88
-       dP    8                   
+       dP    8
 EOF
     fi
 
