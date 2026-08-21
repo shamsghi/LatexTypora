@@ -192,20 +192,30 @@ configure_ui() {
     fi
 
     if [[ "${COLOR_DEPTH}" -ge 256 ]]; then
-        # A loop through the spectrum that leaves from blue and comes back
-        # to it, so the roll can settle into the theme's own color without
-        # a visible seam.
+        # Pastels drawn from one quarter of the wheel -- pale cyan through
+        # blue and lilac to rose -- rather than the whole spectrum, which
+        # looks less like a decision and more like a default. Every stop
+        # sits in the top rows of the color cube, so the tints stay light
+        # against either terminal background.
+        #
+        # The ramp runs out to rose and back rather than wrapping, so it
+        # loops without a seam at the join and reads as one wave. It begins
+        # next to the theme's blue, which is what the banner settles into.
         GRADIENT=(
-            $'\033[38;5;33m'  $'\033[38;5;39m'  $'\033[38;5;45m'  $'\033[38;5;51m'
-            $'\033[38;5;86m'  $'\033[38;5;120m' $'\033[38;5;190m' $'\033[38;5;226m'
-            $'\033[38;5;214m' $'\033[38;5;208m' $'\033[38;5;203m' $'\033[38;5;198m'
-            $'\033[38;5;201m' $'\033[38;5;165m' $'\033[38;5;99m'  $'\033[38;5;63m'
+            $'\033[38;5;159m' $'\033[38;5;153m' $'\033[38;5;147m'
+            $'\033[38;5;183m' $'\033[38;5;219m' $'\033[38;5;218m'
+            $'\033[38;5;217m'
+            $'\033[38;5;218m' $'\033[38;5;219m' $'\033[38;5;183m'
+            $'\033[38;5;147m' $'\033[38;5;153m'
         )
         ESC_RESET=$'\033[0m'
     elif [[ "${COLOR_DEPTH}" -ge 8 ]]; then
+        # Eight colors hold no pastels; the bright variants are the palest
+        # thing available, and the same out-and-back shape keeps them from
+        # reading as a primary-color cycle.
         GRADIENT=(
-            $'\033[34m' $'\033[36m' $'\033[32m'
-            $'\033[33m' $'\033[31m' $'\033[35m'
+            $'\033[97m' $'\033[96m' $'\033[94m'
+            $'\033[95m' $'\033[94m' $'\033[96m'
         )
         ESC_RESET=$'\033[0m'
     fi
