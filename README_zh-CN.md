@@ -92,7 +92,6 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - **diff 审阅样式**：`diff` 围栏中的 `+`／`-` 行整行着色并带有左侧标记
 - **文档型表格**：表头左对齐、隔行底色，单元格会换行显示长路径与 URL，而不是让整张表格横向滚动
 - **可见滚动条**：围栏代码、宽表格与图表溢出时显示滚动条，避免看起来像被截断
-- **浅色 PDF 导出**：打印时切换为白底黑字并保留语法高亮，屏幕上仍保持深色
 - 沿用 `latex-dark` 的带边框 callout、引用块与 `kbd` 样式
 
 围栏代码使用的 iA Writer Mono 不含任何连字查找表。若希望 `->`、`=>`、`<->`
@@ -132,6 +131,38 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | `--table-stripe-color` | 极淡白色 | 表格偶数行的隔行底色，设为 `transparent` 可关闭。 |
 | `--scrollbar-thumb-color`、`--scrollbar-thumb-hover-color` | 半透明白色 | 围栏代码、宽表格与图表的滚动条颜色。 |
 | `--nastaliq-line-height` | `1.95` | 乌尔都语／波斯语行距，较基础主题的 `2.15` 更紧凑。 |
+
+### 图表配色
+
+Mermaid 图表由 `:root` 中的第二组变量绘制，同样的六种色相分为**两层**。*墨色层*
+用于一切细窄的元素——描边、柱、折线、散点——对页面的对比度不低于 4.6:1，1px 宽也
+不会消失。唯一的例外是浅黄，为 3.3:1：黄色只要暗到 4.5:1 就会显得像橄榄绿而不是
+黄色，而 3:1 正是图形边缘（而非文字）适用的阈值。墨色层上从不承载文字。*淡彩层*是不透明的浅色，用于面积足够大、按区域阅读的元素：桑基图色带、
+饼图扇区、旅程图色块。浅色主题下正文墨色压在任一淡彩上仍有 13:1 以上，深色主题下
+不低于 6:1，标签可以直接压上去。
+
+六种色相依次为蓝、浅黄、青柠、紫、绿、青。色阶中没有红色——红色留给图表的报错面板，
+因此图中出现红色一定意味着出了问题。排序上让循环中相邻的两色在色轮上尽量远离，整条
+色阶在灰度打印下同样可辨。
+
+| 变量 | 浅色 | 深色 | 作用 |
+| :-- | :-- | :-- | :-- |
+| `--diagram-series-1` … `-6` | `#2f5aa0` `#a28c22` `#55801f` `#78468c` `#2f7a52` `#2a6f7c` | `#8fb4e8` `#dfcd7b` `#b0d17c` `#cf9edb` `#7fca9c` `#79c2d2` | 墨色层——描边、XY 图的柱与折线、雷达曲线、Git 分支、提交点。 |
+| `--diagram-series-1-fill` … `-6-fill` | `#c3d0e8` `#f4e7bb` `#d3e3ac` `#dcc7e0` `#bcdcc6` `#bcd8de` | `#3a4d68` `#5d5624` `#455528` `#57405f` `#2f553f` `#33555e` | 淡彩层——饼图扇区、桑基图色带、旅程图与时间线色块、矩形树图叶子、Packet 字段、看板栏、Venn 集合、方框填充。 |
+| `--diagram-node-line-color`、`--diagram-node-fill-color` | 色阶 1 | 色阶 1 | 流程图与时序图的方框。各类结构图再各取一色——类图与需求图取色阶 4、ER 图取色阶 6、状态图与 Block 图取色阶 3——避免同一篇文档里的多张图糊成一片蓝。 |
+| `--diagram-cluster-line-color`、`--diagram-cluster-fill-color` | 色阶 6，近白 | 色阶 6，近黑 | `subgraph` 方框、复合状态、矩形树图分区。 |
+| `--diagram-note-line-color`、`--diagram-note-fill-color` | 浅黄 | 浅黄 | 注释与 `Note over` 方框——色阶中最暖的一色，让旁注一眼可辨。 |
+| `--diagram-edge-color`、`--diagram-ink-color` | 62% / 72% 黑 | 68% / 78% 白 | 连线、箭头与主干。结构一律用墨色，箭头不与它所连接的内容争夺注意力。 |
+| `--diagram-muted-line-color` | 26% 黑 | 30% 白 | 网格线、坐标轴、生命线、分隔线、桑基图节点条。 |
+| `--diagram-pie-fill-opacity` | `1` | `1` | 饼图扇区的填充浓度。调低则接近描边而非色块。 |
+| `--diagram-sankey-link-opacity`、`--diagram-sankey-link-blend-mode` | `0.85`、`multiply` | `0.9`、`screen` | 色带浓度与重叠混合方式。 |
+| `--diagram-knockout-color` | `#ffffff` | `#000000` | 压在色块上反白的图形——架构图标、`autonumber` 序号。 |
+
+桑基图保留 Mermaid 由源节点到目标节点的渐变：主题改写的是渐变的色标，而不是把每条
+色带压平成单一颜色，因此仍能看出色带的来处与去处。
+
+`--mermaid-theme`（浅色 `neutral`、深色 `dark`）决定 Typora 交给 Mermaid 的基础
+主题，上述变量再覆盖其配色。
 
 ## 说明
 

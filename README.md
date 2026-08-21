@@ -87,10 +87,8 @@ Built for READMEs, API docs, design specs, and changelogs. Extends `latex-dark` 
 - Left-aligned layout on a ~76-character monospace measure — no first-line indent, no section numbers, no `[toc]` title
 - **Persistent language label** above every fenced block, in reading mode and in exports, not only while the fence has focus
 - **Diff review styling** — `+` and `-` lines in a `diff` fence tint the whole row and carry a gutter mark
-- **Documentation tables** — left-aligned headers, striped rows, and cells that wrap long paths and URLs instead of forcing a scroll
-- **Visible scrollbars** on fences, wide tables and diagrams, so overflow reads as scrollable rather than truncated
-- **Light PDF export** — printing flips to ink-on-paper with syntax highlighting kept, while the screen stays dark
-- Framed callouts and blockquotes, and `kbd` shortcuts carried over from `latex-dark`
+- **Documentation tables** — left-aligned headers, striped rows, and cells that wrap long paths and URLs
+- **Visible scrollbars** on fences, wide tables and diagrams
 
 Fences use iA Writer Mono, which carries no ligature lookups. Point
 `--monospace` at the `"JuliaMono"` stack defined just above it in the file if
@@ -121,7 +119,7 @@ Every LaTeX metric the themes depend on is a `:root` variable at the top of `lat
 | `--table-bleed` | `var(--page-padding-x)` | How far a table too wide for the measure may extend into the page margin before the figure scrolls. Set to `0em` to keep every table inside the measure. |
 | `--list-indent`, `--list-topsep`, `--list-itemsep` | `2.5em`, `0.7em`, `0.32em` | `\leftmargini`, `\topsep` and `\itemsep`. |
 
-`latex-dev-dark.css` overrides these for developer documentation: no indentation, no section numbers, no `[toc]` title, a 46em monospace measure (~76 characters), left-aligned text, framed blockquotes, and full-width tables that may bleed into the page margin. It adds a few variables of its own:
+`latex-dev-dark.css` overrides these, there is no indentation, no section numbers, no `[toc]` title, a 46em monospace measure (~76 characters), left-aligned text, framed blockquotes, and full-width tables that may bleed into the page margin. It adds a few variables of its own:
 
 | Variable | Default | What it controls |
 | :-- | :-- | :-- |

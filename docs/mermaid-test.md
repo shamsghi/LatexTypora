@@ -1,5 +1,202 @@
 # Mermaid Coverage Check
 
+Every diagram type the theme paints, so a palette change can be checked in one
+pass. Open it in both `latex.css` and `latex-dark.css`.
+
+## Flowchart
+
+```mermaid
+flowchart TD
+  A[Start] --> B{Valid?}
+  B -- yes --> C[Parse tokens]
+  B -- no --> D[Report error]
+  C --> E[(Store)]
+  D --> E
+  subgraph Pipeline
+    C
+    E
+  end
+```
+
+## Sequence
+
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User
+  participant S as Server
+  participant D as DB
+  U->>S: GET /doc
+  activate S
+  S->>D: query
+  D-->>S: rows
+  deactivate S
+  S-->>U: 200 OK
+  Note over U,S: cached 60s
+  loop retry
+    S->>D: ping
+  end
+```
+
+## Class
+
+```mermaid
+classDiagram
+  class Theme {
+    +String name
+    +render() void
+  }
+  class Palette {
+    +List~Color~ accents
+  }
+  Theme --> Palette
+  Theme <|-- DarkTheme
+```
+
+## State
+
+```mermaid
+stateDiagram-v2
+  [*] --> Idle
+  Idle --> Parsing: input
+  Parsing --> Rendering
+  Rendering --> Idle
+  note right of Parsing: tokenizer
+  state Rendering {
+    [*] --> Layout
+    Layout --> Paint
+  }
+```
+
+## Entity Relationship
+
+```mermaid
+erDiagram
+  THEME ||--o{ VARIANT : has
+  VARIANT ||--|{ TOKEN : defines
+  THEME {
+    string name
+    string license
+  }
+```
+
+## Pie
+
+```mermaid
+pie title Source lines
+  "CSS" : 62
+  "Docs" : 24
+  "Scripts" : 9
+  "Other" : 5
+```
+
+## Gantt
+
+```mermaid
+gantt
+  title Release
+  dateFormat YYYY-MM-DD
+  section Design
+  Palette :a1, 2026-01-01, 12d
+  Review  :after a1, 6d
+  section Build
+  CSS     :2026-01-10, 14d
+  Docs    :2026-01-18, 8d
+```
+
+## Git Graph
+
+```mermaid
+gitGraph
+  commit
+  branch feature
+  commit
+  commit
+  checkout main
+  commit
+  merge feature
+  commit
+```
+
+## Journey
+
+```mermaid
+journey
+  title Reading a paper
+  section Open
+    Launch: 5: Me
+    Load theme: 3: Me
+  section Read
+    Scroll: 4: Me
+    Export: 2: Me
+```
+
+## Mindmap
+
+```mermaid
+mindmap
+  root((Theme))
+    Light
+      Serif
+      Diagrams
+    Dark
+      Contrast
+    Dev
+      Mono
+```
+
+## Timeline
+
+```mermaid
+timeline
+  title Theme history
+  2024 : First release
+  2025 : Dark variant : Dev variant
+  2026 : Mermaid palette
+```
+
+## Quadrant
+
+```mermaid
+quadrantChart
+  title Effort vs impact
+  x-axis Low effort --> High effort
+  y-axis Low impact --> High impact
+  quadrant-1 Do now
+  quadrant-2 Plan
+  quadrant-3 Drop
+  quadrant-4 Quick wins
+  Palette: [0.3, 0.8]
+  Docs: [0.6, 0.4]
+  Refactor: [0.8, 0.7]
+  Tweaks: [0.2, 0.2]
+```
+
+## Requirement
+
+```mermaid
+requirementDiagram
+  requirement contrast {
+    id: 1
+    text: WCAG AA
+    risk: high
+    verifymethod: test
+  }
+  element css {
+    type: stylesheet
+  }
+  css - satisfies -> contrast
+```
+
+## Block
+
+```mermaid
+block-beta
+  columns 3
+  A["Parser"] B["Layout"] C["Paint"]
+  D["Cache"]:3
+```
+
 ## Sankey
 
 ```mermaid

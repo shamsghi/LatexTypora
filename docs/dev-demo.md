@@ -167,9 +167,3 @@ Keep `README.md` readable in preview, make code examples easy to scan, and prese
 <p lang="zh">这一段用来检查中日韩文本的行距与段落节奏：开发主题保留正文的等宽字体，但把行高和段间距调整到适合阅读长文档的比例。</p>
 
 <p lang="ur">یہ سطر اردو رسم الخط کی جانچ کے لیے ہے۔ ترقیاتی تھیم میں بھی متن دائیں سے بائیں ہی چلنا چاہیے۔</p>
-
-## Print Check
-
-Export this page to PDF. The output should be dark text on white with the
-syntax highlighting intact — the dark palette is a reading choice, not a
-document.
