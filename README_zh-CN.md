@@ -35,11 +35,19 @@
 
 ## 自动安装
 
+macOS 与 Linux：
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
 ```
 
-自动检测当前平台并安装到正确的 Typora 主题目录，支持 macOS、Linux 与 Windows（Git Bash / WSL）。
+Windows PowerShell（无需 Git、Git Bash 或 WSL）：
+
+```powershell
+irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1 | iex
+```
+
+两个安装器都会自动找到正确的 Typora 主题目录。如果从 Git Bash、MSYS2、Cygwin 或 WSL 运行 `install.sh`，它会自动将安装交给原生 PowerShell 安装器。
 
 ## 手动安装
 
@@ -51,14 +59,20 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 <details>
 <summary>安装选项</summary>
 
-| 参数 | 说明 |
-| :-- | :-- |
-| `--theme-dir PATH` | 手动指定 Typora 主题目录 |
-| `--ref REF` | 从指定分支、标签或提交安装 |
-| `--no-prune` | 保留旧版本装过、而当前版本已不再附带的主题文件 |
+| 用途 | macOS / Linux | Windows PowerShell |
+| :-- | :-- | :-- |
+| 手动指定主题目录 | `--theme-dir PATH` | `-ThemeDir PATH` |
+| 从指定分支、标签或提交安装 | `--ref REF` | `-Ref REF` |
+| 保留旧版本文件 | `--no-prune` | `-NoPrune` |
+| 禁用动画 | `--no-anim` | `-NoAnim` |
+| 禁用颜色与动画 | `--plain` | `-Plain` |
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
+```
+
+```powershell
+& ([scriptblock]::Create((irm 'https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1'))) -ThemeDir 'C:\path\to\Typora\themes'
 ```
 
 默认主题目录：

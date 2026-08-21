@@ -35,11 +35,19 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 
 ## Automatic Installation
 
+macOS and Linux:
+
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash
 ```
 
-Detects your platform automatically and installs to the correct Typora theme folder. Works on macOS, Linux, and Windows (Git Bash / WSL).
+Windows PowerShell (no Git, Git Bash, or WSL required):
+
+```powershell
+irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1 | iex
+```
+
+Both installers detect the correct Typora theme folder. If `install.sh` is run from Git Bash, MSYS2, Cygwin, or WSL, it automatically hands the install to the native PowerShell installer.
 
 ## Manual Installation
 
@@ -50,15 +58,22 @@ Detects your platform automatically and installs to the correct Typora theme fol
 <details>
 <summary>Install options</summary>
 
-| Flag | Description |
-| :-- | :-- |
-| `--theme-dir PATH` | Override the target Typora theme directory |
-| `--ref REF` | Install from a specific branch, tag, or commit |
-| `--no-prune` | Keep theme files an older version installed that this one no longer ships |
+| Purpose | macOS / Linux | Windows PowerShell |
+| :-- | :-- | :-- |
+| Override the target directory | `--theme-dir PATH` | `-ThemeDir PATH` |
+| Install a branch, tag, or commit | `--ref REF` | `-Ref REF` |
+| Keep stale files | `--no-prune` | `-NoPrune` |
+| Disable animations | `--no-anim` | `-NoAnim` |
+| Disable colors and animations | `--plain` | `-Plain` |
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
 ```
+
+```powershell
+& ([scriptblock]::Create((irm 'https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-windows.ps1'))) -ThemeDir 'C:\path\to\Typora\themes'
+```
+
 Default theme folders:
 
 | Platform | Path |

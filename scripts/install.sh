@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 #
-# Installs the LaTeX Typora theme, either from the checkout this script sits
-# in or from a tarball of the requested ref.
+# Installs the LaTeX Typora theme on macOS/Linux, either from the checkout
+# this script sits in or from a tarball of the requested ref. Windows shells
+# are handed to the native PowerShell installer before this install begins.
 #
 # What it writes, and nothing outside it:
 #
@@ -34,6 +35,7 @@ REPO_NAME="LatexTypora"
 DEFAULT_REF="${LATEX_TYPORA_REF:-main}"
 SCRIPT_USAGE_PATH="${LATEX_TYPORA_SCRIPT_USAGE_PATH:-./scripts/install.sh}"
 REMOTE_INSTALL_SCRIPT_URL="${LATEX_TYPORA_INSTALL_SCRIPT_URL:-https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install.sh}"
+WINDOWS_INSTALL_SCRIPT_URL="${LATEX_TYPORA_WINDOWS_INSTALL_SCRIPT_URL:-https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/main/scripts/install-windows.ps1}"
 
 # Overridable by flag or environment; resolved into the variables below.
 THEME_DIR="${TYPORA_THEME_DIR:-}"
@@ -42,6 +44,7 @@ TEMP_DIR=""
 SOURCE_DIR=""
 RESOLVED_THEME_DIR=""
 PLATFORM=""
+WINDOWS_INTEROP=""
 CREATED_THEME_DIR=0
 
 # --------------------------------------------------------------------------
@@ -75,6 +78,9 @@ TAG_WIDTH=4
 
 MANIFEST_NAME=".latex-typora-manifest"
 PRUNE=1
+if [[ "${LATEX_TYPORA_NO_PRUNE:-0}" == "1" ]]; then
+    PRUNE=0
+fi
 
 ENABLE_ANIMATIONS=0
 # Frame interval for the drawing animations: the rule sweep, the ink pass
@@ -103,7 +109,6 @@ BAR_HEAD=">"
 BAR_TRACK="."
 RULE_HEAVY="="
 RULE_LIGHT="-"
-SPARKLES=("*" "+" "." "x")
 # Percentage already drawn, so the next tick can grow into place instead of
 # appearing at its final length.
 PROGRESS_LAST=0
@@ -140,6 +145,9 @@ Usage:
   ${SCRIPT_USAGE_PATH} [--theme-dir PATH] [--ref REF]
   curl -fsSL ${REMOTE_INSTALL_SCRIPT_URL} | bash
 
+Native Windows PowerShell:
+  irm ${WINDOWS_INSTALL_SCRIPT_URL} | iex
+
 Options:
   --theme-dir PATH  Install into a specific Typora theme directory.
   --ref REF         Install a specific branch, tag, or commit. Default: ${DEFAULT_REF}
@@ -151,6 +159,7 @@ Options:
 Environment:
   TYPORA_THEME_DIR  Same as --theme-dir.
   LATEX_TYPORA_REF  Same as --ref.
+  LATEX_TYPORA_NO_PRUNE  Set to 1 to keep stale theme files.
   LATEX_TYPORA_NO_ANIM  Set to 1 to disable banner animations.
   LATEX_TYPORA_NO_COLOR  Set to 1 to disable ANSI colors.
   NO_COLOR  Standard variable to disable ANSI colors.
@@ -279,7 +288,6 @@ configure_ui() {
         BAR_TRACK="─"
         RULE_HEAVY="═"
         RULE_LIGHT="─"
-        SPARKLES=("✦" "✧" "⋆" "·")
     else
         SPINNER_FRAMES=("-" "\\" "|" "/")
         BAR_FILL="="
@@ -287,7 +295,6 @@ configure_ui() {
         BAR_TRACK="."
         RULE_HEAVY="="
         RULE_LIGHT="-"
-        SPARKLES=("*" "+" "." "x")
     fi
 
     if [[ ! "${MAX_MEASURE}" =~ ^[0-9]+$ ]] || [[ "${MAX_MEASURE}" -lt 20 ]]; then
@@ -539,7 +546,7 @@ EOF
 
         printf '\n'
         print_art_block "${BOLD}${C_MUTED}" <<'EOF'
-"""88"""                                                   
+11188111
 """88"""                                                   
    88   ee      ee  eeeeeeee  eeeeeeee  eeeeeeee   eeeeeeee
    88e  88      88  88    88  88    88  88    88   88    88
@@ -611,37 +618,6 @@ warn() {
     status_line "${C_WARN}" "[!]" "$1"
 }
 
-# A scatter of sparkles across the measure, twinkled in place for a few
-# frames and then left on screen as part of the panel. Positions and colors
-# come from $RANDOM, so no two runs finish quite the same way.
-print_sparkle_line() {
-    local frames=6 frame col line stops="${#GRADIENT[@]}"
-
-    [[ "${stops}" -gt 0 ]] || return 0
-
-    if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]]; then
-        frames=1
-    fi
-
-    hide_cursor
-    for ((frame = 0; frame < frames; frame++)); do
-        line=""
-        for ((col = 0; col < FRAME_WIDTH; col++)); do
-            # Roughly one column in seven lights up.
-            if [[ $((RANDOM % 7)) -eq 0 ]]; then
-                line+="${GRADIENT[RANDOM % stops]}${SPARKLES[RANDOM % ${#SPARKLES[@]}]}"
-            else
-                line+=" "
-            fi
-        done
-        reset_line
-        printf '%s%s%s' "${FRAME_PAD}" "${line}" "${ESC_RESET}"
-        sleep_for "${ANIMATION_DELAY}"
-    done
-    printf '\n'
-    show_cursor
-}
-
 # The finale line: centered, then shimmered through the ramp. Unlike the
 # banner it is left in color rather than settled back to the accent -- the
 # banner is the identity, this is the celebration.
@@ -675,7 +651,6 @@ print_finale_line() {
 print_completion_block() {
     printf '\n'
     print_rule "${BOLD}${C_ACCENT}" "${RULE_HEAVY}"
-    print_sparkle_line
     print_finale_line "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
     print_rule "${DIM}${C_ACCENT}" "${RULE_LIGHT}"
@@ -949,6 +924,14 @@ trap 'cleanup; exit 143' TERM
 # Where we are, and where the theme goes
 # --------------------------------------------------------------------------
 
+is_wsl() {
+    local kernel_release=""
+    [[ -n "${WSL_DISTRO_NAME:-}" ]] && return 0
+    [[ -r /proc/sys/kernel/osrelease ]] || return 1
+    IFS= read -r kernel_release < /proc/sys/kernel/osrelease || return 1
+    [[ "${kernel_release}" == *[Mm][Ii][Cc][Rr][Oo][Ss][Oo][Ff][Tt]* ]]
+}
+
 detect_platform() {
     local uname_out
     uname_out="$(uname -s 2>/dev/null || true)"
@@ -957,15 +940,125 @@ detect_platform() {
             PLATFORM="macos"
             ;;
         Linux)
-            PLATFORM="linux"
+            if is_wsl; then
+                PLATFORM="windows"
+                WINDOWS_INTEROP="wsl"
+            else
+                PLATFORM="linux"
+            fi
             ;;
         MINGW*|MSYS*|CYGWIN*)
             PLATFORM="windows"
+            WINDOWS_INTEROP="msys"
             ;;
         *)
-            die "Unsupported platform '${uname_out:-unknown}'. Use macOS, Linux, or Windows (Git Bash/WSL)."
+            die "Unsupported platform '${uname_out:-unknown}'. Use macOS, Linux, or the native Windows PowerShell installer."
             ;;
     esac
+}
+
+# Converts an explicit shell path before it crosses into a native Windows
+# process. WSLENV can do this too, but normalizing here makes already-Windows
+# paths and empty optional values unambiguous.
+windows_path() {
+    local path="$1"
+
+    if [[ "${path}" =~ ^[A-Za-z]:[\\/].* ]] || [[ "${path}" == \\\\* ]]; then
+        printf '%s\n' "${path}"
+        return
+    fi
+
+    if [[ "${WINDOWS_INTEROP}" == "wsl" ]]; then
+        require_command wslpath
+        wslpath -w "${path}"
+        return
+    fi
+
+    if command -v cygpath >/dev/null 2>&1; then
+        cygpath -w "${path}"
+        return
+    fi
+
+    printf '%s\n' "${path}"
+}
+
+# Runs the PowerShell implementation rather than maintaining a second
+# Windows path inside this already-large shell installer. The script is fed
+# over stdin, so both a WSL checkout and a curl-piped invocation avoid fragile
+# temporary paths across the Windows/Linux filesystem boundary.
+run_windows_installer() {
+    local powershell_command=""
+    local candidate script_path script_dir windows_script=""
+    local checkout_root="" windows_source_dir="" windows_theme_dir=""
+    local forwarded_no_anim=0 forwarded_plain=0
+    local status=0
+
+    for candidate in pwsh.exe powershell.exe; do
+        if command -v "${candidate}" >/dev/null 2>&1; then
+            powershell_command="${candidate}"
+            break
+        fi
+    done
+    if [[ -z "${powershell_command}" && "${WINDOWS_INTEROP}" == "msys" ]]; then
+        for candidate in pwsh powershell; do
+            if command -v "${candidate}" >/dev/null 2>&1; then
+                powershell_command="${candidate}"
+                break
+            fi
+        done
+    fi
+    if [[ -z "${powershell_command}" ]]; then
+        die "Windows detected, but neither pwsh.exe nor powershell.exe is available. Run scripts/install-windows.ps1 from PowerShell."
+    fi
+
+    script_path="${BASH_SOURCE[0]:-$0}"
+    if [[ -n "${script_path}" && -f "${script_path}" ]]; then
+        script_dir="$(cd "$(dirname "${script_path}")" && pwd)"
+        if [[ -f "${script_dir}/install-windows.ps1" ]]; then
+            windows_script="${script_dir}/install-windows.ps1"
+            checkout_root="$(resolve_local_checkout_root "${script_dir}" || true)"
+        fi
+    fi
+
+    if [[ -n "${checkout_root}" ]]; then
+        windows_source_dir="$(windows_path "${checkout_root}")"
+    fi
+    if [[ -n "${THEME_DIR}" ]]; then
+        windows_theme_dir="$(windows_path "${THEME_DIR}")"
+    fi
+    if [[ "${NO_ANIM_FLAG}" -eq 1 || "${LATEX_TYPORA_NO_ANIM:-0}" == "1" ]]; then
+        forwarded_no_anim=1
+    fi
+    if [[ "${PLAIN_OUTPUT}" -eq 1 || "${LATEX_TYPORA_PLAIN:-0}" == "1" ]]; then
+        forwarded_plain=1
+    fi
+
+    (
+        export TYPORA_THEME_DIR="${windows_theme_dir}"
+        export LATEX_TYPORA_REF="${REF}"
+        export LATEX_TYPORA_SOURCE_DIR="${windows_source_dir}"
+        export LATEX_TYPORA_NO_PRUNE="$((PRUNE == 0 ? 1 : 0))"
+        export LATEX_TYPORA_NO_ANIM="${forwarded_no_anim}"
+        export LATEX_TYPORA_PLAIN="${forwarded_plain}"
+
+        if [[ "${WINDOWS_INTEROP}" == "wsl" ]]; then
+            export WSLENV="${WSLENV:+${WSLENV}:}TYPORA_THEME_DIR/u:LATEX_TYPORA_REF/u:LATEX_TYPORA_SOURCE_DIR/u:LATEX_TYPORA_NO_PRUNE/u:LATEX_TYPORA_NO_ANIM/u:LATEX_TYPORA_PLAIN/u:NO_COLOR/u:LATEX_TYPORA_NO_COLOR/u:LATEX_TYPORA_ANIMATION_DELAY/u:LATEX_TYPORA_SPINNER_INTERVAL/u:LATEX_TYPORA_TITLE_DELAY/u:LATEX_TYPORA_MAX_WIDTH/u"
+        fi
+
+        if [[ -n "${windows_script}" ]]; then
+            "${powershell_command}" -NoLogo -NoProfile -NonInteractive \
+                -ExecutionPolicy Bypass -Command \
+                '& ([scriptblock]::Create([Console]::In.ReadToEnd()))' \
+                < "${windows_script}" || status=$?
+        else
+            require_command curl
+            curl -fsSL "${WINDOWS_INSTALL_SCRIPT_URL}" \
+                | "${powershell_command}" -NoLogo -NoProfile -NonInteractive \
+                    -ExecutionPolicy Bypass -Command \
+                    '& ([scriptblock]::Create([Console]::In.ReadToEnd()))' || status=$?
+        fi
+        exit "${status}"
+    )
 }
 
 # Typora keeps its themes in a different place per platform, and per
@@ -1018,18 +1111,7 @@ resolve_theme_dir() {
         return
     fi
 
-    local appdata
-    appdata="${APPDATA:-}"
-    if [[ -z "${appdata}" ]]; then
-        die "APPDATA is not set. On Windows, run this in Git Bash/WSL with APPDATA available or pass --theme-dir."
-    fi
-    if command -v cygpath >/dev/null 2>&1; then
-        appdata="$(cygpath -u "${appdata}")"
-    fi
-    RESOLVED_THEME_DIR="${appdata}/Typora/themes"
-    if [[ ! -d "${RESOLVED_THEME_DIR}" ]]; then
-        CREATED_THEME_DIR=1
-    fi
+    die "Internal error: the shell installer cannot resolve a theme directory for '${PLATFORM}'."
 }
 
 # The marker files that tell a repository checkout from any other folder.
@@ -1230,6 +1312,12 @@ install_theme() {
 # --------------------------------------------------------------------------
 
 main() {
+    detect_platform
+    if [[ "${PLATFORM}" == "windows" ]]; then
+        run_windows_installer
+        return
+    fi
+
     print_banner
 
     step "Checking requirements"
@@ -1239,7 +1327,6 @@ main() {
     progress_tick
 
     step "Detecting your platform"
-    detect_platform
     success "Detected platform: ${PLATFORM}"
     progress_tick
 
