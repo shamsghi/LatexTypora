@@ -75,7 +75,7 @@ Default theme folders:
 ## `latex-dev-dark` — Developer Variant
 
 <div align="center">
-  <img width="70%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
+  <img width="78%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
   <br />
   <sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; captured at <strong>150% zoom</strong></sub>
 </div>
