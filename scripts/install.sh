@@ -408,36 +408,6 @@ roll_gradient() {
     show_cursor
 }
 
-# The line under the wordmark, typed out with a cursor trailing it and
-# colored along the same ramp.
-print_tagline() {
-    local text="LaTeX typography for Typora"
-    local pad=0 i=0
-
-    if [[ "${FRAME_WIDTH}" -gt "${#text}" ]]; then
-        pad=$(( (FRAME_WIDTH - ${#text}) / 2 ))
-    fi
-    pad=$((FRAME_INDENT + pad))
-
-    if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]] || [[ "${#GRADIENT[@]}" -eq 0 ]]; then
-        printf '%*s%b%s%b\n' "${pad}" '' "${DIM}${C_MUTED}" "${text}" "${RESET}"
-        return
-    fi
-
-    hide_cursor
-    while [[ "${i}" -lt "${#text}" ]]; do
-        i=$((i + 1))
-        reset_line
-        paint_line "${text:0:i}" 0 "${i}"
-        printf '%*s%s%b%s%b' "${pad}" '' "${PAINTED}" "${DIM}" "_" "${RESET}"
-        sleep_for "${ANIMATION_DELAY}"
-    done
-    reset_line
-    paint_line "${text}" 0 0
-    printf '%*s%s\n' "${pad}" '' "${PAINTED}"
-    show_cursor
-}
-
 # Centers a block of ASCII art as one rigid unit: every line shifts by the
 # same amount, measured from the widest line once trailing whitespace is
 # stripped. Centering each line on its own length instead would rely on the
@@ -582,8 +552,6 @@ EOF
 EOF
     fi
 
-    printf '\n'
-    print_tagline
     print_rule "${DIM}${C_ACCENT}" "${RULE_HEAVY}"
     printf '\n'
 }
