@@ -1035,7 +1035,9 @@ kbd {
     stroke: none !important;
 }
 
-.md-diagram-panel .labelBkg,
+/* Opacity must stay on SVG shapes. Applying it to the HTML .labelBkg
+   inside foreignObject creates a composited layer that loses the parent
+   SVG transform in Typora's renderer, stacking edge labels at the origin. */
 .md-diagram-panel .edgeLabel rect,
 .md-diagram-panel rect.commit-label-bkg {
     fill: var(--bg-color) !important;
