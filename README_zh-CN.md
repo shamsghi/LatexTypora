@@ -1,9 +1,16 @@
 <div align="center">
 
-<img src="https://github.com/user-attachments/assets/a093ed6e-a166-4c0e-accf-852dc034dd4a" alt="浅色模式" width="49%" /> <img src="https://github.com/user-attachments/assets/677f5f36-a9cc-4867-9fee-1d7f6ff4ca28" alt="深色模式" width="49%" />
+<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora 浅色主题" width="45%" />&nbsp;&nbsp;&nbsp;<img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora 深色主题" width="45%" />
+
+<sub>☀️ <strong>浅色模式</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>深色模式</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
+
+<br>
+<img src="./docs/screenshots/attention-promo.png" alt="使用 LaTeX Typora 浅色主题渲染的《Attention Is All You Need》" width="53%" />
 
 <br />
-<sub>☀️ <strong>浅色模式</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>深色模式</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
+<sub>📄 使用浅色主题渲染的 <strong>《Attention Is All You Need》</strong></sub>
+<br />
+<sub>所有截图均在 Typora 中以 <strong>150% 缩放比例</strong>拍摄。</sub>
 
 </div>
 
@@ -15,15 +22,16 @@
 
 ## 特性
 
-- **New Computer Modern 字体** —— 学术级衬线字形，支持现代希腊语与古希腊语
+- **New Computer Modern 字体** —— 学术级衬线字体，支持更广泛的字符集
 - **`article` 类页面几何** —— 行长、`\parindent`、`\parskip`、标题字号与章节间距均取自 letterpaper 11pt 的 `article.cls`
 - **章节自动编号** —— `##`/`###`/`####` 依次编号为 `1`、`1.1`、`1.1.1`，编号与标题之间以 `\quad` 分隔，与 `\section` 一致
 - **LaTeX 环境还原** —— 首行缩进、`quote` 式引用块、`itemize`/`enumerate` 标号（`•` `–` `∗`，`1.` `(a)` `i.`）、表格 `booktabs` 横线，以及 `\footnoterule` 下的 `\footnotesize` 脚注
-- **GitHub 风格 Alerts / Callouts** —— 与 Typora 1.8+ 兼容的主题原生提醒样式
 - **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
-- **跨平台 CJK 字体支持** —— macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC，Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei，Linux 使用 Source Han / Noto CJK 字体
-- **离线可用且自包含** —— 所有字体均本地打包，无需外部依赖或 CDN
-- **跨平台细节打磨** —— 侧边栏、源码模式与打印/导出样式一致，并包含 macOS 交通灯区域修复
+- **跨平台 CJK 字体支持** ——
+  - macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC
+  - Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei
+  - Linux 使用 Source Han / Noto CJK 字体
+- **离线可用且自包含** —— 所有字体均在本地打包，无需外部依赖或 CDN；CJK 字体则使用当前操作系统自带的字体
 
 ## 自动安装
 
@@ -69,9 +77,9 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 ## `latex-dev-dark` — 开发者变体
 
 <div align="center">
-  <img width="85%" src="https://github.com/user-attachments/assets/9a19c61b-fe83-4be8-95bc-6491db57ab73" alt="开发者深色模式" />
+  <img width="78%" src="./docs/screenshots/latex-dev-promo.png" alt="开发者深色模式" />
   <br />
-  <sub>💻 <strong>开发者深色模式</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code></sub>
+  <sub>💻 <strong>开发者深色模式</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; 以 <strong>125% 缩放比例</strong>拍摄</sub>
 </div>
 
 <br />
