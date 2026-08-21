@@ -44,9 +44,25 @@ MANIFEST_NAME=".latex-typora-manifest"
 PRUNE=1
 
 ENABLE_ANIMATIONS=0
-ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.03}"
+# Frame interval for the drawing animations: the rule sweep, the ink pass
+# under each banner line, and the progress fill.
+ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.012}"
 SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
 TITLE_DELAY="${LATEX_TYPORA_TITLE_DELAY:-0.02}"
+
+# Glyph sets, chosen in configure_ui. The Unicode set is only reached for
+# when the locale says the terminal can render it; Git Bash and a bare C
+# locale get the ASCII set.
+UNICODE_OK=0
+SPINNER_FRAMES=()
+BAR_FILL="="
+BAR_HEAD=">"
+BAR_TRACK="."
+RULE_HEAVY="="
+RULE_LIGHT="-"
+# Percentage already drawn, so the next tick can grow into place instead of
+# appearing at its final length.
+PROGRESS_LAST=0
 TERM_WIDTH=80
 # The output is laid out on a fixed measure, centered in the terminal,
 # rather than stretched edge to edge: a rule drawn across a 200-column
@@ -87,7 +103,7 @@ Environment:
   LATEX_TYPORA_NO_ANIM  Set to 1 to disable banner animations.
   LATEX_TYPORA_NO_COLOR  Set to 1 to disable ANSI colors.
   NO_COLOR  Standard variable to disable ANSI colors.
-  LATEX_TYPORA_ANIMATION_DELAY  Seconds between banner lines. Default: 0.03
+  LATEX_TYPORA_ANIMATION_DELAY  Seconds between drawing frames. Default: 0.012
   LATEX_TYPORA_SPINNER_INTERVAL  Seconds between spinner frames. Default: 0.08
   LATEX_TYPORA_TITLE_DELAY  Seconds between title lines. Default: 0.02
   LATEX_TYPORA_MAX_WIDTH  Widest the framed output may be drawn. Default: 76
@@ -136,6 +152,30 @@ configure_ui() {
         TERM_WIDTH="${cols}"
     fi
 
+    # Braille spins far more smoothly than four ASCII frames, and a solid
+    # block bar reads better than equals signs -- but only where the
+    # terminal can actually draw them.
+    if [[ "${PLAIN_OUTPUT}" -eq 0 ]] \
+        && [[ "${LC_ALL:-${LC_CTYPE:-${LANG:-}}}" == *[Uu][Tt][Ff]* ]]; then
+        UNICODE_OK=1
+    fi
+
+    if [[ "${UNICODE_OK}" -eq 1 ]]; then
+        SPINNER_FRAMES=("⠋" "⠙" "⠹" "⠸" "⠼" "⠴" "⠦" "⠧" "⠇" "⠏")
+        BAR_FILL="━"
+        BAR_HEAD="╸"
+        BAR_TRACK="─"
+        RULE_HEAVY="═"
+        RULE_LIGHT="─"
+    else
+        SPINNER_FRAMES=("-" "\\" "|" "/")
+        BAR_FILL="="
+        BAR_HEAD=">"
+        BAR_TRACK="."
+        RULE_HEAVY="="
+        RULE_LIGHT="-"
+    fi
+
     if [[ ! "${MAX_MEASURE}" =~ ^[0-9]+$ ]] || [[ "${MAX_MEASURE}" -lt 20 ]]; then
         MAX_MEASURE=76
     fi
@@ -172,6 +212,21 @@ repeat_char() {
 
 print_rule() {
     local color="$1" char="$2"
+    local frames=12 i drawn
+
+    # Animated, the rule is set left to right the way a \hrule lands on a
+    # page; otherwise it is simply printed.
+    if [[ "${ENABLE_ANIMATIONS}" -eq 1 ]]; then
+        hide_cursor
+        for ((i = 1; i < frames; i++)); do
+            drawn=$(( FRAME_WIDTH * i / frames ))
+            reset_line
+            printf '%b%s%b' "${FRAME_PAD}${color}" "$(repeat_char "${char}" "${drawn}")" "${RESET}"
+            sleep_for "${ANIMATION_DELAY}"
+        done
+        reset_line
+        show_cursor
+    fi
     printf '%b%s%b\n' "${FRAME_PAD}${color}" "$(repeat_char "${char}" "${FRAME_WIDTH}")" "${RESET}"
 }
 
@@ -213,10 +268,19 @@ print_art_block() {
     fi
     pad=$((FRAME_INDENT + pad))
 
+    hide_cursor
     for line in "${lines[@]}"; do
+        # Each line is set in light ink first and then darkens into place,
+        # so the wordmark reads as being typeset rather than pasted in.
+        if [[ "${ENABLE_ANIMATIONS}" -eq 1 && -n "${line}" ]]; then
+            printf '%*s%b%s%b' "${pad}" '' "${DIM}" "${line}" "${RESET}"
+            sleep_for "${ANIMATION_DELAY}"
+            reset_line
+        fi
         printf '%*s%b%s%b\n' "${pad}" '' "${color}" "${line}" "${RESET}"
         sleep_for "${TITLE_DELAY}"
     done
+    show_cursor
 }
 
 # Shows $HOME as ~, so a long install path stays inside the measure and a
@@ -258,7 +322,7 @@ reset_line() {
 
 print_banner() {
     printf '\n'
-    print_rule "${DIM}${C_ACCENT}" '='
+    print_rule "${DIM}${C_ACCENT}" "${RULE_HEAVY}"
 
     # Two sets of wordmarks. The wide pair needs 59 columns of measure; the
     # narrow pair is drawn whenever the frame is tighter than that.
@@ -306,7 +370,7 @@ EOF
 EOF
     fi
 
-    print_rule "${DIM}${C_ACCENT}" '='
+    print_rule "${DIM}${C_ACCENT}" "${RULE_HEAVY}"
     printf '\n'
 }
 
@@ -320,9 +384,15 @@ status_line() {
 }
 
 status_prefix() {
-    local color="$1" tag="$2" padded
-    printf -v padded '%-*s' "${TAG_WIDTH}" "${tag}"
-    printf '%s' "${GUTTER}${color}${padded}${RESET} "
+    local color="$1" tag="$2" pad
+    # Padded by character count rather than with %-*s, which measures bytes:
+    # a multibyte spinner frame would otherwise lose a column and make the
+    # message text shuffle sideways as it spins.
+    pad=$((TAG_WIDTH - ${#tag}))
+    if [[ "${pad}" -lt 0 ]]; then
+        pad=0
+    fi
+    printf '%s' "${GUTTER}${color}${tag}$(repeat_char ' ' "${pad}")${RESET} "
 }
 
 step() {
@@ -344,16 +414,19 @@ warn() {
 
 print_completion_block() {
     printf '\n'
-    print_rule "${BOLD}${C_ACCENT}" '='
+    print_rule "${BOLD}${C_ACCENT}" "${RULE_HEAVY}"
     print_centered_line "${BOLD}${C_ACCENT}" "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
-    print_rule "${DIM}${C_ACCENT}" '-'
+    print_rule "${DIM}${C_ACCENT}" "${RULE_LIGHT}"
     # The install path is named again here: it was last mentioned four steps
     # ago, and this block is the one people scroll back to.
     info "Installed to: $(display_path "${RESOLVED_THEME_DIR}")"
+    sleep_for "${TITLE_DELAY}"
     info "In Typora, choose a theme: $(join_list "${INSTALLED_THEMES[@]}")."
+    sleep_for "${TITLE_DELAY}"
     info "If the themes are missing, restart Typora."
-    print_rule "${BOLD}${C_ACCENT}" '='
+    sleep_for "${TITLE_DELAY}"
+    print_rule "${BOLD}${C_ACCENT}" "${RULE_HEAVY}"
 }
 
 # "1 stylesheet" / "3 stylesheets". Only ever used on words that take a
@@ -403,9 +476,7 @@ run_with_spinner() {
         return "${status}"
     fi
 
-    # Single quotes, so these are four literal frames: - \ | /
-    local spinner='-\|/'
-    local frames="${#spinner}"
+    local frames="${#SPINNER_FRAMES[@]}"
     local frame_index=0
 
     "$@" &
@@ -414,7 +485,7 @@ run_with_spinner() {
 
     while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
         reset_line
-        printf '%b' "$(status_prefix "${C_ACCENT}" "[${spinner:${frame_index}:1}]")${label}"
+        printf '%b' "$(status_prefix "${C_ACCENT}" "[${SPINNER_FRAMES[frame_index]}]")${label}"
         frame_index=$(((frame_index + 1) % frames))
         sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
@@ -454,26 +525,56 @@ render_progress() {
     local current="$1"
     local total="$2"
     local width=28
-    local percent filled empty
-    local filled_bar empty_bar
+    local percent frame
 
-    # Suppressed only by --plain. The bar is one whole line per step, never
-    # an in-place redraw, so it stays readable in a log file.
+    # Suppressed only by --plain. The finished bar is one whole line per
+    # step, never an in-place redraw, so it stays readable in a log file.
     [[ "${PLAIN_OUTPUT}" -eq 0 ]] || return 0
     [[ "${total}" -gt 0 ]] || return 0
 
     percent=$(( current * 100 / total ))
-    filled=$(( current * width / total ))
+
+    # Animated, the bar grows from where the last step left it to where this
+    # one ends, which is the only part of the run that shows movement
+    # between steps.
+    if [[ "${ENABLE_ANIMATIONS}" -eq 1 ]]; then
+        hide_cursor
+        for ((frame = PROGRESS_LAST + 4; frame < percent; frame += 4)); do
+            reset_line
+            draw_bar "${frame}" "${width}"
+            sleep_for "${ANIMATION_DELAY}"
+        done
+        reset_line
+        show_cursor
+    fi
+
+    draw_bar "${percent}" "${width}"
+    printf '\n'
+    PROGRESS_LAST="${percent}"
+}
+
+draw_bar() {
+    local percent="$1" width="$2"
+    local filled empty body="" track=""
+
+    filled=$(( percent * width / 100 ))
+    if [[ "${filled}" -gt "${width}" ]]; then
+        filled="${width}"
+    fi
     empty=$(( width - filled ))
 
-    printf -v filled_bar '%*s' "${filled}" ''
-    filled_bar="${filled_bar// /=}"
-    printf -v empty_bar '%*s' "${empty}" ''
-    empty_bar="${empty_bar// /.}"
+    if [[ "${filled}" -gt 0 ]] && [[ "${empty}" -gt 0 ]]; then
+        # A distinct head on the leading edge gives a growing bar a
+        # direction; a full bar has nowhere left to point.
+        body="$(repeat_char "${BAR_FILL}" $((filled - 1)))${BAR_HEAD}"
+    elif [[ "${filled}" -gt 0 ]]; then
+        body="$(repeat_char "${BAR_FILL}" "${filled}")"
+    fi
+    track="$(repeat_char "${BAR_TRACK}" "${empty}")"
 
-    # The percent literal belongs to this format string. Passing it inside
-    # a %b argument printed a bare "%%" on screen.
-    printf '%b%3d%%\n' "${GUTTER}${C_MUTED}[${filled_bar}${empty_bar}]${RESET} " "${percent}"
+    # The percent literal belongs to this format string. Passed inside a %b
+    # argument it printed a bare "%%" on screen.
+    printf '%b%3d%%' "${GUTTER}${C_MUTED}[${body}${track}]${RESET} " "${percent}"
 }
 
 while [[ $# -gt 0 ]]; do
