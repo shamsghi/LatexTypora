@@ -103,6 +103,7 @@ BAR_HEAD=">"
 BAR_TRACK="."
 RULE_HEAVY="="
 RULE_LIGHT="-"
+SPARKLES=("*" "+" "." "x")
 # Percentage already drawn, so the next tick can grow into place instead of
 # appearing at its final length.
 PROGRESS_LAST=0
@@ -262,6 +263,7 @@ configure_ui() {
         BAR_TRACK="─"
         RULE_HEAVY="═"
         RULE_LIGHT="─"
+        SPARKLES=("✦" "✧" "⋆" "·")
     else
         SPINNER_FRAMES=("-" "\\" "|" "/")
         BAR_FILL="="
@@ -269,6 +271,7 @@ configure_ui() {
         BAR_TRACK="."
         RULE_HEAVY="="
         RULE_LIGHT="-"
+        SPARKLES=("*" "+" "." "x")
     fi
 
     if [[ ! "${MAX_MEASURE}" =~ ^[0-9]+$ ]] || [[ "${MAX_MEASURE}" -lt 20 ]]; then
@@ -624,12 +627,72 @@ warn() {
     status_line "${C_WARN}" "[!]" "$1"
 }
 
+# A scatter of sparkles across the measure, twinkled in place for a few
+# frames and then left on screen as part of the panel. Positions and colors
+# come from $RANDOM, so no two runs finish quite the same way.
+print_sparkle_line() {
+    local frames=6 frame col line stops="${#GRADIENT[@]}"
+
+    [[ "${stops}" -gt 0 ]] || return 0
+
+    if [[ "${ENABLE_ANIMATIONS}" -ne 1 ]]; then
+        frames=1
+    fi
+
+    hide_cursor
+    for ((frame = 0; frame < frames; frame++)); do
+        line=""
+        for ((col = 0; col < FRAME_WIDTH; col++)); do
+            # Roughly one column in seven lights up.
+            if [[ $((RANDOM % 7)) -eq 0 ]]; then
+                line+="${GRADIENT[RANDOM % stops]}${SPARKLES[RANDOM % ${#SPARKLES[@]}]}"
+            else
+                line+=" "
+            fi
+        done
+        reset_line
+        printf '%s%s%s' "${FRAME_PAD}" "${line}" "${ESC_RESET}"
+        sleep_for "${ANIMATION_DELAY}"
+    done
+    printf '\n'
+    show_cursor
+}
+
+# The finale line: centered, then shimmered through the ramp. Unlike the
+# banner it is left in color rather than settled back to the accent -- the
+# banner is the identity, this is the celebration.
+print_finale_line() {
+    local text="$1"
+    local frames=10 frame pad=0
+
+    if [[ "${#GRADIENT[@]}" -eq 0 ]] || [[ "${ENABLE_ANIMATIONS}" -ne 1 ]]; then
+        print_centered_line "${BOLD}${C_ACCENT}" "${text}"
+        return
+    fi
+
+    if [[ "${FRAME_WIDTH}" -gt "${#text}" ]]; then
+        pad=$(( (FRAME_WIDTH - ${#text}) / 2 ))
+    fi
+    pad=$((FRAME_INDENT + pad))
+
+    hide_cursor
+    for ((frame = 0; frame < frames; frame++)); do
+        paint_line "${text}" 0 "${frame}"
+        reset_line
+        printf '%*s%s' "${pad}" '' "${PAINTED}"
+        sleep_for "${ANIMATION_DELAY}"
+    done
+    printf '\n'
+    show_cursor
+}
+
 # The closing panel. Reads the globals that install_theme filled in, so it
 # describes the run that actually happened.
 print_completion_block() {
     printf '\n'
     print_rule "${BOLD}${C_ACCENT}" "${RULE_HEAVY}"
-    print_centered_line "${BOLD}${C_ACCENT}" "INSTALLATION COMPLETE"
+    print_sparkle_line
+    print_finale_line "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
     print_rule "${DIM}${C_ACCENT}" "${RULE_LIGHT}"
     # The install path is named again here: it was last mentioned four steps
@@ -693,7 +756,9 @@ run_with_spinner() {
     fi
 
     local frames="${#SPINNER_FRAMES[@]}"
+    local stops="${#GRADIENT[@]}"
     local frame_index=0
+    local tint
 
     "$@" &
     BACKGROUND_PID=$!
@@ -701,7 +766,13 @@ run_with_spinner() {
 
     while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
         reset_line
-        printf '%b' "$(status_prefix "${C_ACCENT}" "[${SPINNER_FRAMES[frame_index]}]")${label}"
+        # The frame carries a color of its own, walking the ramp as it
+        # turns, so a long download has something to watch.
+        tint="${C_ACCENT}"
+        if [[ "${stops}" -gt 0 ]]; then
+            tint="${GRADIENT[frame_index % stops]}"
+        fi
+        printf '%b' "$(status_prefix "${tint}" "[${SPINNER_FRAMES[frame_index]}]")${label}"
         frame_index=$(((frame_index + 1) % frames))
         sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
@@ -791,6 +862,13 @@ draw_bar() {
         body="$(repeat_char "${BAR_FILL}" "${filled}")"
     fi
     track="$(repeat_char "${BAR_TRACK}" "${empty}")"
+
+    # The filled length carries the ramp, offset by the percentage, so the
+    # color travels along with the growth instead of sitting still.
+    if [[ "${#GRADIENT[@]}" -gt 0 ]] && [[ -n "${body}" ]]; then
+        paint_line "${body}" 0 "${percent}"
+        body="${PAINTED}${C_MUTED}"
+    fi
 
     # The percent literal belongs to this format string. Passed inside a %b
     # argument it printed a bare "%%" on screen.
