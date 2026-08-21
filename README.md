@@ -1,9 +1,17 @@
 <div align="center">
 
-<img src="./docs/screenshots/latex-modes.png" alt="LaTeX Typora light and dark modes divided diagonally" width="49%" /> <img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="49%" />
+<img src="./docs/screenshots/latex-light-promo.png" alt="LaTeX Typora light theme" width="49%" /> <img src="./docs/screenshots/latex-dark-promo.png" alt="LaTeX Typora dark theme" width="49%" />
 
 <br />
-<sub>☀️ <strong>Light</strong> + 🌙 <strong>Dark</strong> &nbsp;—&nbsp; <code>latex.css</code> / <code>latex-dark.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 📄 <strong>Attention Is All You Need</strong></sub>
+<sub>☀️ <strong>Light</strong> &nbsp;—&nbsp; <code>latex.css</code> &nbsp;&nbsp;|&nbsp;&nbsp; 🌙 <strong>Dark</strong> &nbsp;—&nbsp; <code>latex-dark.css</code></sub>
+
+<br /><br />
+<img src="./docs/screenshots/attention-promo.png" alt="Attention Is All You Need rendered with the light LaTeX Typora theme" width="82%" />
+
+<br />
+<sub>📄 <strong>Attention Is All You Need</strong> rendered with the light theme</sub>
+<br />
+<sub>All screenshots were captured in Typora at <strong>150% zoom</strong>.</sub>
 
 </div>
 
@@ -72,7 +80,7 @@ Default theme folders:
 <div align="center">
   <img width="85%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
   <br />
-  <sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code></sub>
+  <sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; captured at <strong>150% zoom</strong></sub>
 </div>
 
 <br />
