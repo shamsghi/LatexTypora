@@ -130,14 +130,18 @@
     caret-color: var(--text-color);
 }
 
-/* The light theme pins search text to the document ink. The dark theme has
-   historically inherited Typora's match text, so explicitly restore those
-   inherited values after importing the canonical stylesheet. */
+/* latex.css pins matched text to the document ink, and has to use
+   !important to do it: Typora's base-control.css matches the current match
+   as .md-search-hit.md-search-select and paints it --search-select-text-color
+   (#fff), which would vanish on the light theme's tan selection. On black
+   that pin is the wrong trade -- it flattens the syntax colours of a match
+   inside a fence -- so unpin it. Answering an !important takes an
+   !important, and -webkit-text-fill-color has to come along because it
+   overrides colour where it is set. */
 .md-search-hit,
 .md-search-select {
     color: inherit !important;
     -webkit-text-fill-color: inherit;
-    text-shadow: inherit;
 }
 
 .code-tooltip.md-hover-tip.md-f-tooltip {
