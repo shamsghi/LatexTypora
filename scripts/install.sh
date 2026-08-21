@@ -24,6 +24,11 @@ GREEN=""
 YELLOW=""
 RED=""
 
+# Left margin shared by every status line, and the width of the tag column
+# ([ok], [!], the spinner frame) that follows it.
+GUTTER="  "
+TAG_WIDTH=4
+
 MANIFEST_NAME=".latex-typora-manifest"
 PRUNE=1
 
@@ -233,20 +238,35 @@ EOF
     printf '\n'
 }
 
+# Every status line is built from one primitive so the markers line up:
+# a shared left margin, a fixed-width tag column, then the message. An
+# [ok] printed by a spinner therefore lands in the same columns as one
+# printed directly, instead of hugging column zero.
+status_line() {
+    local color="$1" tag="$2" text="$3"
+    printf '%b\n' "$(status_prefix "${color}" "${tag}")${text}"
+}
+
+status_prefix() {
+    local color="$1" tag="$2" padded
+    printf -v padded '%-*s' "${TAG_WIDTH}" "${tag}"
+    printf '%s' "${GUTTER}${color}${padded}${RESET} "
+}
+
 step() {
     printf '%b\n' "${BOLD}${BLUE}=>${RESET} ${BOLD}$1${RESET}"
 }
 
 info() {
-    printf '%b\n' "${BLUE}  -${RESET} $1"
+    status_line "${BLUE}" " - " "$1"
 }
 
 success() {
-    printf '%b\n' "${GREEN}  [ok]${RESET} $1"
+    status_line "${GREEN}" "[ok]" "$1"
 }
 
 warn() {
-    printf '%b\n' "${YELLOW}  [!]${RESET} $1"
+    status_line "${YELLOW}" "[!]" "$1"
 }
 
 print_completion_block() {
@@ -267,7 +287,7 @@ print_completion_block() {
 }
 
 die() {
-    printf '%b\n' "${RED}  [x] $1${RESET}" >&2
+    status_line "${RED}" "[x]" "$1" >&2
     exit 1
 }
 
@@ -292,7 +312,7 @@ run_with_spinner() {
 
     while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
         reset_line
-        printf '%b' "${BLUE}[${spinner:${frame_index}:1}]${RESET} ${label}"
+        printf '%b' "$(status_prefix "${BLUE}" "[${spinner:${frame_index}:1}]")${label}"
         frame_index=$(((frame_index + 1) % frames))
         sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
@@ -309,9 +329,9 @@ run_with_spinner() {
 
     reset_line
     if [[ "${status}" -eq 0 ]]; then
-        printf '%b\n' "${GREEN}[ok]${RESET} ${label}"
+        success "${label}"
     else
-        printf '%b\n' "${RED}[x]${RESET} ${label}"
+        status_line "${RED}" "[x]" "${label}"
     fi
 
     return "${status}"
