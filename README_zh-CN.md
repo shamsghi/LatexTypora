@@ -104,7 +104,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 ## 自定义
 
-主题依赖的每一项 LaTeX 度量都是 `latex.css` 与 `latex-dark.css` 顶部的 `:root` 变量，无需翻找选择器即可调整版面。
+主题共用的 LaTeX 度量都集中在 `latex.css` 顶部的 `:root` 变量中；`latex-dark.css` 会导入这份规范样式表，并只保留深色配色与少量深色专用 UI 规则。无需翻找选择器即可调整版面。
 
 | 变量 | 默认值 | 作用 |
 | :-- | :-- | :-- |
@@ -135,4 +135,4 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
 - 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
-- 颜色、字体与全部 LaTeX 度量均为各主题文件顶部的 `:root` 变量，详见[自定义](#自定义)。
+- 共用字体与 LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，并在文件顶部保留各自的配色或版式覆盖，详见[自定义](#自定义)。

@@ -1,6 +1,7 @@
 /*
  * LaTeX Theme for Typora
- * A light theme inspired by the classic Latin Modern LaTeX page.
+ * The canonical shared stylesheet, with light theme defaults.
+ * Dark variants import this file and override only their differences.
  */
 
 @font-face {
