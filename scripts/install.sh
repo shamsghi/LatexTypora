@@ -15,14 +15,18 @@ RESOLVED_THEME_DIR=""
 PLATFORM=""
 CREATED_THEME_DIR=0
 
+# Colors are named for the role they play, not the ink they happen to use:
+# the palette deliberately answers "ok" in the theme's blue rather than the
+# usual green, and secondary rules in grey. Empty until configure_ui decides
+# the terminal should see ANSI at all.
 BOLD=""
 DIM=""
 RESET=""
-BLUE=""
-MAGENTA=""
-GREEN=""
-YELLOW=""
-RED=""
+C_ACCENT=""
+C_MUTED=""
+C_OK=""
+C_WARN=""
+C_ERR=""
 
 # Progress is reported in one voice per channel: the step header carries
 # the words, the bar carries the proportion. TOTAL_STEPS must match the
@@ -96,11 +100,11 @@ configure_ui() {
         BOLD="\033[1m"
         DIM="\033[2m"
         RESET="\033[0m"
-        BLUE="\033[34m"
-        MAGENTA="\033[90m"
-        GREEN="\033[34m"
-        YELLOW="\033[33m"
-        RED="\033[31m"
+        C_ACCENT="\033[34m"   # blue: rules, step markers, the spinner
+        C_MUTED="\033[90m"   # grey: secondary rules and the progress bar
+        C_OK="\033[34m"      # blue, matching the accent, not a green
+        C_WARN="\033[33m"    # yellow
+        C_ERR="\033[31m"     # red
     fi
 
     if [[ "${PLAIN_OUTPUT}" -eq 0 ]] \
@@ -183,11 +187,11 @@ print_banner() {
     fi
 
     printf '\n'
-    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
 
     if [[ "${TERM_WIDTH}" -ge 62 ]]; then
         while IFS= read -r line; do
-            print_centered_line "${BOLD}${BLUE}" "${line}"
+            print_centered_line "${BOLD}${C_ACCENT}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
       ooooo      o   ooooooooooooo       ooooooo  ooooo
@@ -203,7 +207,7 @@ EOF
 
         printf '\n'
         while IFS= read -r line; do
-            print_centered_line "${BOLD}${MAGENTA}" "${line}"
+            print_centered_line "${BOLD}${C_MUTED}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
 """88"""                                                   
@@ -218,7 +222,7 @@ EOF
 EOF
     else
         while IFS= read -r line; do
-            print_centered_line "${BOLD}${BLUE}" "${line}"
+            print_centered_line "${BOLD}${C_ACCENT}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
 8      88888     Yb  dP
@@ -230,7 +234,7 @@ EOF
 
         printf '\n'
         while IFS= read -r line; do
-            print_centered_line "${BOLD}${MAGENTA}" "${line}"
+            print_centered_line "${BOLD}${C_MUTED}" "${line}"
             sleep_for "${TITLE_DELAY}"
         done <<'EOF'
 88888                            
@@ -241,7 +245,7 @@ EOF
 EOF
     fi
 
-    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
     printf '\n'
 }
 
@@ -262,19 +266,19 @@ status_prefix() {
 
 step() {
     CURRENT_STEP=$((CURRENT_STEP + 1))
-    printf '%b\n' "${BOLD}${BLUE}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
+    printf '%b\n' "${BOLD}${C_ACCENT}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
 }
 
 info() {
-    status_line "${BLUE}" " - " "$1"
+    status_line "${C_ACCENT}" " - " "$1"
 }
 
 success() {
-    status_line "${GREEN}" "[ok]" "$1"
+    status_line "${C_OK}" "[ok]" "$1"
 }
 
 warn() {
-    status_line "${YELLOW}" "[!]" "$1"
+    status_line "${C_WARN}" "[!]" "$1"
 }
 
 print_completion_block() {
@@ -285,13 +289,13 @@ print_completion_block() {
         rule_width=$((TERM_WIDTH - 2))
     fi
 
-    printf '\n%b%s%b\n' "${BOLD}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
-    print_centered_line "${BOLD}${BLUE}" "INSTALLATION COMPLETE"
+    printf '\n%b%s%b\n' "${BOLD}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    print_centered_line "${BOLD}${C_ACCENT}" "INSTALLATION COMPLETE"
     print_centered_line "${BOLD}" "LaTeX Typora theme assets are installed."
-    printf '%b%s%b\n' "${DIM}${BLUE}" "$(repeat_char '-' "${rule_width}")" "${RESET}"
+    printf '%b%s%b\n' "${DIM}${C_ACCENT}" "$(repeat_char '-' "${rule_width}")" "${RESET}"
     info "In Typora, choose a theme: $(join_list "${INSTALLED_THEMES[@]}")."
     info "If the themes are missing, restart Typora."
-    printf '%b%s%b\n' "${BOLD}${BLUE}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
+    printf '%b%s%b\n' "${BOLD}${C_ACCENT}" "$(repeat_char '=' "${rule_width}")" "${RESET}"
 }
 
 # "1 stylesheet" / "3 stylesheets". Only ever used on words that take a
@@ -315,7 +319,7 @@ join_list() {
 }
 
 die() {
-    status_line "${RED}" "[x]" "$1" >&2
+    status_line "${C_ERR}" "[x]" "$1" >&2
     exit 1
 }
 
@@ -352,7 +356,7 @@ run_with_spinner() {
 
     while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
         reset_line
-        printf '%b' "$(status_prefix "${BLUE}" "[${spinner:${frame_index}:1}]")${label}"
+        printf '%b' "$(status_prefix "${C_ACCENT}" "[${spinner:${frame_index}:1}]")${label}"
         frame_index=$(((frame_index + 1) % frames))
         sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
@@ -378,7 +382,7 @@ report_status() {
     if [[ "${status}" -eq 0 ]]; then
         success "${label}"
     else
-        status_line "${RED}" "[x]" "${label}"
+        status_line "${C_ERR}" "[x]" "${label}"
     fi
 }
 
@@ -411,7 +415,7 @@ render_progress() {
 
     # The percent literal belongs to this format string. Passing it inside
     # a %b argument printed a bare "%%" on screen.
-    printf '%b%3d%%\n' "${GUTTER}${MAGENTA}[${filled_bar}${empty_bar}]${RESET} " "${percent}"
+    printf '%b%3d%%\n' "${GUTTER}${C_MUTED}[${filled_bar}${empty_bar}]${RESET} " "${percent}"
 }
 
 while [[ $# -gt 0 ]]; do
