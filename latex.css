@@ -1067,7 +1067,12 @@ kbd {
     margin: 0 auto;
 }
 
-.md-diagram-panel-preview {
+/* The frame around a diagram. Typora builds -preview only in the editor;
+   an HTML or PDF export drops it and leaves the svg as a direct child of
+   the panel, so the panel takes the frame exactly when the wrapper is
+   absent and neither context ends up drawing it twice. */
+.md-diagram-panel-preview,
+.md-diagram-panel:not(:has(.md-diagram-panel-preview)) {
     display: block;
     box-sizing: border-box;
     max-width: 100%;
@@ -1079,7 +1084,7 @@ kbd {
     text-align: center;
 }
 
-.md-diagram-panel-preview svg {
+.md-diagram-panel svg {
     display: block;
     width: auto !important;
     max-width: 100%;
@@ -1104,13 +1109,7 @@ kbd {
 .md-diagram-panel .nodeLabel,
 .md-diagram-panel .edgeLabel,
 .md-diagram-panel .cluster-label,
-.md-diagram-panel .label,
-.md-diagram-panel-preview svg text,
-.md-diagram-panel-preview svg tspan,
-.md-diagram-panel-preview .nodeLabel,
-.md-diagram-panel-preview .edgeLabel,
-.md-diagram-panel-preview .cluster-label,
-.md-diagram-panel-preview .label {
+.md-diagram-panel .label {
     fill: var(--text-color) !important;
     color: var(--text-color) !important;
     font-family: var(--diagram-label-font) !important;
@@ -1142,19 +1141,19 @@ kbd {
 /* Mermaid parks edge labels on an opaque chip so the link does not run
    through the text. The chip is an HTML <div>, not an SVG shape, so it
    takes background-color rather than fill. Paper, not grey. */
-.md-diagram-panel-preview .labelBkg,
-.md-diagram-panel-preview .edgeLabel,
-.md-diagram-panel-preview .edgeLabel p,
-.md-diagram-panel-preview .edgeLabel .label > div,
-.md-diagram-panel-preview .commit-label-bkg,
-.md-diagram-panel-preview rect.commit-label-bkg {
+.md-diagram-panel .labelBkg,
+.md-diagram-panel .edgeLabel,
+.md-diagram-panel .edgeLabel p,
+.md-diagram-panel .edgeLabel .label > div,
+.md-diagram-panel .commit-label-bkg,
+.md-diagram-panel rect.commit-label-bkg {
     background-color: var(--bg-color) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .labelBkg,
-.md-diagram-panel-preview .edgeLabel rect,
-.md-diagram-panel-preview rect.commit-label-bkg {
+.md-diagram-panel .labelBkg,
+.md-diagram-panel .edgeLabel rect,
+.md-diagram-panel rect.commit-label-bkg {
     fill: var(--bg-color) !important;
     opacity: 0.92 !important;
 }
@@ -1168,153 +1167,153 @@ kbd {
    its own node ink below, so a paper carrying a flowchart, a class
    diagram and an ER diagram does not read as one long blue wash. */
 
-.md-diagram-panel-preview .node rect,
-.md-diagram-panel-preview .node circle,
-.md-diagram-panel-preview .node ellipse,
-.md-diagram-panel-preview .node polygon,
-.md-diagram-panel-preview .node path,
-.md-diagram-panel-preview .node .label-container,
-.md-diagram-panel-preview .statediagram-state rect,
-.md-diagram-panel-preview .stateGroup rect,
-.md-diagram-panel-preview .stateGroup path,
-.md-diagram-panel-preview .er.entityBox,
-.md-diagram-panel-preview .block rect,
-.md-diagram-panel-preview .kanbanItem {
+.md-diagram-panel .node rect,
+.md-diagram-panel .node circle,
+.md-diagram-panel .node ellipse,
+.md-diagram-panel .node polygon,
+.md-diagram-panel .node path,
+.md-diagram-panel .node .label-container,
+.md-diagram-panel .statediagram-state rect,
+.md-diagram-panel .stateGroup rect,
+.md-diagram-panel .stateGroup path,
+.md-diagram-panel .er.entityBox,
+.md-diagram-panel .block rect,
+.md-diagram-panel .kanbanItem {
     fill: var(--diagram-node-fill-color) !important;
     stroke: var(--diagram-node-line-color) !important;
     stroke-width: 1px !important;
 }
 
-.md-diagram-panel-preview .cluster rect,
-.md-diagram-panel-preview .cluster > rect,
-.md-diagram-panel-preview .statediagram-cluster rect.outer,
-.md-diagram-panel-preview .statediagram-cluster rect.inner,
-.md-diagram-panel-preview .node-bkg,
-.md-diagram-panel-preview .treemapSection {
+.md-diagram-panel .cluster rect,
+.md-diagram-panel .cluster > rect,
+.md-diagram-panel .statediagram-cluster rect.outer,
+.md-diagram-panel .statediagram-cluster rect.inner,
+.md-diagram-panel .node-bkg,
+.md-diagram-panel .treemapSection {
     fill: var(--diagram-cluster-fill-color) !important;
     stroke: var(--diagram-cluster-line-color) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="classDiagram"] .node rect,
-.md-diagram-panel-preview [aria-roledescription="classDiagram"] .node path,
-.md-diagram-panel-preview [aria-roledescription="classDiagram"] .label-container,
-.md-diagram-panel-preview .classBox {
+.md-diagram-panel [aria-roledescription="classDiagram"] .node rect,
+.md-diagram-panel [aria-roledescription="classDiagram"] .node path,
+.md-diagram-panel [aria-roledescription="classDiagram"] .label-container,
+.md-diagram-panel .classBox {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
     stroke-width: 1px !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="er"] .node rect,
-.md-diagram-panel-preview [aria-roledescription="er"] .node path,
-.md-diagram-panel-preview [aria-roledescription="er"] .label-container {
+.md-diagram-panel [aria-roledescription="er"] .node rect,
+.md-diagram-panel [aria-roledescription="er"] .node path,
+.md-diagram-panel [aria-roledescription="er"] .label-container {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="requirement"] .node rect,
-.md-diagram-panel-preview [aria-roledescription="requirement"] .node path,
-.md-diagram-panel-preview [aria-roledescription="requirement"] .label-container {
+.md-diagram-panel [aria-roledescription="requirement"] .node rect,
+.md-diagram-panel [aria-roledescription="requirement"] .node path,
+.md-diagram-panel [aria-roledescription="requirement"] .label-container {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="block"] .node rect,
-.md-diagram-panel-preview [aria-roledescription="block"] .label-container {
+.md-diagram-panel [aria-roledescription="block"] .node rect,
+.md-diagram-panel [aria-roledescription="block"] .label-container {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="stateDiagram"] .node rect,
-.md-diagram-panel-preview [aria-roledescription="stateDiagram"] .label-container {
+.md-diagram-panel [aria-roledescription="stateDiagram"] .node rect,
+.md-diagram-panel [aria-roledescription="stateDiagram"] .label-container {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
 /* Start and end pips are punctuation, not states. */
-.md-diagram-panel-preview .state-start,
-.md-diagram-panel-preview .state-end,
-.md-diagram-panel-preview .statediagram-state .state-start {
+.md-diagram-panel .state-start,
+.md-diagram-panel .state-end,
+.md-diagram-panel .statediagram-state .state-start {
     fill: var(--diagram-ink-color) !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
 /* Notes are marginalia, so they take the warmest ink in the ramp -- the
    amber the second series is built on. */
-.md-diagram-panel-preview rect.note,
-.md-diagram-panel-preview .note > rect,
-.md-diagram-panel-preview .statediagram-note rect,
-.md-diagram-panel-preview .statediagram-note path,
-.md-diagram-panel-preview .statediagram-note .label-container,
-.md-diagram-panel-preview .state-note rect {
+.md-diagram-panel rect.note,
+.md-diagram-panel .note > rect,
+.md-diagram-panel .statediagram-note rect,
+.md-diagram-panel .statediagram-note path,
+.md-diagram-panel .statediagram-note .label-container,
+.md-diagram-panel .state-note rect {
     fill: var(--diagram-note-fill-color) !important;
     stroke: var(--diagram-note-line-color) !important;
 }
 
-.md-diagram-panel-preview .edgePath .path,
-.md-diagram-panel-preview .flowchart-link,
-.md-diagram-panel-preview .relationshipLine,
-.md-diagram-panel-preview .transition,
-.md-diagram-panel-preview .messageLine0,
-.md-diagram-panel-preview .messageLine1,
-.md-diagram-panel-preview .edge,
-.md-diagram-panel-preview .architecture-edges .edge {
+.md-diagram-panel .edgePath .path,
+.md-diagram-panel .flowchart-link,
+.md-diagram-panel .relationshipLine,
+.md-diagram-panel .transition,
+.md-diagram-panel .messageLine0,
+.md-diagram-panel .messageLine1,
+.md-diagram-panel .edge,
+.md-diagram-panel .architecture-edges .edge {
     stroke: var(--diagram-edge-color) !important;
     fill: none !important;
 }
 
-.md-diagram-panel-preview .arrowheadPath,
-.md-diagram-panel-preview .arrowMarkerPath,
-.md-diagram-panel-preview marker path,
-.md-diagram-panel-preview marker circle,
-.md-diagram-panel-preview marker polygon,
-.md-diagram-panel-preview .marker path,
-.md-diagram-panel-preview .marker circle,
-.md-diagram-panel-preview .marker polygon {
+.md-diagram-panel .arrowheadPath,
+.md-diagram-panel .arrowMarkerPath,
+.md-diagram-panel marker path,
+.md-diagram-panel marker circle,
+.md-diagram-panel marker polygon,
+.md-diagram-panel .marker path,
+.md-diagram-panel .marker circle,
+.md-diagram-panel .marker polygon {
     fill: var(--diagram-edge-color) !important;
     stroke: var(--diagram-edge-color) !important;
 }
 
 /* Zero-or-one / zero-or-more crow's feet are hollow rings; filling them
    with the edge ink would read as one-and-only-one. */
-.md-diagram-panel-preview .marker.zeroOrOne circle,
-.md-diagram-panel-preview .marker.zeroOrMore circle,
-.md-diagram-panel-preview marker.zeroOrOne circle,
-.md-diagram-panel-preview marker.zeroOrMore circle {
+.md-diagram-panel .marker.zeroOrOne circle,
+.md-diagram-panel .marker.zeroOrMore circle,
+.md-diagram-panel marker.zeroOrOne circle,
+.md-diagram-panel marker.zeroOrMore circle {
     fill: var(--bg-color) !important;
 }
 
-.md-diagram-panel-preview .grid .tick line,
-.md-diagram-panel-preview .grid path,
-.md-diagram-panel-preview .grid .domain,
-.md-diagram-panel-preview .divider,
-.md-diagram-panel-preview .activationLine,
-.md-diagram-panel-preview .actor-line,
-.md-diagram-panel-preview .row-rect-odd,
-.md-diagram-panel-preview .border line,
-.md-diagram-panel-preview .axis-line path,
-.md-diagram-panel-preview .axisl-line path,
-.md-diagram-panel-preview .ticks line {
+.md-diagram-panel .grid .tick line,
+.md-diagram-panel .grid path,
+.md-diagram-panel .grid .domain,
+.md-diagram-panel .divider,
+.md-diagram-panel .activationLine,
+.md-diagram-panel .actor-line,
+.md-diagram-panel .row-rect-odd,
+.md-diagram-panel .border line,
+.md-diagram-panel .axis-line path,
+.md-diagram-panel .axisl-line path,
+.md-diagram-panel .ticks line {
     stroke: var(--diagram-muted-line-color) !important;
 }
 
 /* ── Sequence ─────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .actor,
-.md-diagram-panel-preview rect.actor {
+.md-diagram-panel .actor,
+.md-diagram-panel rect.actor {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
 /* An activation bar is time spent inside a participant, so it reads as a
    value on the lifeline rather than as another box. */
-.md-diagram-panel-preview .activation0,
-.md-diagram-panel-preview .activation1,
-.md-diagram-panel-preview .activation2 {
+.md-diagram-panel .activation0,
+.md-diagram-panel .activation1,
+.md-diagram-panel .activation2 {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .loopLine {
+.md-diagram-panel .loopLine {
     stroke: var(--diagram-series-6) !important;
     fill: none !important;
 }
@@ -1322,14 +1321,14 @@ kbd {
 /* An alt/loop/opt label names the frame it sits in, so it takes the
    frame's own ink. Stroking a glyph outlines it rather than colouring it,
    which at label size reads as a smudge, so this is a fill. */
-.md-diagram-panel-preview text.loopText,
-.md-diagram-panel-preview .loopText tspan {
+.md-diagram-panel text.loopText,
+.md-diagram-panel .loopText tspan {
     fill: var(--diagram-series-6) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .labelBox,
-.md-diagram-panel-preview polygon.labelBox {
+.md-diagram-panel .labelBox,
+.md-diagram-panel polygon.labelBox {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
@@ -1343,45 +1342,45 @@ kbd {
    qualified by element: unqualified they weigh 0,2,0 and lose to the
    `svg text` rule at the top of this section, which is what kept the
    knockout from ever applying. */
-.md-diagram-panel-preview text.sequenceNumber,
-.md-diagram-panel-preview text.sequenceNumber tspan {
+.md-diagram-panel text.sequenceNumber,
+.md-diagram-panel text.sequenceNumber tspan {
     fill: var(--diagram-knockout-color) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview circle.sequenceNumber,
-.md-diagram-panel-preview circle:has(~ text.sequenceNumber) {
+.md-diagram-panel circle.sequenceNumber,
+.md-diagram-panel circle:has(~ text.sequenceNumber) {
     fill: var(--diagram-ink-color) !important;
     stroke: none !important;
 }
 
 /* ── Gantt ────────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .section0,
-.md-diagram-panel-preview .section2 {
+.md-diagram-panel .section0,
+.md-diagram-panel .section2 {
     fill: var(--diagram-cluster-fill-color) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .section1,
-.md-diagram-panel-preview .section3 {
+.md-diagram-panel .section1,
+.md-diagram-panel .section3 {
     fill: transparent !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview rect.task.task0,
-.md-diagram-panel-preview rect.task.task2 {
+.md-diagram-panel rect.task.task0,
+.md-diagram-panel rect.task.task2 {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview rect.task.task1,
-.md-diagram-panel-preview rect.task.task3 {
+.md-diagram-panel rect.task.task1,
+.md-diagram-panel rect.task.task3 {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
 
-.md-diagram-panel-preview .today {
+.md-diagram-panel .today {
     stroke: var(--diagram-series-2) !important;
 }
 
@@ -1396,288 +1395,288 @@ kbd {
    one <g> later than the slice paths -- a stable offset, with or without a
    title -- so the legend cycle is shifted by one to keep each swatch on
    the colour of its own slice. */
-.md-diagram-panel-preview .pieCircle,
-.md-diagram-panel-preview .legend rect {
+.md-diagram-panel .pieCircle,
+.md-diagram-panel .legend rect {
     fill-opacity: var(--diagram-pie-fill-opacity) !important;
     stroke: var(--diagram-ink-color) !important;
     stroke-width: 0.6px !important;
 }
 
-.md-diagram-panel-preview .pieOuterCircle {
+.md-diagram-panel .pieOuterCircle {
     fill: none !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 1),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 2) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 1),
+.md-diagram-panel .legend:nth-of-type(6n + 2) rect {
     fill: var(--diagram-series-1-fill) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 2),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 3) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 2),
+.md-diagram-panel .legend:nth-of-type(6n + 3) rect {
     fill: var(--diagram-series-2-fill) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 3),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 4) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 3),
+.md-diagram-panel .legend:nth-of-type(6n + 4) rect {
     fill: var(--diagram-series-3-fill) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 4),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 5) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 4),
+.md-diagram-panel .legend:nth-of-type(6n + 5) rect {
     fill: var(--diagram-series-4-fill) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 5),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 6) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 5),
+.md-diagram-panel .legend:nth-of-type(6n + 6) rect {
     fill: var(--diagram-series-5-fill) !important;
 }
 
-.md-diagram-panel-preview .pieCircle:nth-of-type(6n + 6),
-.md-diagram-panel-preview .legend:nth-of-type(6n + 1) rect {
+.md-diagram-panel .pieCircle:nth-of-type(6n + 6),
+.md-diagram-panel .legend:nth-of-type(6n + 1) rect {
     fill: var(--diagram-series-6-fill) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 1),
-.md-diagram-panel-preview .venn-set-0 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 1),
+.md-diagram-panel .venn-set-0 path {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 2),
-.md-diagram-panel-preview .venn-set-1 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 2),
+.md-diagram-panel .venn-set-1 path {
     fill: var(--diagram-series-2-fill) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 3),
-.md-diagram-panel-preview .venn-set-2 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 3),
+.md-diagram-panel .venn-set-2 path {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 4),
-.md-diagram-panel-preview .venn-set-3 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 4),
+.md-diagram-panel .venn-set-3 path {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 5),
-.md-diagram-panel-preview .venn-set-4 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 5),
+.md-diagram-panel .venn-set-4 path {
     fill: var(--diagram-series-5-fill) !important;
     stroke: var(--diagram-series-5) !important;
 }
 
-.md-diagram-panel-preview .packetBlock:nth-of-type(6n + 6),
-.md-diagram-panel-preview .venn-set-5 path {
+.md-diagram-panel .packetBlock:nth-of-type(6n + 6),
+.md-diagram-panel .venn-set-5 path {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
 
-.md-diagram-panel-preview .venn-area path {
+.md-diagram-panel .venn-area path {
     fill-opacity: 0.7 !important;
     stroke-width: 1.2px !important;
 }
 
-.md-diagram-panel-preview .venn-intersection path {
+.md-diagram-panel .venn-intersection path {
     fill: var(--diagram-ink-color) !important;
     fill-opacity: 0.12 !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 1) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 1) .treemapLeaf {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 2) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 2) .treemapLeaf {
     fill: var(--diagram-series-2-fill) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 3) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 3) .treemapLeaf {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 4) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 4) .treemapLeaf {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 5) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 5) .treemapLeaf {
     fill: var(--diagram-series-5-fill) !important;
     stroke: var(--diagram-series-5) !important;
 }
 
-.md-diagram-panel-preview .treemapLeafGroup:nth-of-type(6n + 6) .treemapLeaf {
+.md-diagram-panel .treemapLeafGroup:nth-of-type(6n + 6) .treemapLeaf {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
 
 /* ── Journey ──────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .journey-section.section-type-0,
-.md-diagram-panel-preview .task.task-type-0 {
+.md-diagram-panel .journey-section.section-type-0,
+.md-diagram-panel .task.task-type-0 {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .journey-section.section-type-1,
-.md-diagram-panel-preview .task.task-type-1 {
+.md-diagram-panel .journey-section.section-type-1,
+.md-diagram-panel .task.task-type-1 {
     fill: var(--diagram-series-2-fill) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .journey-section.section-type-2,
-.md-diagram-panel-preview .task.task-type-2 {
+.md-diagram-panel .journey-section.section-type-2,
+.md-diagram-panel .task.task-type-2 {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .journey-section.section-type-3,
-.md-diagram-panel-preview .task.task-type-3 {
+.md-diagram-panel .journey-section.section-type-3,
+.md-diagram-panel .task.task-type-3 {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="journey"] [class*="actor-"] {
+.md-diagram-panel [aria-roledescription="journey"] [class*="actor-"] {
     fill: var(--diagram-series-3) !important;
     stroke: var(--diagram-ink-color) !important;
     stroke-width: 0.8px !important;
 }
 
-.md-diagram-panel-preview .face,
-.md-diagram-panel-preview .mouth {
+.md-diagram-panel .face,
+.md-diagram-panel .mouth {
     fill: none !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
-.md-diagram-panel-preview .face ~ circle,
-.md-diagram-panel-preview .task-line {
+.md-diagram-panel .face ~ circle,
+.md-diagram-panel .task-line {
     stroke: var(--diagram-muted-line-color) !important;
 }
 
 /* ── Git graph ────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .commit0,
-.md-diagram-panel-preview .branch0,
-.md-diagram-panel-preview .arrow0,
-.md-diagram-panel-preview .label0 {
+.md-diagram-panel .commit0,
+.md-diagram-panel .branch0,
+.md-diagram-panel .arrow0,
+.md-diagram-panel .label0 {
     fill: var(--diagram-series-1) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .commit1,
-.md-diagram-panel-preview .branch1,
-.md-diagram-panel-preview .arrow1,
-.md-diagram-panel-preview .label1 {
+.md-diagram-panel .commit1,
+.md-diagram-panel .branch1,
+.md-diagram-panel .arrow1,
+.md-diagram-panel .label1 {
     fill: var(--diagram-series-2) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .commit2,
-.md-diagram-panel-preview .branch2,
-.md-diagram-panel-preview .arrow2,
-.md-diagram-panel-preview .label2 {
+.md-diagram-panel .commit2,
+.md-diagram-panel .branch2,
+.md-diagram-panel .arrow2,
+.md-diagram-panel .label2 {
     fill: var(--diagram-series-3) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .commit3,
-.md-diagram-panel-preview .branch3,
-.md-diagram-panel-preview .arrow3,
-.md-diagram-panel-preview .label3 {
+.md-diagram-panel .commit3,
+.md-diagram-panel .branch3,
+.md-diagram-panel .arrow3,
+.md-diagram-panel .label3 {
     fill: var(--diagram-series-4) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview .commit-merge {
+.md-diagram-panel .commit-merge {
     fill: var(--bg-color) !important;
     stroke-width: 2.5px !important;
 }
 
-.md-diagram-panel-preview .branchLabelBkg {
+.md-diagram-panel .branchLabelBkg {
     fill-opacity: 0.16 !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .arrow {
+.md-diagram-panel .arrow {
     fill: none !important;
     stroke-width: 2px !important;
 }
 
 /* ── Mindmap and timeline ─────────────────────────────────────────── */
 
-.md-diagram-panel-preview .section-root .label-container,
-.md-diagram-panel-preview [class*="node-bkg"],
-.md-diagram-panel-preview [class*="node-line-"] {
+.md-diagram-panel .section-root .label-container,
+.md-diagram-panel [class*="node-bkg"],
+.md-diagram-panel [class*="node-line-"] {
     stroke-width: 1.2px !important;
 }
 
-.md-diagram-panel-preview .section--1 [class*="node-bkg"],
-.md-diagram-panel-preview .section--1 [class*="node-line-"],
-.md-diagram-panel-preview .section-root .label-container {
+.md-diagram-panel .section--1 [class*="node-bkg"],
+.md-diagram-panel .section--1 [class*="node-line-"],
+.md-diagram-panel .section-root .label-container {
     fill: var(--diagram-surface-color) !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
-.md-diagram-panel-preview .section-0 [class*="node-bkg"],
-.md-diagram-panel-preview .section-0 [class*="node-line-"],
-.md-diagram-panel-preview .section-edge-0 {
+.md-diagram-panel .section-0 [class*="node-bkg"],
+.md-diagram-panel .section-0 [class*="node-line-"],
+.md-diagram-panel .section-edge-0 {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .section-1 [class*="node-bkg"],
-.md-diagram-panel-preview .section-1 [class*="node-line-"],
-.md-diagram-panel-preview .section-edge-1 {
+.md-diagram-panel .section-1 [class*="node-bkg"],
+.md-diagram-panel .section-1 [class*="node-line-"],
+.md-diagram-panel .section-edge-1 {
     fill: var(--diagram-series-2-fill) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .section-2 [class*="node-bkg"],
-.md-diagram-panel-preview .section-2 [class*="node-line-"],
-.md-diagram-panel-preview .section-edge-2 {
+.md-diagram-panel .section-2 [class*="node-bkg"],
+.md-diagram-panel .section-2 [class*="node-line-"],
+.md-diagram-panel .section-edge-2 {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .section-3 [class*="node-bkg"],
-.md-diagram-panel-preview .section-3 [class*="node-line-"],
-.md-diagram-panel-preview .section-edge-3 {
+.md-diagram-panel .section-3 [class*="node-bkg"],
+.md-diagram-panel .section-3 [class*="node-line-"],
+.md-diagram-panel .section-edge-3 {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview .section-edge-0,
-.md-diagram-panel-preview .section-edge-1,
-.md-diagram-panel-preview .section-edge-2,
-.md-diagram-panel-preview .section-edge-3 {
+.md-diagram-panel .section-edge-0,
+.md-diagram-panel .section-edge-1,
+.md-diagram-panel .section-edge-2,
+.md-diagram-panel .section-edge-3 {
     fill: none !important;
 }
 
-.md-diagram-panel-preview .lineWrapper line,
-.md-diagram-panel-preview .timeline-node ~ line {
+.md-diagram-panel .lineWrapper line,
+.md-diagram-panel .timeline-node ~ line {
     stroke: var(--diagram-muted-line-color) !important;
 }
 
 /* ── Kanban ───────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .sections .cluster.section-1 rect,
-.md-diagram-panel-preview .kanbanSection:nth-of-type(3n + 1) {
+.md-diagram-panel .sections .cluster.section-1 rect,
+.md-diagram-panel .kanbanSection:nth-of-type(3n + 1) {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .sections .cluster.section-2 rect,
-.md-diagram-panel-preview .kanbanSection:nth-of-type(3n + 2) {
+.md-diagram-panel .sections .cluster.section-2 rect,
+.md-diagram-panel .kanbanSection:nth-of-type(3n + 2) {
     fill: var(--diagram-series-5-fill) !important;
     stroke: var(--diagram-series-5) !important;
 }
 
-.md-diagram-panel-preview .sections .cluster.section-3 rect,
-.md-diagram-panel-preview .kanbanSection:nth-of-type(3n + 3) {
+.md-diagram-panel .sections .cluster.section-3 rect,
+.md-diagram-panel .kanbanSection:nth-of-type(3n + 3) {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
@@ -1687,23 +1686,23 @@ kbd {
    path's stroke attribute, so the ribbon has to be repainted on the
    path itself -- the wrapping <g class="link"> carries no paint. */
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .node rect,
-.md-diagram-panel-preview .sankey-node {
+.md-diagram-panel [aria-roledescription="sankey"] .node rect,
+.md-diagram-panel .sankey-node {
     fill: var(--diagram-ink-color) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link {
+.md-diagram-panel [aria-roledescription="sankey"] .link {
     mix-blend-mode: var(--diagram-sankey-link-blend-mode) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link path,
-.md-diagram-panel-preview path.sankey-link {
+.md-diagram-panel [aria-roledescription="sankey"] .link path,
+.md-diagram-panel path.sankey-link {
     fill: none !important;
     stroke-opacity: var(--diagram-sankey-link-opacity) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .node rect {
+.md-diagram-panel [aria-roledescription="sankey"] .node rect {
     fill: var(--diagram-muted-line-color) !important;
 }
 
@@ -1713,51 +1712,51 @@ kbd {
    putting the wash tier in charge of it. Setting a flat stroke here would
    win over the gradient and throw the fade away. */
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 1) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 1) stop:first-child {
     stop-color: var(--diagram-series-1-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 1) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 1) stop:last-child {
     stop-color: var(--diagram-series-2-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 2) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 2) stop:first-child {
     stop-color: var(--diagram-series-2-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 2) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 2) stop:last-child {
     stop-color: var(--diagram-series-3-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 3) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 3) stop:first-child {
     stop-color: var(--diagram-series-3-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 3) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 3) stop:last-child {
     stop-color: var(--diagram-series-4-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 4) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 4) stop:first-child {
     stop-color: var(--diagram-series-4-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 4) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 4) stop:last-child {
     stop-color: var(--diagram-series-5-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 5) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 5) stop:first-child {
     stop-color: var(--diagram-series-5-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 5) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 5) stop:last-child {
     stop-color: var(--diagram-series-6-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 6) stop:first-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 6) stop:first-child {
     stop-color: var(--diagram-series-6-fill) !important;
 }
 
-.md-diagram-panel-preview [aria-roledescription="sankey"] .link:nth-of-type(6n + 6) stop:last-child {
+.md-diagram-panel [aria-roledescription="sankey"] .link:nth-of-type(6n + 6) stop:last-child {
     stop-color: var(--diagram-series-1-fill) !important;
 }
 
@@ -1765,136 +1764,136 @@ kbd {
    The chart paints its own opaque plot panel, which in the dark variant
    is a mid-grey slab on a black page. Drop it and let the page show. */
 
-.md-diagram-panel-preview [aria-roledescription="xychart"] rect.background,
-.md-diagram-panel-preview .architecture-service rect.background {
+.md-diagram-panel [aria-roledescription="xychart"] rect.background,
+.md-diagram-panel .architecture-service rect.background {
     fill: transparent !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview [class*="bar-plot"] rect,
-.md-diagram-panel-preview .bar {
+.md-diagram-panel [class*="bar-plot"] rect,
+.md-diagram-panel .bar {
     fill: var(--diagram-series-1) !important;
     stroke: none !important;
     fill-opacity: 0.85 !important;
 }
 
-.md-diagram-panel-preview [class*="line-plot"] path,
-.md-diagram-panel-preview [class*="line-plot"] polyline {
+.md-diagram-panel [class*="line-plot"] path,
+.md-diagram-panel [class*="line-plot"] polyline {
     fill: none !important;
     stroke: var(--diagram-series-2) !important;
     stroke-width: 2px !important;
 }
 
-.md-diagram-panel-preview [class*="point-plot"] circle,
-.md-diagram-panel-preview .plot .point {
+.md-diagram-panel [class*="point-plot"] circle,
+.md-diagram-panel .plot .point {
     fill: var(--diagram-series-4) !important;
     stroke: none !important;
 }
 
 /* ── Radar ────────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .radarGraticule {
+.md-diagram-panel .radarGraticule {
     fill: none !important;
     stroke: var(--diagram-muted-line-color) !important;
 }
 
-.md-diagram-panel-preview .radarAxisLine {
+.md-diagram-panel .radarAxisLine {
     stroke: var(--diagram-muted-line-color) !important;
 }
 
-.md-diagram-panel-preview .radarCurve-0,
-.md-diagram-panel-preview .radarLegendBox-0 {
+.md-diagram-panel .radarCurve-0,
+.md-diagram-panel .radarLegendBox-0 {
     fill: var(--diagram-series-1) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .radarCurve-1,
-.md-diagram-panel-preview .radarLegendBox-1 {
+.md-diagram-panel .radarCurve-1,
+.md-diagram-panel .radarLegendBox-1 {
     fill: var(--diagram-series-2) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .radarCurve-2,
-.md-diagram-panel-preview .radarLegendBox-2 {
+.md-diagram-panel .radarCurve-2,
+.md-diagram-panel .radarLegendBox-2 {
     fill: var(--diagram-series-3) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .radarCurve-3,
-.md-diagram-panel-preview .radarLegendBox-3 {
+.md-diagram-panel .radarCurve-3,
+.md-diagram-panel .radarLegendBox-3 {
     fill: var(--diagram-series-4) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview [class*="radarCurve-"] {
+.md-diagram-panel [class*="radarCurve-"] {
     fill-opacity: 0.14 !important;
     stroke-width: 2.2px !important;
 }
 
 /* ── Quadrant ─────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .quadrants rect {
+.md-diagram-panel .quadrants rect {
     fill: var(--diagram-cluster-fill-color) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .quadrant:nth-of-type(2n) rect {
+.md-diagram-panel .quadrant:nth-of-type(2n) rect {
     fill: transparent !important;
 }
 
-.md-diagram-panel-preview .data-point circle {
+.md-diagram-panel .data-point circle {
     fill: var(--diagram-series-1) !important;
     stroke: none !important;
 }
 
 /* ── Ishikawa ─────────────────────────────────────────────────────── */
 
-.md-diagram-panel-preview .ishikawa-spine,
-.md-diagram-panel-preview .ishikawa-arrow,
-.md-diagram-panel-preview .ishikawa-head {
+.md-diagram-panel .ishikawa-spine,
+.md-diagram-panel .ishikawa-arrow,
+.md-diagram-panel .ishikawa-head {
     fill: var(--diagram-ink-color) !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-head {
+.md-diagram-panel .ishikawa-head {
     fill: var(--diagram-surface-color) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-branch {
+.md-diagram-panel .ishikawa-branch {
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-sub-branch {
+.md-diagram-panel .ishikawa-sub-branch {
     stroke: var(--diagram-muted-line-color) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 1) .ishikawa-label-box,
-.md-diagram-panel-preview .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 1) .ishikawa-label-box,
+.md-diagram-panel .ishikawa-label-box {
     fill: var(--diagram-series-1-fill) !important;
     stroke: var(--diagram-series-1) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 2) .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 2) .ishikawa-label-box {
     fill: var(--diagram-series-2-fill) !important;
     stroke: var(--diagram-series-2) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 3) .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 3) .ishikawa-label-box {
     fill: var(--diagram-series-3-fill) !important;
     stroke: var(--diagram-series-3) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 4) .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 4) .ishikawa-label-box {
     fill: var(--diagram-series-4-fill) !important;
     stroke: var(--diagram-series-4) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 5) .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 5) .ishikawa-label-box {
     fill: var(--diagram-series-5-fill) !important;
     stroke: var(--diagram-series-5) !important;
 }
 
-.md-diagram-panel-preview .ishikawa-pair:nth-of-type(6n + 6) .ishikawa-label-box {
+.md-diagram-panel .ishikawa-pair:nth-of-type(6n + 6) .ishikawa-label-box {
     fill: var(--diagram-series-6-fill) !important;
     stroke: var(--diagram-series-6) !important;
 }
@@ -1904,43 +1903,43 @@ kbd {
    knocked out of them. Repaint the tile in the first series ink and the
    glyph in the page colour so the knockout survives in both variants. */
 
-.md-diagram-panel-preview .architecture-service rect:not(.background),
-.md-diagram-panel-preview .architecture-service > g > rect {
+.md-diagram-panel .architecture-service rect:not(.background),
+.md-diagram-panel .architecture-service > g > rect {
     fill: var(--diagram-series-1) !important;
     stroke: none !important;
 }
 
-.md-diagram-panel-preview .architecture-service rect:not(.background) ~ path,
-.md-diagram-panel-preview .architecture-service g path,
-.md-diagram-panel-preview .architecture-service g circle,
-.md-diagram-panel-preview .architecture-service g line,
-.md-diagram-panel-preview .architecture-service g ellipse {
+.md-diagram-panel .architecture-service rect:not(.background) ~ path,
+.md-diagram-panel .architecture-service g path,
+.md-diagram-panel .architecture-service g circle,
+.md-diagram-panel .architecture-service g line,
+.md-diagram-panel .architecture-service g ellipse {
     fill: var(--diagram-knockout-color) !important;
     stroke: var(--diagram-knockout-color) !important;
 }
 
-.md-diagram-panel-preview .architecture-service g path[fill="none"],
-.md-diagram-panel-preview .architecture-service g ellipse[fill="none"],
-.md-diagram-panel-preview .architecture-service g line[fill="none"] {
+.md-diagram-panel .architecture-service g path[fill="none"],
+.md-diagram-panel .architecture-service g ellipse[fill="none"],
+.md-diagram-panel .architecture-service g line[fill="none"] {
     fill: none !important;
 }
 
-.md-diagram-panel-preview .architecture-groups rect,
-.md-diagram-panel-preview .architecture-groups .node-bkg {
+.md-diagram-panel .architecture-groups rect,
+.md-diagram-panel .architecture-groups .node-bkg {
     fill: none !important;
     stroke: var(--diagram-cluster-line-color) !important;
 }
 
-.md-diagram-panel-preview .architecture-group-label path,
-.md-diagram-panel-preview .architecture-group-label circle,
-.md-diagram-panel-preview .architecture-group-label ellipse {
+.md-diagram-panel .architecture-group-label path,
+.md-diagram-panel .architecture-group-label circle,
+.md-diagram-panel .architecture-group-label ellipse {
     fill: var(--diagram-ink-color) !important;
     stroke: var(--diagram-ink-color) !important;
 }
 
 /* Outline glyphs carry their shape in the stroke and declare fill="none";
    filling them turns the icon into a blob. */
-.md-diagram-panel-preview .architecture-group-label [fill="none"] {
+.md-diagram-panel .architecture-group-label [fill="none"] {
     fill: none !important;
 }
 
@@ -1965,11 +1964,11 @@ kbd {
     line-height: 1.5;
 }
 
-.md-diagram-panel-preview .error-icon {
+.md-diagram-panel .error-icon {
     fill: var(--diagram-error-accent-color) !important;
 }
 
-.md-diagram-panel-preview .error-text {
+.md-diagram-panel .error-text {
     fill: var(--diagram-error-text-color) !important;
     color: var(--diagram-error-text-color) !important;
 }
