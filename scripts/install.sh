@@ -500,7 +500,7 @@ is_owned_path() {
     case "${rel}" in
         *..*|/*) return 1 ;;
         *.user.css) return 1 ;;
-        latex_fonts/*.otf|latex_fonts/*.ttf) return 0 ;;
+        latex_fonts/*.otf|latex_fonts/*.ttf|latex_fonts/*.css) return 0 ;;
         latex*.css) return 0 ;;
         *) return 1 ;;
     esac
@@ -512,15 +512,17 @@ prune_stale() {
     local -a candidates=()
     local rel installed removed=0
 
-    # Anything the previous run installed, plus any font sitting in our own
-    # directory, so a folder predating the manifest still gets cleaned.
+    # Anything the previous run installed, plus any font or generated font
+    # stylesheet sitting in our own directory, so a folder predating the
+    # manifest still gets cleaned.
     if [[ -f "${manifest}" ]]; then
         while IFS= read -r rel; do
             [[ -n "${rel}" ]] && candidates+=("${rel}")
         done < "${manifest}"
     fi
     shopt -s nullglob
-    for rel in "${theme_dir}"/latex_fonts/*.otf "${theme_dir}"/latex_fonts/*.ttf; do
+    for rel in "${theme_dir}"/latex_fonts/*.otf "${theme_dir}"/latex_fonts/*.ttf \
+        "${theme_dir}"/latex_fonts/*.css; do
         candidates+=("latex_fonts/$(basename "${rel}")")
     done
     shopt -u nullglob
@@ -559,12 +561,16 @@ install_theme() {
     mkdir -p "${theme_dir}/latex_fonts"
     shopt -s nullglob
     css_files=("${source_dir}"/latex*.css)
-    font_files=("${source_dir}"/latex_fonts/*.otf "${source_dir}"/latex_fonts/*.ttf)
+    # The generated embedded-fonts*.css live beside the fonts they carry and
+    # are copied with them: latex.css imports them, and a top-level .css would
+    # show up in Typora's theme menu as a theme of its own.
+    font_files=("${source_dir}"/latex_fonts/*.otf "${source_dir}"/latex_fonts/*.ttf \
+        "${source_dir}"/latex_fonts/*.css)
     shopt -u nullglob
     [[ ${#css_files[@]} -gt 0 ]] || die "No latex*.css theme files found in source."
     [[ ${#font_files[@]} -gt 0 ]] || die "No font files found in source."
     run_with_spinner "Copying latex*.css files" cp "${css_files[@]}" "${theme_dir}/"
-    run_with_spinner "Copying latex font files" cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
+    run_with_spinner "Copying latex_fonts files" cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
 
     INSTALLED_RELPATHS=()
     for f in "${css_files[@]}"; do
@@ -616,7 +622,7 @@ main() {
     success "Installed latex.css"
     success "Installed latex-dark.css"
     success "Installed latex-dev-dark.css"
-    success "Installed latex_fonts/*.{otf,ttf}"
+    success "Installed latex_fonts/*.{otf,ttf,css}"
     current_step=$((current_step + 1))
     render_progress "${current_step}" "${total_steps}" "Installation complete"
 

@@ -1,5 +1,24 @@
 # Third-Party Notices
 
+## Embedded subsets
+
+Besides the original font files, this repository ships two generated
+stylesheets — `latex_fonts/embedded-fonts.css` and
+`latex_fonts/embedded-fonts-dev.css` — in which every `@font-face` rule
+carries a modified copy of its font inline as a `data:` URI. Those copies are
+converted to WOFF2 and, for every face except `Noto Nastaliq Urdu`, reduced to
+a subset of their codepoints (Latin, Greek including the polytonic ranges,
+punctuation, currency, letterlike symbols, arrows, mathematical operators,
+geometric shapes and the Latin ligatures). They exist because Typora's HTML
+export deletes `@font-face` rules from a theme stylesheet, which would
+otherwise leave an exported document without the theme's typefaces.
+
+They are modified versions of the upstream fonts, and they are not
+substitutes for them: the unmodified files remain in `latex_fonts/`, each
+face's rule loads its original file first, and the licences below cover both.
+`scripts/build-embedded-fonts.py` regenerates the stylesheets and documents
+exactly what it does to each font.
+
 ## New Computer Modern
 
 This repository bundles local `otf` assets for the following font families used by the Typora themes:

@@ -131,7 +131,7 @@ function Test-OwnedPath {
 
     if ($RelPath -match '\.\.' -or [System.IO.Path]::IsPathRooted($RelPath)) { return $false }
     if ($RelPath -like '*.user.css') { return $false }
-    if ($RelPath -like 'latex_fonts/*.otf' -or $RelPath -like 'latex_fonts/*.ttf') { return $true }
+    if ($RelPath -like 'latex_fonts/*.otf' -or $RelPath -like 'latex_fonts/*.ttf' -or $RelPath -like 'latex_fonts/*.css') { return $true }
     if ($RelPath -like 'latex*.css' -and $RelPath -notlike '*/*') { return $true }
     return $false
 }
@@ -139,8 +139,8 @@ function Test-OwnedPath {
 function Remove-StaleThemeFile {
     # Copying alone never removes anything, so a font this version dropped
     # would sit in the theme folder for good. Compare what the last run
-    # recorded, plus whatever fonts are in our own directory, against what
-    # we just installed.
+    # recorded, plus whatever fonts and generated font stylesheets are in our
+    # own directory, against what we just installed.
     param(
         [Parameter(Mandatory = $true)][string]$ThemeDir,
         [Parameter(Mandatory = $true)][AllowEmptyCollection()][string[]]$Installed
@@ -156,7 +156,7 @@ function Remove-StaleThemeFile {
     }
     $fontDir = Join-Path $ThemeDir 'latex_fonts'
     if (Test-Path -LiteralPath $fontDir) {
-        foreach ($f in (Get-ChildItem -LiteralPath $fontDir -File | Where-Object { $_.Extension -in '.otf', '.ttf' })) {
+        foreach ($f in (Get-ChildItem -LiteralPath $fontDir -File | Where-Object { $_.Extension -in '.otf', '.ttf', '.css' })) {
             $candidates.Add("latex_fonts/$($f.Name)")
         }
     }
@@ -197,12 +197,16 @@ function Install-Theme {
     Copy-Item -Path (Join-Path $SourceDir 'latex*.css') -Destination $ThemeDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.otf') -Destination $fontDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.ttf') -Destination $fontDir -Force
+    # The generated embedded-fonts*.css belong beside the fonts they carry:
+    # latex.css imports them, and a top-level .css would show up in Typora's
+    # theme menu as a theme of its own.
+    Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.css') -Destination $fontDir -Force
 
     $installed = New-Object System.Collections.Generic.List[string]
     foreach ($f in Get-ChildItem -LiteralPath $SourceDir -File -Filter 'latex*.css') {
         $installed.Add($f.Name)
     }
-    foreach ($f in (Get-ChildItem -LiteralPath (Join-Path $SourceDir 'latex_fonts') -File | Where-Object { $_.Extension -in '.otf', '.ttf' })) {
+    foreach ($f in (Get-ChildItem -LiteralPath (Join-Path $SourceDir 'latex_fonts') -File | Where-Object { $_.Extension -in '.otf', '.ttf', '.css' })) {
         $installed.Add("latex_fonts/$($f.Name)")
     }
 
@@ -226,6 +230,7 @@ try {
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex-dev-dark.css')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.otf')"
     Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.ttf')"
+    Write-Host "  $(Join-Path $ResolvedThemeDir 'latex_fonts\*.css')"
 
     if ($CreatedThemeDir) {
         Write-Host ''

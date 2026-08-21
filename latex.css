@@ -13,155 +13,26 @@
  * To corroborate: scripts/check-theme-tokens.sh
  */
 
-/* The backtick is pulled from the serif face on its own so no system
-   fallback can supply it. New Computer Modern draws it identically to
-   the Latin Modern Roman this used to point at -- same advance, same
-   ascent, same bearings -- so the glyph is unchanged. */
-@font-face {
-    font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/NewCM10-Book.otf") format("opentype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-    unicode-range: U+0060;
-}
+/* Every face this theme draws with is declared in the file imported below,
+   where each rule also carries a WOFF2 subset of its own font inline. That
+   is not a size decision, it is the only way an exported HTML file keeps
+   these typefaces: Typora's HTML export deletes @font-face rules from the
+   theme stylesheet before inlining it, so an export otherwise falls back to
+   whatever the reader's system happens to provide. The backtick is still
+   pulled from the serif face on its own there, so no system fallback can
+   supply it -- New Computer Modern draws it identically to the Latin Modern
+   Roman this used to point at, same advance, same ascent, same bearings.
+   The file is generated: scripts/build-embedded-fonts.py. */
+@import url("./latex_fonts/embedded-fonts.css");
 
-@font-face {
-    font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/NewCM10-Bold.otf") format("opentype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-    unicode-range: U+0060;
-}
-
-@font-face {
-    font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/NewCM10-BookItalic.otf") format("opentype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-    unicode-range: U+0060;
-}
-
-@font-face {
-    font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/NewCM10-BoldItalic.otf") format("opentype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-    unicode-range: U+0060;
-}
-
-@font-face {
-    font-family: "New Computer Modern Sans";
-    src: url("./latex_fonts/NewCMSans10-Book.otf") format("opentype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Sans";
-    src: url("./latex_fonts/NewCMSans10-Bold.otf") format("opentype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Sans";
-    src: url("./latex_fonts/NewCMSans10-BookOblique.otf") format("opentype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Sans";
-    src: url("./latex_fonts/NewCMSans10-BoldOblique.otf") format("opentype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Mono";
-    src: url("./latex_fonts/NewCMMono10-Book.otf") format("opentype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Mono";
-    src: url("./latex_fonts/NewCMMono10-Bold.otf") format("opentype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Mono";
-    src: url("./latex_fonts/NewCMMono10-BookItalic.otf") format("opentype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern Mono";
-    src: url("./latex_fonts/NewCMMono10-BoldOblique.otf") format("opentype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Noto Nastaliq Urdu";
-    src: url("./latex_fonts/NotoNastaliqUrdu-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
+/* JuliaMono is the exception and stays here unembedded, because the only
+   thing it sets is the raw HTML block's editor -- CodeMirror chrome that no
+   export ever contains. Nothing is lost when Typora strips this rule. */
 @font-face {
     font-family: "JuliaMono";
     src: url("./latex_fonts/JuliaMono-Regular.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern";
-    src: url("./latex_fonts/NewCM10-Book.otf") format("opentype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern";
-    src: url("./latex_fonts/NewCM10-Bold.otf") format("opentype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern";
-    src: url("./latex_fonts/NewCM10-BookItalic.otf") format("opentype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "New Computer Modern";
-    src: url("./latex_fonts/NewCM10-BoldItalic.otf") format("opentype");
-    font-weight: 700;
-    font-style: italic;
     font-display: swap;
 }
 
@@ -210,10 +81,23 @@
     --syntax-diff-add-color: #255c34;
     --syntax-diff-remove-color: #8c1c1c;
 
+    /* Order matters beyond glyph coverage: the first *installed* family in
+       this list supplies the strut, so it sets the height of every inline
+       box -- the band a highlight, a `mark` or an inline-code background is
+       painted over -- whether or not a single glyph is drawn from it. Noto
+       Nastaliq Urdu sat third here and is two and a half times the height of
+       a Latin face at the same size, so anywhere New Computer Modern is
+       missing -- which every HTML export was, before the faces were embedded
+       -- it took over the strut and highlights swelled. Latin faces first, CJK
+       after them, and Nastaliq last: fallback is per character, so Urdu in an
+       untagged document still reaches it -- nothing ahead of it covers the
+       Arabic block -- while :lang(ur)/:lang(fa) below keep putting it first
+       where the text is tagged. */
     --font-family:
         "Backtick Serif Fix", "New Computer Modern",
-        "Noto Nastaliq Urdu", "Songti SC", "Times New Roman", "STSong",
-        "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
+        "Times New Roman", "Songti SC", "STSong",
+        "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC",
+        "Noto Nastaliq Urdu", serif;
     --monospace: "New Computer Modern Mono", "Courier New", monospace;
     --sans-font:
         "New Computer Modern Sans", "Helvetica Neue", Helvetica, Arial, "Heiti SC",

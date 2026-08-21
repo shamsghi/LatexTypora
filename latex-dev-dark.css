@@ -5,61 +5,13 @@
 
 @import "./latex-dark.css";
 
-@font-face {
-    font-family: "JuliaMono";
-    src: url("./latex_fonts/JuliaMono-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "JuliaMono";
-    src: url("./latex_fonts/JuliaMono-RegularItalic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "JuliaMono";
-    src: url("./latex_fonts/JuliaMono-BoldItalic.ttf") format("truetype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "iA Writer Mono";
-    src: url("./latex_fonts/iAWriterMonoS-Regular.ttf") format("truetype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "iA Writer Mono";
-    src: url("./latex_fonts/iAWriterMonoS-Bold.ttf") format("truetype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "iA Writer Mono";
-    src: url("./latex_fonts/iAWriterMonoS-Italic.ttf") format("truetype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "iA Writer Mono";
-    src: url("./latex_fonts/iAWriterMonoS-BoldItalic.ttf") format("truetype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
+/* JuliaMono and iA Writer Mono, the two faces this variant sets its prose
+   and code in, live in the generated file below with a WOFF2 subset of each
+   inline -- the same arrangement latex.css uses, and for the same reason:
+   Typora's HTML export deletes @font-face rules from the theme stylesheet,
+   so an export that does not carry the fonts inside it loses them. See
+   scripts/build-embedded-fonts.py. */
+@import url("./latex_fonts/embedded-fonts-dev.css");
 
 :root {
     --font-family:

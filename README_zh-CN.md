@@ -31,6 +31,7 @@
   - Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei
   - Linux 使用 Source Han / Noto CJK 字体
 - **离线可用且自包含** —— 所有字体均在本地打包，无需外部依赖或 CDN；CJK 字体则使用当前操作系统自带的字体
+- **导出仍保留字体** —— Typora 导出 HTML 时会删除主题的 `@font-face` 规则，导出文件通常只能回退到阅读者系统自带的字体。本主题的每个字形都在样式表内嵌入了自身的 WOFF2 子集，因此导出的 HTML 在从未安装过主题的机器上依然是 New Computer Modern
 
 ## 自动安装
 
@@ -136,4 +137,5 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
 - 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
-- 共用字体与 LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，仅新增各自差异化的变量与规则，详见[自定义](#自定义)。
+- LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，仅新增各自差异化的变量与规则，详见[自定义](#自定义)。
+- `@font-face` 规则位于 `latex_fonts/embedded-fonts.css` 与 `latex_fonts/embedded-fonts-dev.css`，由 `latex.css` 和 `latex-dev-dark.css` 导入。这两个文件由 [`scripts/build-embedded-fonts.py`](./scripts/build-embedded-fonts.py) 生成，请勿手工编辑；更换内置字体或改动主题声明的字形后重新生成即可。
