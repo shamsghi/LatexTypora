@@ -54,6 +54,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | :-- | :-- |
 | `--theme-dir PATH` | 手动指定 Typora 主题目录 |
 | `--ref REF` | 从指定分支、标签或提交安装 |
+| `--no-prune` | 保留旧版本装过、而当前版本已不再附带的主题文件 |
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"

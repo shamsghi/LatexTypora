@@ -24,6 +24,9 @@ GREEN=""
 YELLOW=""
 RED=""
 
+MANIFEST_NAME=".latex-typora-manifest"
+PRUNE=1
+
 ENABLE_ANIMATIONS=0
 ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.03}"
 SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
@@ -41,6 +44,7 @@ Usage:
 Options:
   --theme-dir PATH  Install into a specific Typora theme directory.
   --ref REF         Install a specific branch, tag, or commit. Default: ${DEFAULT_REF}
+  --no-prune        Keep theme files this version no longer ships.
   --no-anim         Disable animated banner and spinner output.
   --plain           Disable colors and animations.
   -h, --help        Show this help message.
@@ -306,6 +310,10 @@ while [[ $# -gt 0 ]]; do
             REF="$2"
             shift 2
             ;;
+        --no-prune)
+            PRUNE=0
+            shift
+            ;;
         --no-anim)
             NO_ANIM_FLAG=1
             shift
@@ -479,10 +487,74 @@ detect_source_dir() {
     download_source
 }
 
+# Paths this run installed, relative to the theme directory. The manifest
+# records them so the next run can tell a file the theme still ships from
+# one it dropped -- a renamed font otherwise sits in the theme folder for
+# good, since copying alone never removes anything.
+INSTALLED_RELPATHS=()
+
+is_owned_path() {
+    # Only ever consider paths this installer writes, and never a user's
+    # own <theme>.user.css overrides.
+    local rel="$1"
+    case "${rel}" in
+        *..*|/*) return 1 ;;
+        *.user.css) return 1 ;;
+        latex_fonts/*.otf|latex_fonts/*.ttf) return 0 ;;
+        latex*.css) return 0 ;;
+        *) return 1 ;;
+    esac
+}
+
+prune_stale() {
+    local theme_dir="$1"
+    local manifest="${theme_dir}/${MANIFEST_NAME}"
+    local -a candidates=()
+    local rel installed removed=0
+
+    # Anything the previous run installed, plus any font sitting in our own
+    # directory, so a folder predating the manifest still gets cleaned.
+    if [[ -f "${manifest}" ]]; then
+        while IFS= read -r rel; do
+            [[ -n "${rel}" ]] && candidates+=("${rel}")
+        done < "${manifest}"
+    fi
+    shopt -s nullglob
+    for rel in "${theme_dir}"/latex_fonts/*.otf "${theme_dir}"/latex_fonts/*.ttf; do
+        candidates+=("latex_fonts/$(basename "${rel}")")
+    done
+    shopt -u nullglob
+
+    for rel in "${candidates[@]}"; do
+        is_owned_path "${rel}" || continue
+        [[ -f "${theme_dir}/${rel}" ]] || continue
+        installed=0
+        for keep in "${INSTALLED_RELPATHS[@]}"; do
+            [[ "${keep}" == "${rel}" ]] && { installed=1; break; }
+        done
+        [[ "${installed}" -eq 1 ]] && continue
+        if [[ "${PRUNE}" -eq 1 ]]; then
+            rm -f "${theme_dir}/${rel}" && { info "Removed stale ${rel}"; removed=$((removed + 1)); }
+        else
+            warn "Stale ${rel} kept (--no-prune)"
+        fi
+    done
+
+    if [[ "${removed}" -gt 0 ]]; then
+        success "Removed ${removed} file(s) this version no longer ships"
+    fi
+}
+
+write_manifest() {
+    local theme_dir="$1" rel
+    printf '%s\n' "${INSTALLED_RELPATHS[@]}" | LC_ALL=C sort > "${theme_dir}/${MANIFEST_NAME}"
+}
+
 install_theme() {
     local source_dir="$1" theme_dir="$2"
     local css_files=()
     local font_files=()
+    local f
     mkdir -p "${theme_dir}"
     mkdir -p "${theme_dir}/latex_fonts"
     shopt -s nullglob
@@ -493,6 +565,17 @@ install_theme() {
     [[ ${#font_files[@]} -gt 0 ]] || die "No font files found in source."
     run_with_spinner "Copying latex*.css files" cp "${css_files[@]}" "${theme_dir}/"
     run_with_spinner "Copying latex font files" cp "${font_files[@]}" "${theme_dir}/latex_fonts/"
+
+    INSTALLED_RELPATHS=()
+    for f in "${css_files[@]}"; do
+        INSTALLED_RELPATHS+=("$(basename "${f}")")
+    done
+    for f in "${font_files[@]}"; do
+        INSTALLED_RELPATHS+=("latex_fonts/$(basename "${f}")")
+    done
+
+    prune_stale "${theme_dir}"
+    write_manifest "${theme_dir}"
 }
 
 main() {

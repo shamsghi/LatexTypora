@@ -2,12 +2,14 @@
 param(
     [string]$ThemeDir = $env:TYPORA_THEME_DIR,
     [string]$Ref = $(if ($env:LATEX_TYPORA_REF) { $env:LATEX_TYPORA_REF } else { 'main' }),
+    [switch]$NoPrune,
     [switch]$Help
 )
 
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
+$ManifestName = '.latex-typora-manifest'
 $RepoOwner = 'shamsghi'
 $RepoName = 'LatexTypora'
 $TempDir = $null
@@ -18,12 +20,13 @@ $ResolvedThemeDir = $null
 function Show-Usage {
     @"
 Usage:
-  .\scripts\install-windows.ps1 [-ThemeDir PATH] [-Ref REF]
+  .\scripts\install-windows.ps1 [-ThemeDir PATH] [-Ref REF] [-NoPrune]
   powershell -ExecutionPolicy Bypass -NoProfile -Command "irm https://raw.githubusercontent.com/$RepoOwner/$RepoName/main/scripts/install-windows.ps1 | iex"
 
 Options:
   -ThemeDir PATH  Install into a specific Typora theme directory.
   -Ref REF        Install a specific branch, tag, or commit. Default: $Ref
+  -NoPrune        Keep theme files this version no longer ships.
   -Help           Show this help message.
 
 Environment:
@@ -121,6 +124,63 @@ function Detect-SourceDir {
     Download-Source
 }
 
+function Test-OwnedPath {
+    # Only ever consider paths this installer writes, and never a user's
+    # own <theme>.user.css overrides.
+    param([Parameter(Mandatory = $true)][string]$RelPath)
+
+    if ($RelPath -match '\.\.' -or [System.IO.Path]::IsPathRooted($RelPath)) { return $false }
+    if ($RelPath -like '*.user.css') { return $false }
+    if ($RelPath -like 'latex_fonts/*.otf' -or $RelPath -like 'latex_fonts/*.ttf') { return $true }
+    if ($RelPath -like 'latex*.css' -and $RelPath -notlike '*/*') { return $true }
+    return $false
+}
+
+function Remove-StaleThemeFile {
+    # Copying alone never removes anything, so a font this version dropped
+    # would sit in the theme folder for good. Compare what the last run
+    # recorded, plus whatever fonts are in our own directory, against what
+    # we just installed.
+    param(
+        [Parameter(Mandatory = $true)][string]$ThemeDir,
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][string[]]$Installed
+    )
+
+    $manifest = Join-Path $ThemeDir $ManifestName
+    $candidates = New-Object System.Collections.Generic.List[string]
+
+    if (Test-Path -LiteralPath $manifest) {
+        foreach ($line in (Get-Content -LiteralPath $manifest)) {
+            if ($line.Trim()) { $candidates.Add($line.Trim()) }
+        }
+    }
+    $fontDir = Join-Path $ThemeDir 'latex_fonts'
+    if (Test-Path -LiteralPath $fontDir) {
+        foreach ($f in (Get-ChildItem -LiteralPath $fontDir -File | Where-Object { $_.Extension -in '.otf', '.ttf' })) {
+            $candidates.Add("latex_fonts/$($f.Name)")
+        }
+    }
+
+    $removed = 0
+    foreach ($rel in ($candidates | Select-Object -Unique)) {
+        if (-not (Test-OwnedPath -RelPath $rel)) { continue }
+        if ($Installed -contains $rel) { continue }
+        $full = Join-Path $ThemeDir $rel
+        if (-not (Test-Path -LiteralPath $full -PathType Leaf)) { continue }
+        if ($NoPrune) {
+            Write-Host "  Stale $rel kept (-NoPrune)"
+        }
+        else {
+            Remove-Item -LiteralPath $full -Force
+            Write-Host "  Removed stale $rel"
+            $removed++
+        }
+    }
+    if ($removed -gt 0) {
+        Write-Host "  Removed $removed file(s) this version no longer ships"
+    }
+}
+
 function Install-Theme {
     param(
         [Parameter(Mandatory = $true)]
@@ -137,6 +197,17 @@ function Install-Theme {
     Copy-Item -Path (Join-Path $SourceDir 'latex*.css') -Destination $ThemeDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.otf') -Destination $fontDir -Force
     Copy-Item -Path (Join-Path $SourceDir 'latex_fonts\*.ttf') -Destination $fontDir -Force
+
+    $installed = New-Object System.Collections.Generic.List[string]
+    foreach ($f in Get-ChildItem -LiteralPath $SourceDir -File -Filter 'latex*.css') {
+        $installed.Add($f.Name)
+    }
+    foreach ($f in (Get-ChildItem -LiteralPath (Join-Path $SourceDir 'latex_fonts') -File | Where-Object { $_.Extension -in '.otf', '.ttf' })) {
+        $installed.Add("latex_fonts/$($f.Name)")
+    }
+
+    Remove-StaleThemeFile -ThemeDir $ThemeDir -Installed $installed.ToArray()
+    $installed | Sort-Object | Set-Content -LiteralPath (Join-Path $ThemeDir $ManifestName) -Encoding UTF8
 }
 
 try {

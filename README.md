@@ -53,6 +53,7 @@ Detects your platform automatically and installs to the correct Typora theme fol
 | :-- | :-- |
 | `--theme-dir PATH` | Override the target Typora theme directory |
 | `--ref REF` | Install from a specific branch, tag, or commit |
+| `--no-prune` | Keep theme files an older version installed that this one no longer ships |
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install.sh | bash -s -- --theme-dir "/custom/themes/path"
