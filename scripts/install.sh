@@ -24,6 +24,13 @@ GREEN=""
 YELLOW=""
 RED=""
 
+# Progress is reported in one voice per channel: the step header carries
+# the words, the bar carries the proportion. TOTAL_STEPS must match the
+# number of step() calls in main(); CURRENT_STEP is advanced by step()
+# itself so the numbering cannot drift out of sync with the headers.
+TOTAL_STEPS=5
+CURRENT_STEP=0
+
 # Left margin shared by every status line, and the width of the tag column
 # ([ok], [!], the spinner frame) that follows it.
 GUTTER="  "
@@ -254,7 +261,8 @@ status_prefix() {
 }
 
 step() {
-    printf '%b\n' "${BOLD}${BLUE}=>${RESET} ${BOLD}$1${RESET}"
+    CURRENT_STEP=$((CURRENT_STEP + 1))
+    printf '%b\n' "${BOLD}${BLUE}=>${RESET} ${BOLD}Step ${CURRENT_STEP}/${TOTAL_STEPS}: $1${RESET}"
 }
 
 info() {
@@ -354,10 +362,15 @@ report_status() {
     fi
 }
 
+# Draws the bar for the step that just finished. Takes no label: the
+# header above it already named the step.
+progress_tick() {
+    render_progress "${CURRENT_STEP}" "${TOTAL_STEPS}"
+}
+
 render_progress() {
     local current="$1"
     local total="$2"
-    local label="$3"
     local width=28
     local percent filled empty
     local filled_bar empty_bar
@@ -376,7 +389,9 @@ render_progress() {
     printf -v empty_bar '%*s' "${empty}" ''
     empty_bar="${empty_bar// /.}"
 
-    printf '%b\n' "${MAGENTA}[${filled_bar}${empty_bar}]${RESET} ${percent}%% ${label}"
+    # The percent literal belongs to this format string. Passing it inside
+    # a %b argument printed a bare "%%" on screen.
+    printf '%b%3d%%\n' "${GUTTER}${MAGENTA}[${filled_bar}${empty_bar}]${RESET} " "${percent}"
 }
 
 while [[ $# -gt 0 ]]; do
@@ -678,46 +693,39 @@ install_theme() {
 }
 
 main() {
-    local total_steps=5
-    local current_step=0
-
     print_banner
-    step "Step 1/5: Checking requirements"
+
+    step "Checking requirements"
     require_command cp
     validate_ref
     success "Required commands are available"
-    current_step=$((current_step + 1))
-    render_progress "${current_step}" "${total_steps}" "Requirements checked"
+    progress_tick
 
-    step "Step 2/5: Detecting your platform"
+    step "Detecting your platform"
     detect_platform
     success "Detected platform: ${PLATFORM}"
-    current_step=$((current_step + 1))
-    render_progress "${current_step}" "${total_steps}" "Platform detected"
+    progress_tick
 
-    step "Step 3/5: Locating installation source"
+    step "Locating installation source"
     detect_source_dir
-    current_step=$((current_step + 1))
-    render_progress "${current_step}" "${total_steps}" "Source ready"
+    progress_tick
 
-    step "Step 4/5: Resolving Typora theme directory"
+    step "Resolving Typora theme directory"
     resolve_theme_dir
     info "Target directory: ${RESOLVED_THEME_DIR}"
     if [[ "${CREATED_THEME_DIR}" -eq 1 ]]; then
         warn "Theme directory does not exist yet; installer will create it."
     fi
     success "Theme directory resolved"
-    current_step=$((current_step + 1))
-    render_progress "${current_step}" "${total_steps}" "Destination ready"
+    progress_tick
 
-    step "Step 5/5: Installing files"
+    step "Installing files"
     install_theme "${SOURCE_DIR}" "${RESOLVED_THEME_DIR}"
     success "Installed latex.css"
     success "Installed latex-dark.css"
     success "Installed latex-dev-dark.css"
     success "Installed latex_fonts/*.{otf,ttf,css}"
-    current_step=$((current_step + 1))
-    render_progress "${current_step}" "${total_steps}" "Installation complete"
+    progress_tick
 
     print_completion_block
 }
