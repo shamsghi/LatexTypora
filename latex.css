@@ -13,9 +13,13 @@
  * To corroborate: scripts/check-theme-tokens.sh
  */
 
+/* The backtick is pulled from the serif face on its own so no system
+   fallback can supply it. New Computer Modern draws it identically to
+   the Latin Modern Roman this used to point at -- same advance, same
+   ascent, same bearings -- so the glyph is unchanged. */
 @font-face {
     font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/lmroman10-regular.otf") format("opentype");
+    src: url("./latex_fonts/NewCM10-Book.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -24,7 +28,7 @@
 
 @font-face {
     font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/lmroman10-bold.otf") format("opentype");
+    src: url("./latex_fonts/NewCM10-Bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
@@ -33,7 +37,7 @@
 
 @font-face {
     font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/lmroman10-italic.otf") format("opentype");
+    src: url("./latex_fonts/NewCM10-BookItalic.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
@@ -42,7 +46,7 @@
 
 @font-face {
     font-family: "Backtick Serif Fix";
-    src: url("./latex_fonts/lmroman10-bolditalic.otf") format("opentype");
+    src: url("./latex_fonts/NewCM10-BoldItalic.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -50,96 +54,64 @@
 }
 
 @font-face {
-    font-family: "Latin Modern Roman";
-    src: url("./latex_fonts/lmroman10-regular.otf") format("opentype");
+    font-family: "New Computer Modern Sans";
+    src: url("./latex_fonts/NewCMSans10-Book.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Roman";
-    src: url("./latex_fonts/lmroman10-bold.otf") format("opentype");
+    font-family: "New Computer Modern Sans";
+    src: url("./latex_fonts/NewCMSans10-Bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Roman";
-    src: url("./latex_fonts/lmroman10-italic.otf") format("opentype");
+    font-family: "New Computer Modern Sans";
+    src: url("./latex_fonts/NewCMSans10-BookOblique.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Roman";
-    src: url("./latex_fonts/lmroman10-bolditalic.otf") format("opentype");
+    font-family: "New Computer Modern Sans";
+    src: url("./latex_fonts/NewCMSans10-BoldOblique.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Sans";
-    src: url("./latex_fonts/lmsans10-regular.otf") format("opentype");
+    font-family: "New Computer Modern Mono";
+    src: url("./latex_fonts/NewCMMono10-Book.otf") format("opentype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Sans";
-    src: url("./latex_fonts/lmsans10-bold.otf") format("opentype");
+    font-family: "New Computer Modern Mono";
+    src: url("./latex_fonts/NewCMMono10-Bold.otf") format("opentype");
     font-weight: 700;
     font-style: normal;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Sans";
-    src: url("./latex_fonts/lmsans10-oblique.otf") format("opentype");
+    font-family: "New Computer Modern Mono";
+    src: url("./latex_fonts/NewCMMono10-BookItalic.otf") format("opentype");
     font-weight: 400;
     font-style: italic;
     font-display: swap;
 }
 
 @font-face {
-    font-family: "Latin Modern Sans";
-    src: url("./latex_fonts/lmsans10-boldoblique.otf") format("opentype");
-    font-weight: 700;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Latin Modern Mono";
-    src: url("./latex_fonts/lmmono10-regular.otf") format("opentype");
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Latin Modern Mono";
-    src: url("./latex_fonts/lmmonolt10-bold.otf") format("opentype");
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Latin Modern Mono";
-    src: url("./latex_fonts/lmmono10-italic.otf") format("opentype");
-    font-weight: 400;
-    font-style: italic;
-    font-display: swap;
-}
-
-@font-face {
-    font-family: "Latin Modern Mono";
-    src: url("./latex_fonts/lmmonolt10-boldoblique.otf") format("opentype");
+    font-family: "New Computer Modern Mono";
+    src: url("./latex_fonts/NewCMMono10-BoldOblique.otf") format("opentype");
     font-weight: 700;
     font-style: italic;
     font-display: swap;
@@ -239,16 +211,16 @@
     --syntax-diff-remove-color: #8c1c1c;
 
     --font-family:
-        "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
+        "Backtick Serif Fix", "New Computer Modern",
         "Noto Nastaliq Urdu", "Songti SC", "Times New Roman", "STSong",
         "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC", serif;
-    --monospace: "Latin Modern Mono", "Courier New", monospace;
+    --monospace: "New Computer Modern Mono", "Courier New", monospace;
     --sans-font:
-        "Latin Modern Sans", "Helvetica Neue", Helvetica, Arial, "Heiti SC",
+        "New Computer Modern Sans", "Helvetica Neue", Helvetica, Arial, "Heiti SC",
         "PingFang SC", "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
         "SimHei", sans-serif;
     --cjk-heading-font:
-        "Backtick Serif Fix", "New Computer Modern", "Latin Modern Roman",
+        "Backtick Serif Fix", "New Computer Modern",
         "Heiti SC", "PingFang SC", "Microsoft YaHei", "Source Han Sans SC",
         "Noto Sans CJK SC", "SimHei", sans-serif;
     --nastaliq-font: "Noto Nastaliq Urdu";
@@ -404,10 +376,11 @@
        "sans-serif" instead. The box is therefore sized for Helvetica and
        painted in whatever is set here, and a face wider than Helvetica
        overflows a box it cannot resize. Measured on the flowchart, worst
-       label vs its box: Latin Modern Sans -25.4px, New Computer Modern
-       -23.0px, JuliaMono +4.2px -- JuliaMono clips "Report error", the
-       other two have room to spare. Keep a proportional face here. */
-    --diagram-label-font: "JuliaMono", var(--sans-font);
+       label vs its box: New Computer Modern Sans -25.4px, JuliaMono
+       +4.5px -- JuliaMono clips "Report error" while the sans has room to
+       spare. Keep a proportional face here; a monospace of the same size
+       is always the wider of the two. */
+    --diagram-label-font: var(--sans-font);
     --mermaid-sequence-numbers: off;
     --mermaid-flowchart-curve: basis;
     --diagram-pie-fill-opacity: 1;

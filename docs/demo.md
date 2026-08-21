@@ -55,7 +55,7 @@ This second paragraph is indented, which is the whole point of the demonstration
 | :-- | :-- |
 | Heading | Centered title and calm hierarchy |
 | Paragraph | Justified body copy with even texture |
-| Code | Latin Modern Mono with thin borders |
+| Code | New Computer Modern Mono with thin borders |
 | Table | Top and bottom rules in a classic academic style |
 
 ## Technical Samples

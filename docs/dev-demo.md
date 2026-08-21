@@ -13,7 +13,7 @@ sfw pnpm test
 ```
 
 > [!NOTE]
-> `latex-dev-dark` keeps the Latin Modern feel, but switches to a left-aligned, easier-to-scan layout for code-heavy documents.
+> `latex-dev-dark` keeps the Computer Modern feel, but switches to a left-aligned, easier-to-scan layout for code-heavy documents.
 
 ## Alerts
 

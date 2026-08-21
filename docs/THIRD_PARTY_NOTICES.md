@@ -1,31 +1,14 @@
 # Third-Party Notices
 
-## Latin Modern Fonts
+## New Computer Modern
 
 This repository bundles local `otf` assets for the following font families used by the Typora themes:
 
-- `Latin Modern Roman`
-- `Latin Modern Sans`
-- `Latin Modern Mono`
+- `New Computer Modern` (serif body text)
+- `New Computer Modern Sans` (captions, UI and diagram labels)
+- `New Computer Modern Mono` (code)
 
-Source of bundled font files:
-
-- CTAN package `lm`
-- <https://ctan.org/pkg/lm>
-- <https://www.gust.org.pl/projects/e-foundry/latin-modern>
-
-License note:
-
-- CTAN lists the `lm` package under the GUST Font License (GFL).
-- The CTAN package metadata attributes the fonts to B. Jackowski and J.M. Nowacki.
-- A local copy of the GFL text is included at `docs/LICENSES/GUST-FONT-LICENSE.md`.
-- Review the upstream package and license text before redistributing modified font files.
-
-If you plan to redistribute this theme, review the upstream font licensing details and keep this notice with the bundled font files.
-
-## New Computer Modern
-
-This repository also bundles local `otf` assets for `New Computer Modern`, which is used as the serif body text face in `latex` and `latex-dark`.
+All three come from the same upstream release, version 7.1.1.
 
 Source of bundled font files:
 
