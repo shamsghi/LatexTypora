@@ -1109,6 +1109,15 @@ kbd {
     paint-order: normal !important;
 }
 
+/* Mermaid 11 renders Markdown labels as HTML paragraphs. Keep the theme's
+   prose indentation from shifting or clipping node and edge labels. */
+.md-diagram-panel-preview .nodeLabel p,
+.md-diagram-panel-preview .edgeLabel p,
+.md-diagram-panel-preview .cluster-label p,
+.md-diagram-panel-preview .label p {
+    text-indent: 0 !important;
+}
+
 /* Mermaid parks edge labels on an opaque chip so the link does not run
    through the text. The chip is an HTML <div>, not an SVG shape, so it
    takes background-color rather than fill. Paper, not grey. */
