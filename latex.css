@@ -323,13 +323,18 @@
     --control-active-bg-color: rgba(0, 0, 0, 0.08);
     --control-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
     /* Diagrams (Mermaid, and Typora's flowchart/sequence renderers).
-       --diagram-series-1..6 are ONE categorical ramp: plate inks held at a
-       common lightness (L* 32-45) and spread evenly around the hue circle
-       (276, 48, 138, 324, 90, 217 degrees), so adjacent slices of a pie or
-       links of a Sankey stay apart both on screen and in grayscale print.
-       Structure -- edges, arrowheads, rules, boxes -- stays ink; colour is
-       spent only where it carries data. Every series ink clears 5.4:1
-       against the page, so a label may be set directly on it. */
+       --diagram-series-1..6 are ONE categorical ramp: plate inks at L* 38-59,
+       at hue angles 282, 93, 124, 318, 155 and 218 degrees. The spacing is
+       not even -- the ramp skips red, which is reserved for the error panel,
+       so a diagram showing red is always a diagram that failed -- which
+       leaves a wide gap between the purple and the yellow and puts the
+       remaining five closer together. Consecutive positions in the cycle
+       stay at least 31 degrees apart, which is what a pie or a Sankey
+       actually needs. Grayscale is a weaker guarantee: series 1 and 4 sit at
+       the same luminance and print as the same grey, so a figure that must
+       survive B/W printing should carry a shape or a label as well as a
+       colour. Structure -- edges, arrowheads, rules, boxes -- stays ink;
+       colour is spent only where it carries data. */
     --diagram-ink-color: rgba(0, 0, 0, 0.72);
     --diagram-muted-line-color: rgba(0, 0, 0, 0.26);
     --diagram-surface-color: rgba(0, 0, 0, 0.035);

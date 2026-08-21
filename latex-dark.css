@@ -324,9 +324,10 @@
     --control-shadow: 0 14px 36px rgba(0, 0, 0, 0.45);
     /* Diagrams (Mermaid, and Typora's flowchart/sequence renderers).
        The same six-ink categorical ramp as the light variant, at the same
-       hue angles (269, 52, 136, 321, 90, 217 degrees) but lifted to
-       L* 73-79 so it sits on black instead of paper. Every series ink
-       clears 9.9:1 against the page. See latex.css for the reasoning. */
+       hue angles (271, 96, 123, 320, 155, 219 degrees) but lifted to
+       L* 71-82 so it sits on black instead of paper. Every series ink
+       clears 9.5:1 against the page. The light variant's grayscale caveat
+       applies here too. See latex.css for the reasoning. */
     --diagram-ink-color: rgba(255, 255, 255, 0.78);
     --diagram-muted-line-color: rgba(255, 255, 255, 0.3);
     --diagram-surface-color: rgba(255, 255, 255, 0.06);
@@ -342,8 +343,8 @@
 
     /* The same two tiers as latex.css at the same six hues, inverted for a
        black page: the ink tier lightens well clear of 9:1, the wash tier
-       darkens to L* 31-38 so a ribbon reads as colour without glowing.
-       Theme text holds above 6:1 on every wash. */
+       darkens to L* 31-36 so a ribbon reads as colour without glowing.
+       Theme text holds above 6.7:1 on every wash. */
     --diagram-series-1: #8fb4e8;
     --diagram-series-2: #dfcd7b;
     --diagram-series-3: #b0d17c;
