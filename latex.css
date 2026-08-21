@@ -1129,12 +1129,23 @@ kbd {
     paint-order: normal !important;
 }
 
-/* Mermaid 11 renders Markdown labels as HTML paragraphs. Keep the theme's
-   prose indentation from shifting or clipping node and edge labels. */
-.md-diagram-panel-preview .nodeLabel p,
-.md-diagram-panel-preview .edgeLabel p,
-.md-diagram-panel-preview .cluster-label p,
-.md-diagram-panel-preview .label p {
+/* Mermaid 11 renders every label as an HTML <p> inside a <foreignObject>,
+   which the bare `p` rule above reaches. Mermaid has already measured the
+   label and sized the box around it, so an inherited --paragraph-indent
+   shoves the text out of a box it exactly fits: at 1.55em the "yes" on a
+   flowchart edge is indented 24.8px inside a 20.2px box, landing on top of
+   whatever label sits next to it.
+
+   This hangs off .md-diagram-panel rather than .md-diagram-panel-preview
+   because Typora drops the -preview wrapper when it exports to HTML or
+   PDF; scoped to the wrapper, the reset covered the editor and left every
+   export broken. foreignObject p is the catch-all for label classes
+   Mermaid may add later. */
+.md-diagram-panel foreignObject p,
+.md-diagram-panel .nodeLabel p,
+.md-diagram-panel .edgeLabel p,
+.md-diagram-panel .cluster-label p,
+.md-diagram-panel .label p {
     text-indent: 0 !important;
 }
 
