@@ -21,17 +21,13 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 
 ## Features
 
-- **New Computer Modern typeface** — Academic-quality serif with support for a wider amount of characters
-- **`article` class geometry** — Line measure, `\parindent`, `\parskip`, heading sizes and section skips taken from `article.cls` at 11pt on letterpaper
-- **Numbered sections** — `##`/`###`/`####` are numbered `1`, `1.1`, `1.1.1` and separated from the title by a `\quad`, exactly like `\section`
-- **LaTeX environments** — First-line paragraph indentation, `quote`-style blockquotes, `itemize`/`enumerate` label glyphs (`•` `–` `∗`, `1.` `(a)` `i.`), `booktabs` rules on tables, and `\footnotesize` footnotes under a `\footnoterule`
-- **Noto Nastaliq** — Enhanced support for Urdu, and Farsi with proper script rendering using html lang attributes
-- **Cross-platform CJK font support** —
-  - Uses Songti SC / Heiti SC and STSong / PingFang SC on macOS
-  - SimSun / NSimSun / Microsoft YaHei / SimHei on Windows
-  - Source Han / Noto CJK fonts on Linux
-- **Offline & self-contained** — All fonts bundled locally, no external dependencies or CDN required. CJK fonts are bundled by your current OS natively
-- **Exports keep the typeface** — Typora's HTML export drops a theme's `@font-face` rules, so exported files normally fall back to the reader's system fonts. Each face here carries a WOFF2 subset of itself inside the stylesheet, and an exported HTML file stays in New Computer Modern on a machine that has never seen the theme
+- **New Computer Modern:** Serif, Sans, and Mono faces give prose, interface labels, and code one consistent LaTeX type family.
+- **LaTeX page layout:** A 32em text column, paragraph indents, heading scale, and section spacing follow the 11pt `article` class on letter paper.
+- **Automatic section numbers:** `##`, `###`, and `####` render as `1`, `1.1`, and `1.1.1`, while `#` remains the unnumbered document title.
+- **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
+- **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
+- **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
+- **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
 
 ## Automatic Installation
 
