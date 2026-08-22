@@ -86,7 +86,7 @@ ENABLE_ANIMATIONS=0
 # Frame interval for the drawing animations: the rule sweep, the ink pass
 # under each banner line, and the progress fill.
 ANIMATION_DELAY="${LATEX_TYPORA_ANIMATION_DELAY:-0.012}"
-SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.08}"
+SPINNER_INTERVAL="${LATEX_TYPORA_SPINNER_INTERVAL:-0.12}"
 TITLE_DELAY="${LATEX_TYPORA_TITLE_DELAY:-0.02}"
 
 # How much color this terminal admits to: 0 none, 8 the basic ANSI set, 256
@@ -164,7 +164,7 @@ Environment:
   LATEX_TYPORA_NO_COLOR  Set to 1 to disable ANSI colors.
   NO_COLOR  Standard variable to disable ANSI colors.
   LATEX_TYPORA_ANIMATION_DELAY  Seconds between drawing frames. Default: 0.012
-  LATEX_TYPORA_SPINNER_INTERVAL  Seconds between spinner frames. Default: 0.08
+  LATEX_TYPORA_SPINNER_INTERVAL  Seconds between spinner frames. Default: 0.12
   LATEX_TYPORA_TITLE_DELAY  Seconds between title lines. Default: 0.02
   LATEX_TYPORA_MAX_WIDTH  Widest the framed output may be drawn. Default: 76
 EOF
@@ -715,25 +715,30 @@ run_with_spinner() {
     fi
 
     local frames="${#SPINNER_FRAMES[@]}"
-    local stops="${#GRADIENT[@]}"
     local frame_index=0
-    local tint
+    local spinner_column_offset=$(( ${#GUTTER} + 1 ))
 
     "$@" &
     BACKGROUND_PID=$!
     hide_cursor
 
+    # Draw the status text once. Repainting the entire row for every frame
+    # makes otherwise stationary text flash in terminals without atomic line
+    # updates, especially when the spinner color changes at the same time.
+    printf '%b' "$(status_prefix "${C_ACCENT}" "[${SPINNER_FRAMES[frame_index]}]")${label}"
+
     while kill -0 "${BACKGROUND_PID}" 2>/dev/null; do
-        reset_line
-        # The frame carries a color of its own, walking the ramp as it
-        # turns, so a long download has something to watch.
-        tint="${C_ACCENT}"
-        if [[ "${stops}" -gt 0 ]]; then
-            tint="${GRADIENT[frame_index % stops]}"
+        sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.12
+        if kill -0 "${BACKGROUND_PID}" 2>/dev/null; then
+            frame_index=$(((frame_index + 1) % frames))
+            # Return to the row start, move directly onto the spinner glyph,
+            # and repaint that one cell. The brackets and label stay untouched.
+            printf '\r\033[%dC%b%s%b' \
+                "${spinner_column_offset}" \
+                "${C_ACCENT}" \
+                "${SPINNER_FRAMES[frame_index]}" \
+                "${RESET}"
         fi
-        printf '%b' "$(status_prefix "${tint}" "[${SPINNER_FRAMES[frame_index]}]")${label}"
-        frame_index=$(((frame_index + 1) % frames))
-        sleep "${SPINNER_INTERVAL}" 2>/dev/null || sleep 0.08
     done
 
     # The loop exits once the child is gone; wait then only harvests its
