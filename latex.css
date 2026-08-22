@@ -2040,6 +2040,15 @@ a:hover {
     color: var(--link-hover-color);
 }
 
+/* Typora underlines the URL text itself -- .md-url on an autolink's <a>,
+   .md-def-url on a link reference definition. With the rule under links back
+   that decoration doubles up with the border, one line through the descenders
+   and one below them, so drop it and let the border be the only mark. */
+a.md-url,
+.md-def-url {
+    text-decoration: none;
+}
+
 a code {
     color: inherit;
     text-decoration-line: underline;
