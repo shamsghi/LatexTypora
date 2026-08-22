@@ -2423,6 +2423,22 @@ sup.md-footnote {
     margin-bottom: var(--cjk-list-item-spacing);
 }
 
+/* Typora tags a block with a lang only when its own language detection
+   fires, so most right-to-left documents arrive untagged and would set
+   left to right: the words still read correctly -- bidi orders the run --
+   but the block hugs the wrong margin and \parindent indents the wrong
+   edge. `plaintext` gives each block the direction of its own first strong
+   character, which is the floor under the tagged rules below rather than a
+   replacement for them: the tag is still what brings the face and the
+   leading. A Latin block resolves left to right from its own first
+   character, so a document in English is unmoved. List items are left out:
+   a marker sits on the side the element's own `direction` names, which
+   `plaintext` does not touch, so a resolved-RTL item would pull its text to
+   the right and leave its bullet behind on the left. Lists need the tag. */
+#write :is(p, blockquote, th, td, .footnote-line, h1, h2, h3, h4, h5, h6) {
+    unicode-bidi: plaintext;
+}
+
 #write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(ur),
 #write :is(span, a, strong, em, b, i, u, del, ins, mark, sup, sub):lang(fa) {
     font-family: var(--nastaliq-font), var(--font-family);
