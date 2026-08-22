@@ -52,8 +52,15 @@
     --select-text-font-color: var(--text-color);
     --focus-ring-color: rgba(0, 0, 0, 0.22);
     --rawblock-edit-panel-bd: var(--code-bg-color);
-    --link-color: #183a63;
-    --link-hover-color: #0f2745;
+    /* Ultramarine, the hue LaTeX reaches for when hyperref is loaded with
+       colorlinks -- at hue 243, the violet lean the pigment is named for.
+       Against black body text the old navy carried a luminance contrast of
+       only 1.8:1, close enough to read as text that had gone slightly dark;
+       what separates this one is chroma rather than lightness, so it is set
+       near full saturation and still holds 9.4:1 on the page. Hover deepens
+       rather than brightens, so the colour never leaves the family. */
+    --link-color: #1d12e2;
+    --link-hover-color: #140da0;
     --inline-code-bg-color: #f7f4ee;
     --inline-code-border-color: rgba(0, 0, 0, 0.12);
     --code-bg-color: #fbfaf7;
@@ -1923,17 +1930,18 @@ caption {
     caption-side: top;
 }
 
-/* hyperref with colorlinks: coloured text, no rule under it. */
+/* Coloured text over a rule that sits below the descenders, the way a
+   `\href` printed with a `\underline`-style link border reads. The rule is a
+   border rather than a text-decoration so it clears descenders without
+   `skip-ink` gaps and stays a constant distance from the baseline. */
 a {
     color: var(--link-color);
     text-decoration: none;
-    border-bottom: none;
+    border-bottom: 1px solid currentColor;
 }
 
 a:hover {
     color: var(--link-hover-color);
-    text-decoration: underline;
-    text-underline-offset: 0.12em;
 }
 
 a code {
@@ -1953,6 +1961,20 @@ code a {
     text-decoration-thickness: 1px;
     text-underline-offset: 0.16em;
     text-decoration-skip-ink: none;
+}
+
+/* Typora hangs .typora-export on the file it writes out. The rule under a
+   link is an editing affordance, so it stops at the editor: what leaves here
+   -- an HTML file, a PDF, a printed page -- carries the colour and nothing
+   else, the way colorlinks does it. A link set in code takes the colour too:
+   in the editor its underline is the marker and it keeps the code colour,
+   but with the underline gone the colour is all that is left to mark it. */
+.typora-export a,
+.typora-export a code,
+.typora-export code a {
+    color: var(--link-color);
+    border-bottom: none;
+    text-decoration: none;
 }
 
 strong {
@@ -2681,7 +2703,6 @@ hr {
         text-shadow: none !important;
     }
 
-    a,
     .md-math-block,
     .md-inline-math,
     .md-image > .md-meta,
@@ -2691,6 +2712,19 @@ hr {
     .md-footnotes,
     .md-toc {
         color: inherit !important;
+    }
+
+    /* colorlinks prints its colour: a link in a LaTeX PDF is coloured text,
+       and that is all it is. The rule under it does not survive, because a
+       border is a viewer annotation marking what the reader can click and
+       nothing on paper is clickable -- so the colour carries the link on its
+       own here, including where the link is set in code. */
+    a,
+    a code,
+    code a {
+        color: var(--link-color);
+        border-bottom: none;
+        text-decoration: none;
     }
 
     pre.md-meta-block,

@@ -17,8 +17,10 @@
     --selection-color: rgba(255, 255, 255, 0.14);
     --highlight-bg-color: #e8d86a;
     --focus-ring-color: rgba(255, 255, 255, 0.26);
-    --link-color: #8bb9ff;
-    --link-hover-color: #d5e5ff;
+    /* The light theme's ultramarine, lifted to carry on black and pulled to
+       the same hue so a link reads as the same colour in either theme. */
+    --link-color: #8b85ff;
+    --link-hover-color: #bbb8ff;
     --inline-code-bg-color: #0b0b0b;
     --inline-code-border-color: rgba(255, 255, 255, 0.18);
     --code-bg-color: #050505;

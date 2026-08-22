@@ -365,14 +365,10 @@ tt {
     overflow-wrap: break-word;
 }
 
+/* Long unbroken URLs are common in a dev document; let them break anywhere
+   rather than push the measure. The link rule itself comes from latex.css. */
 a {
-    border-bottom: 1px solid currentColor;
-    text-underline-offset: 0.12em;
     overflow-wrap: anywhere;
-}
-
-a:hover {
-    text-decoration: none;
 }
 
 .md-toc {
