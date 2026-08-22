@@ -117,6 +117,14 @@
     --nastaliq-font: "Noto Nastaliq Urdu";
     --nastaliq-line-height: 2.15;
     --nastaliq-heading-line-height: 1.8;
+    /* Arabic is set in Naskh, not the Nastaliq that Urdu and Persian take:
+       the same script, a different hand, and an Arabic reader given Nastaliq
+       reads a Persian book. Nothing bundled covers the Arabic block, so this
+       is a stack of the faces the three platforms ship. */
+    --arabic-font:
+        "Amiri", "Noto Naskh Arabic", "Geeza Pro", "Traditional Arabic",
+        "Arabic Typesetting", serif;
+    --arabic-heading-line-height: 1.45;
     --cjk-line-height: 1.68;
     --cjk-heading-line-height: 1.28;
     --cjk-heading-margin-top: 1.8em;
@@ -189,8 +197,33 @@
        --equation-number: "(" counter(latex-equation) ")"; */
     --equation-number: "";
 
-    /* Title printed above [toc], like \tableofcontents. Set to "" to drop it. */
+    /* Title printed above [toc], like \tableofcontents. Set to "" to drop it.
+       This one is what an untagged document prints; where the text carries a
+       lang, the matching name below is used instead -- \contentsname is what
+       babel and ctex swap out per language, and these are the names they set.
+       Pin one title everywhere by setting all four to the same string. */
     --toc-title: "Contents";
+    --toc-title-zh: "目录";
+    --toc-title-ja: "目次";
+    --toc-title-ko: "목차";
+    --toc-title-de: "Inhaltsverzeichnis";
+    --toc-title-fr: "Table des matières";
+    --toc-title-es: "Índice";
+    --toc-title-ar: "الفهرس";
+    --toc-title-ur: "فہرست";
+    --toc-title-fa: "فهرست مطالب";
+
+    /* Entry numbers inside [toc], matching \thesection in the .toc file.
+       They run on their own counters rather than the heading ones: the TOC
+       is printed before the sections it lists, so a shared counter would be
+       spent by the time the first \section arrives. Set all three to "" to
+       list the headings unnumbered. */
+    --toc-number-h2: counter(latex-toc-section) "\2003";
+    --toc-number-h3: counter(latex-toc-section) "." counter(latex-toc-subsection)
+        "\2003";
+    --toc-number-h4: counter(latex-toc-section) "."
+        counter(latex-toc-subsection) "." counter(latex-toc-subsubsection)
+        "\2003";
 
     --primary-color: #000000;
     --primary-btn-border-color: #000000;
@@ -2378,6 +2411,14 @@ sup.md-footnote {
     text-indent: 0;
 }
 
+/* Typora builds [toc] out of a <p>, so a CJK-tagged document would otherwise
+   push the whole list in by \parindent -- a contents list is not a
+   paragraph, and its entries hang on their own indentation. */
+#write#write .md-toc-content:is(:lang(zh), :lang(ja), :lang(ko)),
+#write#write .md-toc-content p:is(:lang(zh), :lang(ja), :lang(ko)) {
+    text-indent: 0;
+}
+
 #write li:is(:lang(zh), :lang(ja), :lang(ko)) {
     margin-bottom: var(--cjk-list-item-spacing);
 }
@@ -2458,6 +2499,7 @@ hr {
     font-size: 1em;
     margin: 1.6rem 0 2.2rem;
     color: var(--text-color);
+    counter-reset: latex-toc-section;
 }
 
 .md-toc::before {
@@ -2470,8 +2512,142 @@ hr {
     margin-bottom: 1rem;
 }
 
+/* [toc] is Typora's own block, so it takes no lang of its own to match on.
+   Either arm can carry the language: the first for a document tagged at the
+   root or around the TOC, the second for the usual case of tagged blocks
+   sitting beside it -- one Chinese paragraph in the document is enough. A
+   document mixing two of these prints the last name listed here. */
+.md-toc:lang(zh)::before,
+#write:has(:lang(zh)) .md-toc::before {
+    content: var(--toc-title-zh);
+}
+
+.md-toc:lang(ja)::before,
+#write:has(:lang(ja)) .md-toc::before {
+    content: var(--toc-title-ja);
+}
+
+.md-toc:lang(ko)::before,
+#write:has(:lang(ko)) .md-toc::before {
+    content: var(--toc-title-ko);
+}
+
+.md-toc:lang(de)::before,
+#write:has(:lang(de)) .md-toc::before {
+    content: var(--toc-title-de);
+}
+
+.md-toc:lang(fr)::before,
+#write:has(:lang(fr)) .md-toc::before {
+    content: var(--toc-title-fr);
+}
+
+.md-toc:lang(es)::before,
+#write:has(:lang(es)) .md-toc::before {
+    content: var(--toc-title-es);
+}
+
+/* Arabic reads right to left like the two below it but is set in Naskh, so
+   it takes its own face rather than the Nastaliq one. */
+.md-toc:lang(ar)::before,
+#write:has(:lang(ar)) .md-toc::before {
+    content: var(--toc-title-ar);
+    font-family: var(--arabic-font);
+    line-height: var(--arabic-heading-line-height);
+    direction: rtl;
+    unicode-bidi: plaintext;
+    letter-spacing: normal;
+}
+
+/* Urdu and Persian take the Nastaliq face and its leading along with the
+   name -- the CJK stack the title is set in covers no Arabic script, and a
+   fallback face would sit on the wrong strut. `plaintext` matches what the
+   headings do: the run reads right to left, the heading stays where the
+   theme puts it. */
+.md-toc:lang(ur)::before,
+#write:has(:lang(ur)) .md-toc::before {
+    content: var(--toc-title-ur);
+}
+
+.md-toc:lang(fa)::before,
+#write:has(:lang(fa)) .md-toc::before {
+    content: var(--toc-title-fa);
+}
+
+.md-toc:is(:lang(ur), :lang(fa))::before,
+#write:has(:lang(ur)) .md-toc::before,
+#write:has(:lang(fa)) .md-toc::before {
+    font-family: var(--nastaliq-font), var(--font-family);
+    line-height: var(--nastaliq-heading-line-height);
+    direction: rtl;
+    unicode-bidi: plaintext;
+    letter-spacing: normal;
+}
+
 .md-toc-content {
     text-indent: 0;
+}
+
+/* Contents entries are navigation, not prose `\href`s -- so the TOC reads the
+   way `hyperref`'s `hidelinks` prints it: body-black throughout, number and
+   title alike, with no rule stacking into a ladder of lines down the page.
+   The item itself is listed because Typora's base.css colours it #4183c4 and
+   the number, printed from the item's ::before, inherits that.
+   The only mark is an underline under the entry the pointer is on, which
+   leaves with the pointer and never reaches an export or a printed page.
+   These rules sit after the `.typora-export a` colour so they carry into an
+   exported file too, where the entries are just as unclickable as in a PDF. */
+.md-toc .md-toc-item,
+.md-toc a,
+.md-toc a:hover {
+    color: var(--text-color);
+}
+
+.md-toc a {
+    border-bottom: none;
+}
+
+.md-toc a:hover {
+    text-decoration-line: underline;
+    text-decoration-color: currentColor;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.16em;
+    text-decoration-skip-ink: none;
+}
+
+/* h1 is this theme's \maketitle, and a title is not an entry in its own
+   contents -- LaTeX starts the list at \section. The heading keeps its
+   anchor; only its line in the list goes. */
+.md-toc-content .md-toc-h1 {
+    display: none;
+}
+
+/* Typora lists every heading as a flat sibling in document order, so the
+   entries carry the section numbers on a parallel set of counters. */
+.md-toc-content .md-toc-h2 {
+    counter-increment: latex-toc-section;
+    counter-reset: latex-toc-subsection;
+}
+
+.md-toc-content .md-toc-h3 {
+    counter-increment: latex-toc-subsection;
+    counter-reset: latex-toc-subsubsection;
+}
+
+.md-toc-content .md-toc-h4 {
+    counter-increment: latex-toc-subsubsection;
+}
+
+.md-toc-content .md-toc-h2::before {
+    content: var(--toc-number-h2);
+}
+
+.md-toc-content .md-toc-h3::before {
+    content: var(--toc-number-h3);
+}
+
+.md-toc-content .md-toc-h4::before {
+    content: var(--toc-number-h4);
 }
 
 #typora-sidebar {

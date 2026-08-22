@@ -24,6 +24,7 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 - **New Computer Modern:** Serif, Sans, and Mono faces give prose, interface labels, and code one consistent LaTeX type family.
 - **LaTeX page layout:** A 32em text column, paragraph indents, heading scale, and section spacing follow the 11pt `article` class on letter paper.
 - **Automatic section numbers:** `##`, `###`, and `####` render as `1`, `1.1`, and `1.1.1`, while `#` remains the unnumbered document title.
+- **`\tableofcontents` contents:** `[toc]` prints under a `Contents` heading — or `\contentsname` in the tagged language, from `目录` to `Inhaltsverzeichnis` to `فہرست` — with the section number on every entry, starting at `##` — the `#` title stays out of its own contents, as in LaTeX. Entries are body-black and unruled, the way `hyperref`'s `hidelinks` sets them.
 - **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
 - **Abstract environment:** A blockquote directly under the `#` title renders as LaTeX's `abstract` — centred heading, `\small` quotation, both margins pulled in. `class="abstract"` does the same anywhere in the document.
 - **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
@@ -127,7 +128,9 @@ Every shared LaTeX metric is a `:root` variable at the top of `latex.css`, while
 | `--cjk-paragraph-indent` | `2em` | First-line indent for `zh`/`ja`/`ko` paragraphs — two full-width characters, per CJK convention. |
 | `--section-number-h2/h3/h4` | `counter(...)` | Heading numbers. Set all three to `""` to switch numbering off. |
 | `--equation-number` | `""` | Display-equation numbers. `$$…$$` is LaTeX's unnumbered `\[ \]`, so this is off by default; set it to `"(" counter(latex-equation) ")"` to number equations flush right like `equation`. |
-| `--toc-title` | `"Contents"` | Title printed above `[toc]`, like `\tableofcontents`. Set to `""` to drop it. |
+| `--toc-title` | `"Contents"` | Title printed above `[toc]`, like `\contentsname`, for a document with no language tagged. Set to `""` to drop it. |
+| `--toc-title-zh/ja/ko/de/fr/es/ar/ur/fa` | `"目录"`, `"目次"`, `"목차"`, `"Inhaltsverzeichnis"`, `"Table des matières"`, `"Índice"`, `"الفهرس"`, `"فہرست"`, `"فهرست مطالب"` | The same title where the document is tagged in one of these languages — `\contentsname` as `babel`, `ctex` and `polyglossia` set it. The three right-to-left titles are set in the script's own hand: Naskh for Arabic, Nastaliq for Urdu and Persian. Set them all to one string to print that title regardless of language. |
+| `--toc-number-h2/h3/h4` | `counter(...)` | Entry numbers inside `[toc]`, matching the heading numbers. Set all three to `""` to list the headings unnumbered. |
 | `--abstract-title` | `"Abstract"` | `\abstractname`, centred above the abstract. Set to `""` to drop the heading. |
 | `--abstract-indent`, `--abstract-font-size`, `--abstract-paragraph-indent` | `2.5em`, `0.91em`, `1.5em` | The `abstract` environment: `quotation` margins, `\small`, and the `\listparindent` every paragraph in it carries — the first one included. |
 | `--quote-indent`, `--quote-rule-width`, `--quote-padding`, `--quote-tint` | `2.5em`, `0px`, `0em`, `transparent` | Blockquotes render as LaTeX's bare `quote` environment. For the framed panel look, set the rule width to `2px`, the padding to `0.9em 1.2em 0.9em 1.4em` and the tint to `var(--quote-bg-color)`. |

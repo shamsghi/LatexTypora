@@ -86,6 +86,9 @@
     --section-number-h2: "";
     --section-number-h3: "";
     --section-number-h4: "";
+    --toc-number-h2: "";
+    --toc-number-h3: "";
+    --toc-number-h4: "";
     --toc-title: "";
 }
 
