@@ -77,6 +77,11 @@
     --quote-rule-width: 3px;
     --quote-padding: 0.9em 1.2em 0.9em 1.4em;
     --quote-tint: var(--quote-bg-color);
+    /* An explicit class="abstract" block keeps its heading here, but takes
+       this variant's full measure, body size and flush paragraphs. */
+    --abstract-indent: 0em;
+    --abstract-font-size: 1em;
+    --abstract-paragraph-indent: 0em;
     --cjk-paragraph-indent: 0em;
     --section-number-h2: "";
     --section-number-h3: "";
@@ -134,6 +139,31 @@ table,
 .mathjax-block {
     margin-top: 1em;
     margin-bottom: 1em;
+}
+
+/* A README has no abstract: a blockquote under the title stays a framed
+   quote here, undoing the abstract environment latex.css builds out of that
+   position. An explicit class="abstract" block still gets one, in this
+   variant's left-aligned, full-measure form. */
+#write > h1 + blockquote:not(.abstract) {
+    margin: 1em var(--quote-indent);
+    padding: var(--quote-padding);
+    border-left: var(--quote-rule-width) solid var(--quote-border-color);
+    background-color: var(--quote-tint);
+    font-size: 1em;
+}
+
+#write > h1 + blockquote:not(.abstract)::before {
+    content: none;
+}
+
+#write#write > h1 + blockquote:not(.abstract) > p {
+    text-indent: 0;
+}
+
+#write .abstract::before {
+    font-family: var(--sans-font);
+    text-align: left;
 }
 
 /* Conventional Markdown affordances instead of the LaTeX article ones. */

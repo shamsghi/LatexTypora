@@ -1,6 +1,8 @@
 # \[\LaTeX\] Typora Theme
 
-## Abstract
+> A blockquote written directly under the title becomes the `abstract` environment: `\small` type set in a quotation, both margins pulled in, and a centred **Abstract** above it. A `<div class="abstract">` gets the same treatment anywhere in the document, and a GitHub alert in that position stays an alert.
+
+## Overview
 
 The quick brown fox jumps over the lazy dog while **bold text**, **italic text**, `inline code`, and ==highlighted text== sit together in the same paragraph. A link to [Typora](https://typora.io) keeps the treatment minimal and print-friendly.[^demo-note]
 

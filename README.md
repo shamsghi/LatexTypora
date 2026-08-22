@@ -25,6 +25,7 @@ Typora themes inspired by classic LaTeX documents — clean academic typography 
 - **LaTeX page layout:** A 32em text column, paragraph indents, heading scale, and section spacing follow the 11pt `article` class on letter paper.
 - **Automatic section numbers:** `##`, `###`, and `####` render as `1`, `1.1`, and `1.1.1`, while `#` remains the unnumbered document title.
 - **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
+- **Abstract environment:** A blockquote directly under the `#` title renders as LaTeX's `abstract` — centred heading, `\small` quotation, both margins pulled in. `class="abstract"` does the same anywhere in the document.
 - **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
 - **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
 - **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
@@ -97,7 +98,7 @@ Default theme folders:
 Built for READMEs, API docs, design specs, and changelogs. Extends `latex-dark` with:
 
 - **JuliaMono** for body text, **iA Writer Mono** for inline code and UI accents
-- Left-aligned layout on a ~76-character monospace measure — no first-line indent, no section numbers, no `[toc]` title
+- Left-aligned layout on a ~76-character monospace measure — no first-line indent, no section numbers, no `[toc]` title, and a quote under the title stays a quote rather than becoming an abstract
 - **Persistent language label** above every fenced block, in reading mode and in exports, not only while the fence has focus
 - **Diff review styling** — `+` and `-` lines in a `diff` fence tint the whole row and carry a gutter mark
 - **Documentation tables** — left-aligned headers, striped rows, and cells that wrap long paths and URLs
@@ -127,6 +128,8 @@ Every shared LaTeX metric is a `:root` variable at the top of `latex.css`, while
 | `--section-number-h2/h3/h4` | `counter(...)` | Heading numbers. Set all three to `""` to switch numbering off. |
 | `--equation-number` | `""` | Display-equation numbers. `$$…$$` is LaTeX's unnumbered `\[ \]`, so this is off by default; set it to `"(" counter(latex-equation) ")"` to number equations flush right like `equation`. |
 | `--toc-title` | `"Contents"` | Title printed above `[toc]`, like `\tableofcontents`. Set to `""` to drop it. |
+| `--abstract-title` | `"Abstract"` | `\abstractname`, centred above the abstract. Set to `""` to drop the heading. |
+| `--abstract-indent`, `--abstract-font-size`, `--abstract-paragraph-indent` | `2.5em`, `0.91em`, `1.5em` | The `abstract` environment: `quotation` margins, `\small`, and the `\listparindent` every paragraph in it carries — the first one included. |
 | `--quote-indent`, `--quote-rule-width`, `--quote-padding`, `--quote-tint` | `2.5em`, `0px`, `0em`, `transparent` | Blockquotes render as LaTeX's bare `quote` environment. For the framed panel look, set the rule width to `2px`, the padding to `0.9em 1.2em 0.9em 1.4em` and the tint to `var(--quote-bg-color)`. |
 | `--inline-code-bg-color` | faint tint | Inline `code` has no border, matching `\texttt`. Set to `transparent` to remove the tint too. |
 | `--table-bleed` | `var(--page-padding-x)` | How far a table too wide for the measure may extend into the page margin before the figure scrolls. Set to `0em` to keep every table inside the measure. |

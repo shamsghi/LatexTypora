@@ -25,6 +25,7 @@
 - **`article` 类页面几何** —— 行长、`\parindent`、`\parskip`、标题字号与章节间距均取自 letterpaper 11pt 的 `article.cls`
 - **章节自动编号** —— `##`/`###`/`####` 依次编号为 `1`、`1.1`、`1.1.1`，编号与标题之间以 `\quad` 分隔，与 `\section` 一致
 - **LaTeX 环境还原** —— 首行缩进、`quote` 式引用块、`itemize`/`enumerate` 标号（`•` `–` `∗`，`1.` `(a)` `i.`）、表格 `booktabs` 横线，以及 `\footnoterule` 下的 `\footnotesize` 脚注
+- **`abstract` 环境** —— 紧接 `#` 标题的引用块会渲染为 LaTeX 的 `abstract`：居中标题、`\small` 字号、左右各内缩一段；文档任意位置的 `class="abstract"` 同样有效
 - **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
 - **跨平台 CJK 字体支持** ——
   - macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC
@@ -102,7 +103,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 面向 README、API 文档、设计规范与变更日志打造。在 `latex-dark` 基础上扩展：
 
 - **JuliaMono** 用于正文，**iA Writer Mono** 用于行内代码与界面强调
-- 左对齐布局，版心约 76 个等宽字符——取消首行缩进、章节编号与 `[toc]` 标题
+- 左对齐布局，版心约 76 个等宽字符——取消首行缩进、章节编号、`[toc]` 标题，标题下的引用块也仍是普通引用块而非摘要
 - **常驻语言标签**：每个围栏代码块上方都显示语言，阅读模式与导出同样保留，而不仅在获得焦点时出现
 - **diff 审阅样式**：`diff` 围栏中的 `+`／`-` 行整行着色并带有左侧标记
 - **文档型表格**：表头左对齐、隔行底色，单元格会换行显示长路径与 URL
@@ -132,6 +133,8 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | `--section-number-h2/h3/h4` | `counter(...)` | 标题编号。三者均设为 `""` 即可关闭编号。 |
 | `--equation-number` | `""` | 行间公式编号。`$$…$$` 对应 LaTeX 不编号的 `\[ \]`，故默认关闭；设为 `"(" counter(latex-equation) ")"` 可像 `equation` 那样右对齐编号。 |
 | `--toc-title` | `"Contents"` | `[toc]` 上方的标题，对应 `\tableofcontents`。设为 `""` 即可去掉。 |
+| `--abstract-title` | `"Abstract"` | 摘要上方居中的 `\abstractname`。设为 `""` 即可去掉该标题。 |
+| `--abstract-indent`、`--abstract-font-size`、`--abstract-paragraph-indent` | `2.5em`、`0.91em`、`1.5em` | `abstract` 环境：`quotation` 的左右边距、`\small` 字号，以及其中每个段落（含首段）的 `\listparindent`。 |
 | `--quote-indent`、`--quote-rule-width`、`--quote-padding`、`--quote-tint` | `2.5em`、`0px`、`0em`、`transparent` | 引用块按 LaTeX 的 `quote` 环境渲染。若想恢复带边框的面板样式，可将线宽设为 `2px`、内边距设为 `0.9em 1.2em 0.9em 1.4em`、底色设为 `var(--quote-bg-color)`。 |
 | `--inline-code-bg-color` | 极浅底色 | 行内 `code` 不再描边，与 `\texttt` 一致。设为 `transparent` 可连底色一并去掉。 |
 | `--table-bleed` | `var(--page-padding-x)` | 表格宽于版心时，可向页边距外延伸的距离；超出后由 figure 横向滚动。设为 `0em` 可让所有表格严格保持在版心内。 |

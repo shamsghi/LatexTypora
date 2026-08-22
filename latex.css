@@ -165,6 +165,17 @@
     --quote-padding: 0em;
     --quote-tint: transparent;
 
+    /* LaTeX abstract environment: \small type set in a quotation, both
+       margins 2.5em, \listparindent 1.5em on every paragraph including the
+       first, and a centred bold \abstractname above it. A blockquote placed
+       directly under the `#` title becomes the abstract; so does anything
+       carrying class="abstract". Set --abstract-title to "" to drop the
+       heading. */
+    --abstract-title: "Abstract";
+    --abstract-indent: 2.5em;
+    --abstract-font-size: 0.91em;
+    --abstract-paragraph-indent: 1.5em;
+
     /* Section numbering, formatted like LaTeX's `\thesection\quad Title`.
        Set all three to "" to turn heading numbers off. */
     --section-number-h2: counter(latex-section) "\2003";
@@ -666,6 +677,58 @@ blockquote.md-alert-caution
 blockquote:has(.md-alert-text-caution)
     :is(.md-alert-text-caution, .md-alert-text-container) {
     color: var(--alert-caution-accent);
+}
+
+/* \begin{abstract}. Markdown has no macro for it, so the theme takes two
+   triggers: a blockquote written directly under the `#` title -- where
+   LaTeX puts the abstract, after \maketitle -- and an explicit
+   class="abstract" on a raw HTML block anywhere in the document. A GitHub
+   alert in that position stays an alert. article.cls sets the environment
+   \small inside a quotation, so the frame, tint and padding a blockquote
+   would otherwise carry are dropped here. */
+#write > h1 + blockquote:not(.md-alert, :has(.md-alert-text-container)),
+#write .abstract {
+    margin: 1.6rem var(--abstract-indent) 2.2rem;
+    padding: 0;
+    border: none;
+    background: none;
+    font-size: var(--abstract-font-size);
+    color: inherit;
+}
+
+/* \abstractname, centred and bold above the environment. */
+#write
+    > h1
+    + blockquote:not(.md-alert, :has(.md-alert-text-container))::before,
+#write .abstract::before {
+    content: var(--abstract-title);
+    display: block;
+    font-family: var(--cjk-heading-font);
+    font-weight: bold;
+    text-align: center;
+    text-indent: 0;
+    margin-bottom: 0.4em;
+}
+
+/* quotation indents every paragraph by \listparindent, the first one
+   included -- unlike a section's opening paragraph, which LaTeX leaves
+   flush. The doubled `#write` clears the flush-first-paragraph rule above. */
+#write#write
+    > h1
+    + blockquote:not(.md-alert, :has(.md-alert-text-container))
+    > p,
+#write#write .abstract > p {
+    text-indent: var(--abstract-paragraph-indent);
+}
+
+/* A blockquote already gets these from the quote environment above; an
+   explicit .abstract block does not. */
+#write .abstract > :first-child {
+    margin-top: 0;
+}
+
+#write .abstract > :last-child {
+    margin-bottom: 0;
 }
 
 ul,
