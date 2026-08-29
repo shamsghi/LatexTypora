@@ -19,18 +19,6 @@
 
 Typora themes inspired by classic LaTeX documents — clean academic typography for essays, papers, and long-form reading. Includes a developer-focused dark variant built for code-heavy Markdown.
 
-## Features
-
-- **New Computer Modern:** Serif, Sans, and Mono faces give prose, interface labels, and code one consistent LaTeX type family.
-- **LaTeX page layout:** A 32em text column, paragraph indents, heading scale, and section spacing follow the 11pt `article` class on letter paper.
-- **Automatic section numbers:** `##`, `###`, and `####` render as `1`, `1.1`, and `1.1.1`, while `#` remains the unnumbered document title.
-- **`\tableofcontents` contents:** `[toc]` prints under a `Contents` heading — or `\contentsname` in the tagged language, from `目录` to `Inhaltsverzeichnis` to `فہرست` — with the section number on every entry, starting at `##` — the `#` title stays out of its own contents, as in LaTeX. Entries are body-black and unruled, the way `hyperref`'s `hidelinks` sets them.
-- **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
-- **Abstract environment:** A blockquote directly under the `#` title renders as LaTeX's `abstract` — centred heading, `\small` quotation, both margins pulled in. `class="abstract"` does the same anywhere in the document.
-- **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
-- **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
-- **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
-
 ## Automatic Installation
 
 macOS and Linux:
@@ -81,6 +69,18 @@ Default theme folders:
 | Windows | `%APPDATA%\Typora\themes` |
 
 </details>
+
+## Features
+
+- **New Computer Modern:** Serif, Sans, and Mono faces give prose, interface labels, and code one consistent LaTeX type family.
+- **LaTeX page layout:** A 32em text column, paragraph indents, heading scale, and section spacing follow the 11pt `article` class on letter paper.
+- **Automatic section numbers:** `##`, `###`, and `####` render as `1`, `1.1`, and `1.1.1`, while `#` remains the unnumbered document title.
+- **`\tableofcontents` contents:** `[toc]` prints under a `Contents` heading — or `\contentsname` in the tagged language, from `目录` to `Inhaltsverzeichnis` to `فہرست` — with the section number on every entry, starting at `##` — the `#` title stays out of its own contents, as in LaTeX. Entries are body-black and unruled, the way `hyperref`'s `hidelinks` sets them.
+- **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
+- **Abstract environment:** A blockquote directly under the `#` title renders as LaTeX's `abstract` — centred heading, `\small` quotation, both margins pulled in. `class="abstract"` does the same anywhere in the document.
+- **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
+- **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
+- **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
 
 #### Enjoy ❤️!
 
