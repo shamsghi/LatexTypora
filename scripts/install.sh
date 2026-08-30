@@ -1067,8 +1067,8 @@ run_windows_installer() {
 }
 
 # Typora keeps its themes in a different place per platform, and per
-# install method within a platform: a Mac App Store copy is sandboxed under
-# ~/Library/Containers, a Linux Flatpak under ~/.var/app. Prefer a directory
+# install method within a platform: a Linux Flatpak keeps them under
+# ~/.var/app, a strictly confined Snap under ~/snap. Prefer a directory
 # that already exists -- its existence is the strongest signal of which
 # install is real -- and fall back to the standard location, noting that we
 # will have to create it.
@@ -1082,33 +1082,33 @@ resolve_theme_dir() {
     fi
 
     if [[ "${PLATFORM}" == "macos" ]]; then
-        local standalone sandboxed
+        local standalone
         standalone="${HOME}/Library/Application Support/abnerworks.Typora/themes"
-        sandboxed="${HOME}/Library/Containers/abnerworks.Typora/Data/Library/Application Support/abnerworks.Typora/themes"
-        if [[ -d "${standalone}" ]]; then
-            RESOLVED_THEME_DIR="${standalone}"
-            return
+        if [[ ! -d "${standalone}" ]]; then
+            CREATED_THEME_DIR=1
         fi
-        if [[ -d "${sandboxed}" ]]; then
-            RESOLVED_THEME_DIR="${sandboxed}"
-            return
-        fi
-        CREATED_THEME_DIR=1
         RESOLVED_THEME_DIR="${standalone}"
         return
     fi
 
     if [[ "${PLATFORM}" == "linux" ]]; then
-        local xdg_config_home official flatpak
+        local xdg_config_home official flatpak snap
         xdg_config_home="${XDG_CONFIG_HOME:-${HOME}/.config}"
         official="${xdg_config_home}/Typora/themes"
         flatpak="${HOME}/.var/app/io.typora.Typora/config/Typora/themes"
+        # A strict Snap runs with HOME remapped to $SNAP_USER_DATA, so its
+        # config lands under the revision that "current" points at.
+        snap="${HOME}/snap/typora/current/.config/Typora/themes"
         if [[ -d "${official}" ]]; then
             RESOLVED_THEME_DIR="${official}"
             return
         fi
         if [[ -d "${flatpak}" ]]; then
             RESOLVED_THEME_DIR="${flatpak}"
+            return
+        fi
+        if [[ -d "${snap}" ]]; then
+            RESOLVED_THEME_DIR="${snap}"
             return
         fi
         CREATED_THEME_DIR=1

@@ -81,8 +81,10 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 | 平台 | 路径 |
 | :-- | :-- |
-| macOS | `~/Library/Application Support/abnerworks.Typora/themes`（或沙盒等效路径） |
+| macOS | `~/Library/Application Support/abnerworks.Typora/themes` |
 | Linux | `~/.config/Typora/themes` |
+| Linux（Flatpak） | `~/.var/app/io.typora.Typora/config/Typora/themes` |
+| Linux（Snap） | `~/snap/typora/current/.config/Typora/themes` |
 | Windows | `%APPDATA%\Typora\themes` |
 
 </details>

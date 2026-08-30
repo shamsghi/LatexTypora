@@ -137,7 +137,7 @@ and `~/Library/Application Support/abnerworks.Typora/themes/latex-dev-dark.css`.
 ## Nested Structure
 
 1. Resolve the theme directory
-   - macOS sandboxed path first
+   - macOS Application Support path first
    - then `~/.config/Typora/themes`
      - finally `%APPDATA%\Typora\themes`
 2. Copy `latex_fonts/`

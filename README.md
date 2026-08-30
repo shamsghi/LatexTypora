@@ -64,8 +64,10 @@ Default theme folders:
 
 | Platform | Path |
 | :-- | :-- |
-| macOS | `~/Library/Application Support/abnerworks.Typora/themes` (or sandboxed equivalent) |
+| macOS | `~/Library/Application Support/abnerworks.Typora/themes` |
 | Linux | `~/.config/Typora/themes` |
+| Linux (Flatpak) | `~/.var/app/io.typora.Typora/config/Typora/themes` |
+| Linux (Snap) | `~/snap/typora/current/.config/Typora/themes` |
 | Windows | `%APPDATA%\Typora\themes` |
 
 </details>
