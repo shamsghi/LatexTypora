@@ -90,6 +90,12 @@
     --toc-number-h3: "";
     --toc-number-h4: "";
     --toc-title: "";
+    /* With the numbers gone the boxes they were set in are what is left
+       holding the levels apart, so they become the indent itself: one flat
+       step a level rather than the widths a number needs. */
+    --toc-number-width-h2: 2em;
+    --toc-number-width-h3: 2em;
+    --toc-number-width-h4: 2em;
 }
 
 #write {

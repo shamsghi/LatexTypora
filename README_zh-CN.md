@@ -24,7 +24,7 @@
 - **New Computer Modern 字体** —— 学术级衬线字体，支持更广泛的字符集
 - **`article` 类页面几何** —— 行长、`\parindent`、`\parskip`、标题字号与章节间距均取自 letterpaper 11pt 的 `article.cls`
 - **章节自动编号** —— `##`/`###`/`####` 依次编号为 `1`、`1.1`、`1.1.1`，编号与标题之间以 `\quad` 分隔，与 `\section` 一致
-- **`\tableofcontents` 目录** —— `[toc]` 以 `Contents` 为标题排版（文档标注了语言时改用该语言的 `\contentsname`，如 `目录`、`Inhaltsverzeichnis`、`فہرست`），每个条目带章节编号，从 `##` 开始；`#` 标题不会出现在自己的目录里，与 LaTeX 一致。条目使用正文黑色且不加下划线，相当于 `hyperref` 的 `hidelinks`。
+- **`\tableofcontents` 目录** —— `[toc]` 以 `Contents` 为标题排版（文档标注了语言时改用该语言的 `\contentsname`，如 `目录`、`Inhaltsverzeichnis`、`فہرست`），每个条目带章节编号，从 `##` 开始；`#` 标题不会出现在自己的目录里，与 LaTeX 一致。条目按 `\@dottedtocline` 的方式排：编号置于本级固定宽度的盒子里，同级标题因此对齐成一列，过长的标题折行后仍回到该列，而不是缩到编号下方；`##` 条目加粗，并像 `\l@section` 那样以 `\addvspace` 起头。唯一省去的是引导点——点线本是引向页码的，而 Markdown 文档没有页码。条目使用正文黑色且不加下划线，相当于 `hyperref` 的 `hidelinks`。
 - **LaTeX 环境还原** —— 首行缩进、`quote` 式引用块、`itemize`/`enumerate` 标号（`•` `–` `∗`，`1.` `(a)` `i.`）、表格 `booktabs` 横线，以及 `\footnoterule` 下的 `\footnotesize` 脚注
 - **`abstract` 环境** —— 紧接 `#` 标题的引用块会渲染为 LaTeX 的 `abstract`：居中标题、`\small` 字号、左右各内缩一段；文档任意位置的 `class="abstract"` 同样有效
 - **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
@@ -135,7 +135,8 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | `--equation-number` | `""` | 行间公式编号。`$$…$$` 对应 LaTeX 不编号的 `\[ \]`，故默认关闭；设为 `"(" counter(latex-equation) ")"` 可像 `equation` 那样右对齐编号。 |
 | `--toc-title` | `"Contents"` | `[toc]` 上方的标题，对应 `\contentsname`；未标注语言的文档使用它。设为 `""` 即可去掉。 |
 | `--toc-title-zh/ja/ko/de/fr/es/ar/ur/fa` | `"目录"`、`"目次"`、`"목차"`、`"Inhaltsverzeichnis"`、`"Table des matières"`、`"Índice"`、`"الفهرس"`、`"فہرست"`、`"فهرست مطالب"` | 文档标注为相应语言时使用的目录标题，与 `babel`／`ctex`／`polyglossia` 设置的 `\contentsname` 一致；三种从右向左的标题各用本文字的书体：阿拉伯语用 Naskh，乌尔都语与波斯语用 Nastaliq。全部设为同一字符串即可无视语言固定标题。 |
-| `--toc-number-h2/h3/h4` | `counter(...)` | `[toc]` 条目前的编号，与标题编号一致。三者均设为 `""` 即可去掉编号。 |
+| `--toc-number-h2/h3/h4` | `counter(...)` | `[toc]` 条目前的编号，与标题编号一致。三者连同下方的宽度一起设为 `""`／`0em`，即可去掉编号。 |
+| `--toc-number-width-h2/h3/h4` | `1.5em`、`2.3em`、`3.2em` | 每级条目编号所占盒子的宽度，即 `\@dottedtocline` 的第三个参数：它既决定该级标题起始的那一列，也决定下一级的缩进量，`article.cls` 中 `\subsection` 的 `1.5em` 与 `\subsubsection` 的 `3.8em` 正由此而来。文档编号位数较多时可调宽对应的一项。 |
 | `--abstract-title` | `"Abstract"` | 摘要上方居中的 `\abstractname`。设为 `""` 即可去掉该标题。 |
 | `--abstract-indent`、`--abstract-font-size`、`--abstract-paragraph-indent` | `2.5em`、`0.91em`、`1.5em` | `abstract` 环境：`quotation` 的左右边距、`\small` 字号，以及其中每个段落（含首段）的 `\listparindent`。 |
 | `--quote-indent`、`--quote-rule-width`、`--quote-padding`、`--quote-tint` | `2.5em`、`0px`、`0em`、`transparent` | 引用块按 LaTeX 的 `quote` 环境渲染。若想恢复带边框的面板样式，可将线宽设为 `2px`、内边距设为 `0.9em 1.2em 0.9em 1.4em`、底色设为 `var(--quote-bg-color)`。 |

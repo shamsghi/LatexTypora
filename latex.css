@@ -217,13 +217,28 @@
        They run on their own counters rather than the heading ones: the TOC
        is printed before the sections it lists, so a shared counter would be
        spent by the time the first \section arrives. Set all three to "" to
-       list the headings unnumbered. */
-    --toc-number-h2: counter(latex-toc-section) "\2003";
-    --toc-number-h3: counter(latex-toc-section) "." counter(latex-toc-subsection)
-        "\2003";
+       list the headings unnumbered -- and zero the widths below with them,
+       or the titles keep the columns the numbers were sitting in. Nothing
+       separates a number from its title here: the width it is set in does
+       that, the way \numberline does in a .toc line. */
+    --toc-number-h2: counter(latex-toc-section);
+    --toc-number-h3: counter(latex-toc-section) "."
+        counter(latex-toc-subsection);
     --toc-number-h4: counter(latex-toc-section) "."
-        counter(latex-toc-subsection) "." counter(latex-toc-subsubsection)
-        "\2003";
+        counter(latex-toc-subsection) "." counter(latex-toc-subsubsection);
+
+    /* The box each of those numbers is set in, one per level -- the third
+       argument of \@dottedtocline, which is what makes a contents page
+       line up in columns rather than trail its titles behind numbers of
+       whatever width. A level is indented by the boxes of the levels above
+       it, so 1.5em and 2.3em are also how article.cls arrives at the 1.5em
+       indent of \subsection and the 3.8em of \subsubsection. Widen one
+       when a document numbers past what it holds: a box that its number
+       outgrows gives way and pushes the title right, rather than running
+       into it the way an overfull \hbox does. */
+    --toc-number-width-h2: 1.5em;
+    --toc-number-width-h3: 2.3em;
+    --toc-number-width-h4: 3.2em;
 
     --primary-color: #000000;
     --primary-btn-border-color: #000000;
@@ -2609,8 +2624,17 @@ hr {
     letter-spacing: normal;
 }
 
+/* A .toc line is set ragged right: \@dottedtocline gives it a rigid
+   \rightskip, so the only glue on the line is what sits between the
+   words, and there is none to stretch. Justifying it is what Typora does
+   with the block otherwise, [toc] being a paragraph like any other, and a
+   list of titles pulled out to the margin reads as a table that has lost
+   its rules. Titles are not broken across lines either -- a hyphen in a
+   contents entry points at a word, not at a line. */
 .md-toc-content {
     text-indent: 0;
+    text-align: start;
+    hyphens: none;
 }
 
 /* Contents entries are navigation, not prose `\href`s -- so the TOC reads the
@@ -2647,32 +2671,115 @@ hr {
     display: none;
 }
 
+/* An entry is laid out the way \@dottedtocline lays out a .toc line: the
+   number in a box of its level's width, the title starting where that box
+   ends, and a title too long for the measure wrapping back to the title
+   rather than under the number. The leaders are the one part left out --
+   dots lead the eye to a page number, and a Markdown document has no
+   pages to number, so a rule of them would run to the margin and arrive
+   at nothing. */
+.md-toc-content .md-toc-item {
+    padding-inline-start: var(--toc-indent);
+    text-indent: calc(-1 * var(--toc-number-width));
+}
+
+/* \numberline sets the number flush left in a box \@tempdima wide, and
+   `text-indent` above is what pulls that box back out of the indent, so
+   the two are the same measurement read in opposite directions. The
+   padding is the floor under the gap between a number and its title, and
+   only a number too wide for its box ever reaches it -- LaTeX prints one
+   of those straight through the title instead. */
+.md-toc-content .md-toc-item::before {
+    display: inline-block;
+    min-width: var(--toc-number-width);
+    padding-inline-end: 0.3em;
+    text-indent: 0;
+}
+
 /* Typora lists every heading as a flat sibling in document order, so the
-   entries carry the section numbers on a parallel set of counters. */
+   entries carry the section numbers on a parallel set of counters. Each
+   level is indented by the boxes of the levels above it, which is how
+   article.cls arrives at the indents \@dottedtocline is given. */
 .md-toc-content .md-toc-h2 {
     counter-increment: latex-toc-section;
     counter-reset: latex-toc-subsection;
-}
-
-.md-toc-content .md-toc-h3 {
-    counter-increment: latex-toc-subsection;
-    counter-reset: latex-toc-subsubsection;
-}
-
-.md-toc-content .md-toc-h4 {
-    counter-increment: latex-toc-subsubsection;
+    /* \l@section is the one entry article.cls sets in bold, and the one
+       it opens with \addvspace -- 1em above every section, and nothing
+       between the entries underneath it. Adjacent margins collapse, which
+       is \addvspace's own arithmetic: a run of them leaves one gap. */
+    font-weight: bold;
+    margin-top: 1em;
+    --toc-number-width: var(--toc-number-width-h2);
+    --toc-indent: var(--toc-number-width-h2);
 }
 
 .md-toc-content .md-toc-h2::before {
     content: var(--toc-number-h2);
 }
 
+.md-toc-content .md-toc-h3 {
+    counter-increment: latex-toc-subsection;
+    counter-reset: latex-toc-subsubsection;
+    --toc-number-width: var(--toc-number-width-h3);
+    --toc-indent: calc(var(--toc-number-width-h2) +
+        var(--toc-number-width-h3));
+}
+
 .md-toc-content .md-toc-h3::before {
     content: var(--toc-number-h3);
 }
 
+.md-toc-content .md-toc-h4 {
+    counter-increment: latex-toc-subsubsection;
+    --toc-number-width: var(--toc-number-width-h4);
+    --toc-indent: calc(var(--toc-number-width-h2) +
+        var(--toc-number-width-h3) + var(--toc-number-width-h4));
+}
+
 .md-toc-content .md-toc-h4::before {
     content: var(--toc-number-h4);
+}
+
+/* \paragraph and \subparagraph carry no number at the default
+   secnumdepth, so their entries are titles alone, standing where the
+   numbered levels leave off: 7em with the widths above, the indent
+   \l@paragraph takes, and one step further for the level below it. LaTeX
+   leaves both out of the contents altogether, tocdepth being 3; to follow
+   it there, add:
+       .md-toc-content :is(.md-toc-h5, .md-toc-h6) { display: none; } */
+.md-toc-content .md-toc-h5 {
+    --toc-number-width: 0px;
+    --toc-indent: calc(var(--toc-number-width-h2) +
+        var(--toc-number-width-h3) + var(--toc-number-width-h4));
+}
+
+.md-toc-content .md-toc-h6 {
+    --toc-number-width: 0px;
+    --toc-indent: calc(var(--toc-number-width-h2) +
+        var(--toc-number-width-h3) + 2 * var(--toc-number-width-h4));
+}
+
+/* The indents are logical, so an entry set right to left takes them from
+   the right margin -- but only once something says the list runs that way,
+   and [toc] is Typora's own block and carries no lang to say it. The test
+   is the one \contentsname is chosen by a few rules above, so the title
+   and the entries under it can never disagree about which margin they
+   start from. */
+.md-toc:is(:lang(ar), :lang(ur), :lang(fa)) .md-toc-item,
+#write:has(:lang(ar)) .md-toc-item,
+#write:has(:lang(ur)) .md-toc-item,
+#write:has(:lang(fa)) .md-toc-item {
+    direction: rtl;
+}
+
+/* Typora indents the anchor itself, a flat 2em a level, and shortens
+   those steps again below a 48em window. The indent belongs to the line,
+   which carries the number too, so the one on the anchor is cleared --
+   and with it the inline-block, which would take a wrapped title away
+   from the hanging indent and stand it in a column of its own. */
+.md-toc-content .md-toc-item .md-toc-inner {
+    display: inline;
+    margin-left: 0;
 }
 
 #typora-sidebar {
