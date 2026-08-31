@@ -19,22 +19,6 @@
 
 受经典 LaTeX 文档启发的 Typora 主题 —— 为论文、文章与长篇阅读打造的学术排版风格。附带一个面向代码密集型 Markdown 的开发者深色变体。
 
-## 特性
-
-- **New Computer Modern 字体** —— 学术级衬线字体，支持更广泛的字符集
-- **`article` 类页面几何** —— 行长、`\parindent`、`\parskip`、标题字号与章节间距均取自 letterpaper 11pt 的 `article.cls`
-- **章节自动编号** —— `##`/`###`/`####` 依次编号为 `1`、`1.1`、`1.1.1`，编号与标题之间以 `\quad` 分隔，与 `\section` 一致
-- **`\tableofcontents` 目录** —— `[toc]` 以 `Contents` 为标题排版（文档标注了语言时改用该语言的 `\contentsname`，如 `目录`、`Inhaltsverzeichnis`、`فہرست`），每个条目带章节编号，从 `##` 开始；`#` 标题不会出现在自己的目录里，与 LaTeX 一致。条目按 `\@dottedtocline` 的方式排：编号置于本级固定宽度的盒子里，同级标题因此对齐成一列，过长的标题折行后仍回到该列，而不是缩到编号下方；`##` 条目加粗，并像 `\l@section` 那样以 `\addvspace` 起头。唯一省去的是引导点——点线本是引向页码的，而 Markdown 文档没有页码。条目使用正文黑色且不加下划线，相当于 `hyperref` 的 `hidelinks`。
-- **LaTeX 环境还原** —— 首行缩进、`quote` 式引用块、`itemize`/`enumerate` 标号（`•` `–` `∗`，`1.` `(a)` `i.`）、表格 `booktabs` 横线，以及 `\footnoterule` 下的 `\footnotesize` 脚注
-- **`abstract` 环境** —— 紧接 `#` 标题的引用块会渲染为 LaTeX 的 `abstract`：居中标题、`\small` 字号、左右各内缩一段；文档任意位置的 `class="abstract"` 同样有效
-- **Noto Nastaliq** —— 通过 HTML `lang` 属性增强乌尔都语与波斯语的正确字形渲染
-- **跨平台 CJK 字体支持** ——
-  - macOS 使用 Songti SC / Heiti SC 与 STSong / PingFang SC
-  - Windows 使用 SimSun / NSimSun / Microsoft YaHei / SimHei
-  - Linux 使用 Source Han / Noto CJK 字体
-- **离线可用且自包含** —— 所有字体均在本地打包，无需外部依赖或 CDN；CJK 字体则使用当前操作系统自带的字体
-- **导出仍保留字体** —— Typora 导出 HTML 时会删除主题的 `@font-face` 规则，导出文件通常只能回退到阅读者系统自带的字体。本主题的每个字形都在样式表内嵌入了自身的 WOFF2 子集，因此导出的 HTML 在从未安装过主题的机器上依然是 New Computer Modern
-
 ## 自动安装
 
 macOS 与 Linux：
@@ -88,6 +72,18 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | Windows | `%APPDATA%\Typora\themes` |
 
 </details>
+
+## 特性
+
+- **New Computer Modern** —— 衬线、无衬线与等宽三套字形，让正文、界面标签与代码共用同一套 LaTeX 字族。
+- **LaTeX 页面几何** —— 32em 的正文行长、首行缩进、标题字号与章节间距，均取自 letterpaper 11pt 的 `article` 类。
+- **章节自动编号** —— `##`、`###`、`####` 依次编号为 `1`、`1.1`、`1.1.1`，`#` 则保持为不编号的文档标题。
+- **`\tableofcontents` 目录** —— `[toc]` 以 `Contents` 为标题排版（文档标注了语言时改用该语言的 `\contentsname`，如 `目录`、`Inhaltsverzeichnis`、`فہرست`），每个条目带章节编号，从 `##` 开始；`#` 标题不会出现在自己的目录里，与 LaTeX 一致。条目按 `\@dottedtocline` 的方式排：编号置于本级固定宽度的盒子里，同级标题因此对齐成一列，过长的标题折行后仍回到该列，而不是缩到编号下方；`##` 条目加粗，并像 `\l@section` 那样以 `\addvspace` 起头。唯一省去的是引导点——点线本是引向页码的，而 Markdown 文档没有页码。条目使用正文黑色且不加下划线，相当于 `hyperref` 的 `hidelinks`。
+- **处处皆 LaTeX 细节** —— 列表、引用、`booktabs` 表格与脚注均采用 LaTeX 式的标号、横线与间距。
+- **`abstract` 环境** —— 紧接 `#` 标题的引用块会渲染为 LaTeX 的 `abstract`：居中标题、`\small` 字号、左右各内缩一段；文档任意位置的 `class="abstract"` 同样有效。
+- **CJK 与 Nastaliq 支持** —— 跨平台的 CJK 字体栈覆盖中文、日文与韩文；Noto Nastaliq 通过 HTML `lang` 属性处理乌尔都语与波斯语。
+- **离线可用** —— 主题内置拉丁文与 Nastaliq 字体，CJK 字体则使用 macOS、Windows 或 Linux 系统自带的字体；不发起任何 CDN 或字体请求。
+- **导出仍保留字体** —— 内嵌的 WOFF2 子集让导出的 HTML 在从未安装过主题的机器上依然显示 New Computer Modern。
 
 #### 尽情享受 ❤️!
 
