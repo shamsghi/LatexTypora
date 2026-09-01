@@ -39,7 +39,7 @@ irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-
 
 1. 从 releases 页面下载并解压最新版本。
 2. 在 Typora 中，前往 **Preferences → Appearance → Open Theme Folder**。
-3. 将 `latex.css`、`latex-dark.css`、`latex-dev-dark.css` 以及 `latex_fonts/` 文件夹复制到主题目录中。
+3. 将 `latex.css`、`latex-dark.css`、`latex-zh.css`、`latex-dev-dark.css` 以及 `latex_fonts/` 文件夹复制到主题目录中。
 4. 重启 Typora，然后从 **Themes** 菜单选择对应主题。
 
 <details>
@@ -82,10 +82,29 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - **处处皆 LaTeX 细节** —— 列表、引用、`booktabs` 表格与脚注均采用 LaTeX 式的标号、横线与间距。
 - **`abstract` 环境** —— 紧接 `#` 标题的引用块会渲染为 LaTeX 的 `abstract`：居中标题、`\small` 字号、左右各内缩一段；文档任意位置的 `class="abstract"` 同样有效。
 - **CJK 与 Nastaliq 支持** —— 跨平台的 CJK 字体栈覆盖中文、日文与韩文；Noto Nastaliq 通过 HTML `lang` 属性处理乌尔都语与波斯语。
+- **中文 LaTeX 变体** —— `latex-zh` 以 Times New Roman 搭配宋体正文与黑体标题；强调文字中的英文保持斜体，中文则使用端正的楷体，符合中文排版习惯。
 - **离线可用** —— 主题内置拉丁文与 Nastaliq 字体，CJK 字体则使用 macOS、Windows 或 Linux 系统自带的字体；不发起任何 CDN 或字体请求。
 - **导出仍保留字体** —— 内嵌的 WOFF2 子集让导出的 HTML 在从未安装过主题的机器上依然显示 New Computer Modern。
 
 #### 尽情享受 ❤️!
+
+---
+
+## `latex-zh` — 中文 LaTeX 变体
+
+`latex-zh.css` 保留浅色主题的 `article` 页面几何，同时改用中文 LaTeX
+文档中常见的字体配置：
+
+- 英文字母、数字与西文标点使用 **Times New Roman**
+- 中文正文使用**宋体**，中文标题使用**黑体**
+- 中文强调文字使用**楷体**，不对宋体字形进行机械倾斜
+- 自动生成的目录与摘要标题默认显示为“目录”和“摘要”
+
+中英文可以在同一段强调文字中自然混排：`*中文 emphasis*` 中的中文使用
+楷体，英文使用 Times New Roman Italic。主题调用操作系统提供的本地 CJK
+字体，并为 macOS、Windows 与 Linux 配置了回退字体栈。
+
+参考演示文件：[`docs/zh-demo.md`](./docs/zh-demo.md)
 
 ---
 

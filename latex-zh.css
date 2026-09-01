@@ -1,0 +1,71 @@
+/*
+ * Chinese LaTeX Theme for Typora
+ *
+ * Extends the canonical light theme with the font conventions commonly used
+ * by Chinese LaTeX documents: Times New Roman for Latin prose, Songti for CJK
+ * prose, Heiti for CJK headings, and Kaiti for CJK emphasis.
+ */
+
+@import "./latex.css";
+
+/* Advertise upright Kaiti faces in the italic slot.  This lets one emphasis
+   run keep a real Times New Roman Italic for Latin glyphs while Chinese glyphs
+   fall through to upright Kaiti instead of a mechanically slanted Songti. */
+@font-face {
+    font-family: "LaTeX Chinese Kai";
+    src:
+        local("Kaiti SC"), local("STKaiti"), local("KaiTi"),
+        local("KaiTi_GB2312"), local("FandolKai"), local("FandolKai-Regular"),
+        local("AR PL UKai CN");
+    font-style: italic;
+    font-weight: 400;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "LaTeX Chinese Kai";
+    src:
+        local("Kaiti SC Bold"), local("STKaiti"), local("KaiTi"),
+        local("KaiTi_GB2312"), local("FandolKai"), local("FandolKai-Regular"),
+        local("AR PL UKai CN");
+    font-style: italic;
+    font-weight: 700;
+    font-display: swap;
+}
+
+:root {
+    --font-family:
+        "Times New Roman", "TeX Gyre Termes", "Liberation Serif",
+        "Nimbus Roman", "Songti SC", "STSong",
+        "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC",
+        serif;
+    --sans-font:
+        Arial, "Helvetica Neue", Helvetica, "Liberation Sans", "Nimbus Sans",
+        "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
+        "SimHei", sans-serif;
+    --cjk-heading-font:
+        "Times New Roman", "TeX Gyre Termes", "Liberation Serif",
+        "Nimbus Roman", "Heiti SC", "PingFang SC", "Microsoft YaHei",
+        "Source Han Sans SC", "Noto Sans CJK SC", "SimHei", sans-serif;
+    --cjk-emphasis-font:
+        "Times New Roman", "TeX Gyre Termes", "Liberation Serif",
+        "Nimbus Roman", "LaTeX Chinese Kai", "Kaiti SC", "STKaiti",
+        "KaiTi", "KaiTi_GB2312", "FandolKai", "FandolKai-Regular",
+        "AR PL UKai CN", cursive;
+    --toc-title: "目录";
+    --abstract-title: "摘要";
+}
+
+/* The Latin face covers Latin glyphs first; CJK glyphs continue down the
+   stack to the Kaiti alias above.  The inherited italic style therefore
+   stays meaningful for both scripts without synthetic CJK obliquing. */
+#write :is(em, i) {
+    font-family: var(--cjk-emphasis-font);
+}
+
+/* Match LaTeX's nested \emph toggle: emphasis inside emphasis returns to the
+   upright body family rather than remaining in Kaiti. */
+#write :is(em em, em i, i em, i i) {
+    font-family: var(--font-family);
+}
