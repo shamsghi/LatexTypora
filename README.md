@@ -39,7 +39,7 @@ Both installers detect the correct Typora theme folder. If `install.sh` is run f
 
 1. Download and unzip the latest release.
 2. In Typora, go to **Preferences → Appearance → Open Theme Folder**.
-3. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts/` folder into the themes directory.
+3. Copy `latex.css`, `latex-dark.css`, `latex-zh.css`, `latex-dev-dark.css`, and the `latex_fonts/` folder into the themes directory.
 4. Restart Typora, then pick a theme from the **Themes** menu.
 <details>
 <summary>Install options</summary>
@@ -81,10 +81,33 @@ Default theme folders:
 - **LaTeX details throughout:** Lists, quotations, `booktabs` tables, and footnotes use LaTeX-style marks, rules, and spacing.
 - **Abstract environment:** A blockquote directly under the `#` title renders as LaTeX's `abstract` — centred heading, `\small` quotation, both margins pulled in. `class="abstract"` does the same anywhere in the document.
 - **CJK and Nastaliq support:** Cross-platform CJK font stacks cover Chinese, Japanese, and Korean. Noto Nastaliq handles Urdu and Persian through HTML `lang` attributes.
+- **Chinese LaTeX variant:** `latex-zh` pairs Times New Roman with Songti body text and Heiti headings; emphasis keeps Latin text italic while rendering Chinese text in upright Kaiti, following Chinese typesetting convention.
 - **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
 - **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
 
-#### Enjoy ❤️!
+### Enjoy ❤️!
+
+---
+
+## `latex-zh` — Chinese LaTeX Variant
+
+`latex-zh.css` keeps the light theme's `article` geometry and replaces its
+font policy with the conventions commonly used in Chinese LaTeX documents:
+
+- **Times New Roman** for Latin letters, numbers, and punctuation
+- **Songti** for Chinese body text and **Heiti** for Chinese headings
+- **Kaiti** for emphasized Chinese text, without mechanically slanting the glyphs
+- A two-character indent on every Chinese body paragraph, including the first paragraph after a heading
+- A responsive text measure that grows with the editor viewport instead of staying fixed at 32em
+- Natural-width centred tables that expand symmetrically with their content, then scroll only after reaching the responsive page allowance
+- Chinese defaults for the generated contents and abstract labels: `目录` and `摘要`
+
+Markdown emphasis can remain mixed-script: in `*中文 emphasis*`, the Chinese
+glyphs use Kaiti while the Latin glyphs use Times New Roman Italic. The theme
+uses local CJK fonts supplied by the operating system and provides fallbacks
+for macOS, Windows, and Linux.
+
+Reference demo: [`docs/zh-demo.md`](./docs/zh-demo.md)
 
 ---
 
