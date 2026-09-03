@@ -86,7 +86,7 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - **离线可用** —— 主题内置拉丁文与 Nastaliq 字体，CJK 字体则使用 macOS、Windows 或 Linux 系统自带的字体；不发起任何 CDN 或字体请求。
 - **导出仍保留字体** —— 内嵌的 WOFF2 子集让导出的 HTML 在从未安装过主题的机器上依然显示 New Computer Modern。
 
-#### 尽情享受 ❤️!
+### 尽情享受 ❤️!
 
 ---
 
@@ -98,6 +98,9 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 - 英文字母、数字与西文标点使用 **Times New Roman**
 - 中文正文使用**宋体**，中文标题使用**黑体**
 - 中文强调文字使用**楷体**，不对宋体字形进行机械倾斜
+- 每一段中文正文均首行缩进两字，包括紧接标题的第一段
+- 正文版心随编辑器窗口动态伸缩，不再固定为 32em
+- 表格按内容自然宽度居中，并随列内容从中心向两侧延伸；达到响应式页面余量后才横向滚动
 - 自动生成的目录与摘要标题默认显示为“目录”和“摘要”
 
 中英文可以在同一段强调文字中自然混排：`*中文 emphasis*` 中的中文使用

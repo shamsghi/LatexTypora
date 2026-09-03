@@ -38,9 +38,9 @@
         "Times New Roman", "TeX Gyre Termes", "Liberation Serif",
         "Nimbus Roman", "Songti SC", "STSong",
         "SimSun", "NSimSun", "Source Han Serif SC", "Noto Serif CJK SC",
-        serif;
+        "Noto Nastaliq Urdu", serif;
     --sans-font:
-        Arial, "Helvetica Neue", Helvetica, "Liberation Sans", "Nimbus Sans",
+        "Arial", "Helvetica Neue", "Helvetica", "Liberation Sans", "Nimbus Sans",
         "Heiti SC", "PingFang SC",
         "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC",
         "SimHei", sans-serif;
@@ -52,7 +52,13 @@
         "Times New Roman", "TeX Gyre Termes", "Liberation Serif",
         "Nimbus Roman", "LaTeX Chinese Kai", "Kaiti SC", "STKaiti",
         "KaiTi", "KaiTi_GB2312", "FandolKai", "FandolKai-Regular",
-        "AR PL UKai CN", cursive;
+        "AR PL UKai CN", "Noto Nastaliq Urdu", serif;
+    /* Unlike the canonical paper-width theme, this variant follows the
+       editor viewport.  The lower and upper bounds preserve usable line
+       lengths, while 72vw makes the measure respond continuously between
+       them and leaves more room for Chinese tables and equations. */
+    --content-measure: clamp(34em, 72vw, 64em);
+    --page-padding-x: clamp(1.5em, 4vw, 4em);
     --toc-title: "目录";
     --abstract-title: "摘要";
 }
@@ -68,4 +74,13 @@
    upright body family rather than remaining in Kaiti. */
 #write :is(em em, em i, i em, i i) {
     font-family: var(--font-family);
+    font-style: normal;
+}
+
+/* Chinese academic layouts indent every body paragraph, including the first
+   one after a heading.  The canonical theme follows article.cls and removes
+   that first indent; this variant deliberately restores the two-em CJK rule. */
+#write#write :is(h1, h2, h3, h4, h5, h6)
+    + p:is(:lang(zh), :lang(ja), :lang(ko)) {
+    text-indent: var(--cjk-paragraph-indent);
 }

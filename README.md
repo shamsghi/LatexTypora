@@ -85,7 +85,7 @@ Default theme folders:
 - **Works offline:** The theme bundles its Latin and Nastaliq fonts and uses CJK fonts supplied by macOS, Windows, or Linux. It makes no CDN or font requests.
 - **Fonts survive HTML export:** Embedded WOFF2 subsets keep New Computer Modern in exported HTML, even on a computer without the theme installed.
 
-#### Enjoy ❤️!
+### Enjoy ❤️!
 
 ---
 
@@ -97,6 +97,9 @@ font policy with the conventions commonly used in Chinese LaTeX documents:
 - **Times New Roman** for Latin letters, numbers, and punctuation
 - **Songti** for Chinese body text and **Heiti** for Chinese headings
 - **Kaiti** for emphasized Chinese text, without mechanically slanting the glyphs
+- A two-character indent on every Chinese body paragraph, including the first paragraph after a heading
+- A responsive text measure that grows with the editor viewport instead of staying fixed at 32em
+- Natural-width centred tables that expand symmetrically with their content, then scroll only after reaching the responsive page allowance
 - Chinese defaults for the generated contents and abstract labels: `目录` and `摘要`
 
 Markdown emphasis can remain mixed-script: in `*中文 emphasis*`, the Chinese
