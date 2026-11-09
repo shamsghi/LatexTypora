@@ -532,10 +532,14 @@ p {
 }
 
 /* LaTeX suppresses \parindent on the first paragraph of a section and
-   inside list items, table cells and floats. The doubled `#write` raises
-   specificity above Typora's own `#write.first-line-indent p` rule so the
-   built-in "first line indent" preference cannot re-indent these. */
+   inside list items, table cells and floats. A thematic break divides a
+   document the way a sectioning command does, so the paragraph after `---`
+   opens a unit of its own and is left flush for the same reason. The
+   doubled `#write` raises specificity above Typora's own
+   `#write.first-line-indent p` rule so the built-in "first line indent"
+   preference cannot re-indent these. */
 #write#write :is(h1, h2, h3, h4, h5, h6) + p,
+#write#write hr + p,
 #write#write > p:first-child,
 #write#write li > p,
 #write#write blockquote > p:first-child,
@@ -2427,6 +2431,7 @@ sup.md-footnote {
 }
 
 #write#write :is(h1, h2, h3, h4, h5, h6) + p:is(:lang(zh), :lang(ja), :lang(ko)),
+#write#write hr + p:is(:lang(zh), :lang(ja), :lang(ko)),
 #write#write li > p:is(:lang(zh), :lang(ja), :lang(ko)),
 #write#write blockquote
     > p:first-child:is(:lang(zh), :lang(ja), :lang(ko)),
