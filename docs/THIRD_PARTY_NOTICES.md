@@ -63,7 +63,7 @@ If you redistribute the bundled `iA Writer Mono` files, keep the license text an
 
 ## JuliaMono
 
-This repository also bundles local `ttf` assets for `JuliaMono`, which is used by the developer-focused dark theme for code.
+This repository also bundles local `ttf` assets for `JuliaMono`, which is used by the developer-focused themes (`latex-dev`, `latex-dev-dark`, `latex-dev-wide`, and `latex-dev-wide-dark`).
 
 Source of bundled font files:
 

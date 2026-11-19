@@ -17,7 +17,7 @@
 
 > 英文说明请见：[English README](./README.md)
 
-受经典 LaTeX 文档启发的 Typora 主题 —— 为论文、文章与长篇阅读打造的学术排版风格。附带一个面向代码密集型 Markdown 的开发者深色变体。
+受经典 LaTeX 文档启发的 Typora 主题 —— 为论文、文章与长篇阅读打造的学术排版风格。附带面向代码密集型 Markdown 的开发者变体（标准版与宽幅版，均提供浅色与深色）。
 
 ## 自动安装
 
@@ -39,7 +39,7 @@ irm https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/install-
 
 1. 从 releases 页面下载并解压最新版本。
 2. 在 Typora 中，前往 **Preferences → Appearance → Open Theme Folder**。
-3. 将 `latex.css`、`latex-dark.css`、`latex-dev-dark.css` 以及 `latex_fonts/` 文件夹复制到主题目录中。
+3. 将 `latex.css`、`latex-dark.css`、`latex-dev.css`、`latex-dev-dark.css`、`latex-dev-wide.css`、`latex-dev-wide-dark.css` 以及 `latex_fonts/` 文件夹复制到主题目录中。
 4. 重启 Typora，然后从 **Themes** 菜单选择对应主题。
 
 <details>
@@ -89,20 +89,21 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 
 ---
 
-## `latex-dev-dark` — 开发者变体
+## `latex-dev` 与 `latex-dev-wide` — 开发者变体
 
 <div align="center">
   <img width="78%" src="./docs/screenshots/latex-dev-promo.png" alt="开发者深色模式" />
   <br />
-  <sub>💻 <strong>开发者深色模式</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; 以 <strong>125% 缩放比例</strong>拍摄</sub>
+  <sub>💻 <strong>开发者变体</strong> &nbsp;—&nbsp; <code>latex-dev.css</code> / <code>latex-dev-dark.css</code> 与 <code>latex-dev-wide.css</code> / <code>latex-dev-wide-dark.css</code> &nbsp;·&nbsp; 深色预览以 <strong>125% 缩放比例</strong>拍摄</sub>
 </div>
 
 <br />
 
-面向 README、API 文档、设计规范与变更日志打造。在 `latex-dark` 基础上扩展：
+面向 README、API 文档、设计规范与变更日志打造，提供成对的浅色与深色主题（`latex-dev`／`latex-dev-wide` 继承自 `latex`，`latex-dev-dark`／`latex-dev-wide-dark` 继承自 `latex-dark`）：
 
 - **JuliaMono** 用于正文，**iA Writer Mono** 用于行内代码与界面强调
-- 左对齐布局，版心约 76 个等宽字符——取消首行缩进、章节编号、`[toc]` 标题，标题下的引用块也仍是普通引用块而非摘要
+- `latex-dev`／`latex-dev-dark` 采用左对齐布局，版心约 76 个等宽字符（`46em`）——取消首行缩进、章节编号、`[toc]` 标题，标题下的引用块也仍是普通引用块而非摘要
+- **宽幅页面布局（`latex-dev-wide`／`latex-dev-wide-dark`）：**全宽画布搭配 `1in` 上／右／下边距与 `1.5in` 左边距、表格不外溢（`--table-bleed: 0em`）、`@page` 与 `7.5pt` `@media print` 紧凑 PDF 导出字号，以及扩展的阿拉伯语／RTL 与图表导出对齐规则
 - **常驻语言标签**：每个围栏代码块上方都显示语言，阅读模式与导出同样保留，而不仅在获得焦点时出现
 - **diff 审阅样式**：`diff` 围栏中的 `+`／`-` 行整行着色并带有左侧标记
 - **文档型表格**：表头左对齐、隔行底色，单元格会换行显示长路径与 URL
@@ -142,19 +143,22 @@ curl -fsSL https://raw.githubusercontent.com/shamsghi/LatexTypora/main/scripts/i
 | `--table-bleed` | `var(--page-padding-x)` | 表格宽于版心时，可向页边距外延伸的距离；超出后由 figure 横向滚动。设为 `0em` 可让所有表格严格保持在版心内。 |
 | `--list-indent`、`--list-topsep`、`--list-itemsep` | `2.5em`、`0.7em`、`0.32em` | 对应 `\leftmargini`、`\topsep` 与 `\itemsep`。 |
 
-`latex-dev-dark.css` 会覆盖上述变量：取消首行缩进、取消章节编号、取消 `[toc]` 标题，版心为 46em 等宽（约 76 字符）、左对齐正文、带边框的引用块，以及可延伸到页边距的满宽表格。它还新增了几个变量：
+`latex-dev.css` 与 `latex-dev-dark.css` 会覆盖上述变量：取消首行缩进、取消章节编号、取消 `[toc]` 标题，版心为 `46em` 等宽（约 76 字符）、左对齐正文、带边框的引用块，以及可延伸到页边距的满宽表格。`latex-dev-wide.css` 与 `latex-dev-wide-dark.css` 在此基础上改用带 `1in`／`1.5in` 页边距的全宽版面、`--table-bleed: 0em` 与紧凑打印字号。开发者变体还新增了几个变量：
 
 | 变量 | 默认值 | 作用 |
 | :-- | :-- | :-- |
 | `--diff-add-bg-color`、`--diff-remove-bg-color` | 淡绿／淡红 | `diff` 围栏中 `+`／`-` 行的整行底色。 |
-| `--table-stripe-color` | 极淡白色 | 表格偶数行的隔行底色，设为 `transparent` 可关闭。 |
-| `--scrollbar-thumb-color`、`--scrollbar-thumb-hover-color` | 半透明白色 | 围栏代码、宽表格与图表的滚动条颜色。 |
+| `--table-stripe-color` | 极淡黑色（浅色）／极淡白色（深色） | 表格偶数行的隔行底色，设为 `transparent` 可关闭。 |
+| `--scrollbar-thumb-color`、`--scrollbar-thumb-hover-color` | 半透明黑色（浅色）／白色（深色） | 围栏代码、宽表格与图表的滚动条颜色。 |
 | `--nastaliq-line-height` | `1.95` | 乌尔都语／波斯语行距，较基础主题的 `2.15` 更紧凑。 |
+| `--page-margin-top/right/bottom/left`（仅宽幅版） | `1in`、`1in`、`1in`、`1.5in` | `latex-dev-wide`／`latex-dev-wide-dark` 的全宽编辑区内边距与打印页边距。 |
+| `--print-font-size`（仅宽幅版） | `7.5pt` | `latex-dev-wide`／`latex-dev-wide-dark` 打印与 PDF 导出的等宽正文基准字号。 |
+| `--arabic-line-height`（仅宽幅版） | `1.7` | `latex-dev-wide`／`latex-dev-wide-dark` 的阿拉伯语 Naskh 行距。 |
 
 ## 说明
 
 - 采用 **Apache-2.0** 许可证发布，重新分发主题时请保留 `LICENSE`。
 - 内置字体的署名与许可证说明见 [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md)；重新分发打包字体时请保留其中相关说明。
 - 在 macOS 上设计与测试，Windows 与 Linux 上应同样可用。
-- LaTeX 度量集中在 `latex.css`；两个深色变体会逐层导入父主题，仅新增各自差异化的变量与规则，详见[自定义](#自定义)。
-- `@font-face` 规则位于 `latex_fonts/embedded-fonts.css` 与 `latex_fonts/embedded-fonts-dev.css`，由 `latex.css` 和 `latex-dev-dark.css` 导入。这两个文件由 [`scripts/build-embedded-fonts.py`](./scripts/build-embedded-fonts.py) 生成，请勿手工编辑；更换内置字体或改动主题声明的字形后重新生成即可。
+- LaTeX 度量集中在 `latex.css`；`latex-dark.css`、`latex-dev.css` 与 `latex-dev-wide.css` 导入 `latex.css`，`latex-dev-dark.css` 与 `latex-dev-wide-dark.css` 导入 `latex-dark.css`，各自仅新增差异化的变量与规则，详见[自定义](#自定义)。
+- `@font-face` 规则位于 `latex_fonts/embedded-fonts.css`（由 `latex.css` 导入）与 `latex_fonts/embedded-fonts-dev.css`（由 `latex-dev.css`、`latex-dev-dark.css`、`latex-dev-wide.css` 和 `latex-dev-wide-dark.css` 导入）。这两个文件由 [`scripts/build-embedded-fonts.py`](./scripts/build-embedded-fonts.py) 生成，请勿手工编辑；更换内置字体或改动主题声明的字形后重新生成即可。

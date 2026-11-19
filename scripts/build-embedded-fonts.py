@@ -201,7 +201,7 @@ def main():
         os.path.join(FONT_DIR, "embedded-fonts.css"),
     )
     build(
-        "Embedded font faces for the LaTeX Dev Dark theme",
+        "Embedded font faces for the LaTeX Dev themes (latex-dev, latex-dev-dark, latex-dev-wide, latex-dev-wide-dark)",
         DEV_FACES,
         os.path.join(FONT_DIR, "embedded-fonts-dev.css"),
     )

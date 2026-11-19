@@ -1,6 +1,6 @@
 # LaTeX Dev Theme Demo
 
-This page is designed to stress-test the developer-focused dark theme with the kinds of blocks that show up in READMEs, API notes, architecture writeups, and changelogs.
+This page is designed to stress-test the developer-focused themes (`latex-dev`, `latex-dev-dark`, `latex-dev-wide`, and `latex-dev-wide-dark`) with the kinds of blocks that show up in READMEs, API notes, architecture writeups, and changelogs.
 
 ## Quick Commands
 
@@ -13,7 +13,7 @@ sfw pnpm test
 ```
 
 > [!NOTE]
-> `latex-dev-dark` keeps the Computer Modern feel, but switches to a left-aligned, easier-to-scan layout for code-heavy documents.
+> The `latex-dev` and `latex-dev-wide` light/dark variants keep the Computer Modern feel, but switch to a left-aligned, easier-to-scan layout for code-heavy documents.
 
 ## Alerts
 
