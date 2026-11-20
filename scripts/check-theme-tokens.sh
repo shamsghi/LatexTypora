@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 #
-# A check, and only a check. This script reads latex.css and prints what it
+# A check, and only a check. This script reads the light theme stylesheets
+# (latex.css, latex-dev.css, and latex-dev-wide.css) and prints what it
 # finds. It never edits a file, installs anything, or touches your Typora
 # theme folder, so running it cannot break the theme or your setup. The
 # worst it can do is tell you something is wrong.
@@ -11,15 +12,20 @@
 # run it yourself, whenever you want to confirm the colours are still in
 # order. Users installing the theme never need it.
 #
-# What it confirms: that latex.css keeps every colour in a var() token.
+# What it confirms: that the light stylesheets (latex.css, latex-dev.css, and
+# latex-dev-wide.css) keep every colour in a var() token.
 #
 # latex-dark.css imports latex.css and overrides only :root, so a colour
 # written as a literal in a rule body reaches the dark variants unchanged.
-# A light value on a black page is usually wrong, and because it renders
-# correctly in the light theme it is easy to ship without noticing.
+# Keeping latex-dev.css and latex-dev-wide.css token-clean guarantees the
+# same discipline across their dark counterparts (latex-dev-dark.css and
+# latex-dev-wide-dark.css). A light value on a black page is usually wrong,
+# and because it renders correctly in the light theme it is easy to ship
+# without noticing.
 #
-# Only latex.css is bound by this. latex-dark.css may use literals freely:
-# the one file importing it, latex-dev-dark.css, is also dark.
+# Only the light stylesheets are bound by this by default. latex-dark.css
+# and the dark dev variants may use literals freely if needed, since only
+# dark themes inherit from them.
 #
 # Exits 0 when clean, 1 when a literal is found.
 
@@ -30,7 +36,8 @@ usage() {
 Usage: ${0##*/} [FILE...]
 
 Reports colours written as literals outside the :root block. With no
-arguments, checks latex.css at the repository root.
+arguments, checks latex.css, latex-dev.css, and latex-dev-wide.css at the
+repository root.
 
 Comments and the :root block are ignored. Metrics, geometry and font
 stacks are not checked -- the constraint is on colour alone.
@@ -46,7 +53,11 @@ REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 if [[ $# -gt 0 ]]; then
     FILES=("$@")
 else
-    FILES=("${REPO_ROOT}/latex.css")
+    FILES=(
+        "${REPO_ROOT}/latex.css"
+        "${REPO_ROOT}/latex-dev.css"
+        "${REPO_ROOT}/latex-dev-wide.css"
+    )
 fi
 
 for f in "${FILES[@]}"; do

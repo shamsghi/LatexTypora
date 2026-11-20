@@ -1,0 +1,466 @@
+/*
+ * LaTeX Dev Theme for Typora
+ * A developer-focused light variant with scan-friendly spacing and stronger code affordances.
+ */
+
+@import "./latex.css";
+
+/* JuliaMono and iA Writer Mono, the two faces this variant sets its prose
+   and code in, live in the generated file below with a WOFF2 subset of each
+   inline -- the same arrangement latex.css uses, and for the same reason:
+   Typora's HTML export deletes @font-face rules from the theme stylesheet,
+   so an export that does not carry the fonts inside it loses them. See
+   scripts/build-embedded-fonts.py. */
+@import url("./latex_fonts/embedded-fonts-dev.css");
+
+:root {
+    --font-family:
+        "JuliaMono", "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
+    /* Fences and inline code. iA Writer Mono carries no ligature lookups
+       at all; swap this to the "JuliaMono" stack above if you want `->`,
+       `=>` and `<->` to ligate into arrows inside fences — the
+       contextual-alternates rule below is already in place for it.
+       Neither face ligates `!=`, `==` or `::`. */
+    --monospace:
+        "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
+    --sans-font:
+        "iA Writer Mono", "Courier New", "Heiti SC", "PingFang SC",
+        "Microsoft YaHei", "Source Han Sans SC", "Noto Sans CJK SC", "SimHei",
+        monospace;
+    --inline-code-bg-color: #f4f1ea;
+    --inline-code-border-color: rgba(0, 0, 0, 0.16);
+    --code-bg-color: #f8f6f1;
+    --code-border-color: rgba(0, 0, 0, 0.22);
+    --kbd-bg-color: #f4f1ea;
+    --kbd-border-color: rgba(0, 0, 0, 0.24);
+    --cjk-line-height: 1.72;
+    --cjk-heading-line-height: 1.32;
+    --cjk-heading-margin-top: 1.65em;
+    --cjk-heading-margin-bottom: 0.7em;
+    --cjk-paragraph-spacing: 0.55em;
+    --cjk-list-item-spacing: 0.32em;
+    --cjk-punctuation-spacing: 0.01em;
+    /* Nastaliq keeps its own face — no monospace stack covers Urdu — but
+       drops to this variant's tighter rhythm. */
+    --nastaliq-line-height: 1.95;
+    --nastaliq-heading-line-height: 1.7;
+
+    /* Whole-row tint behind `+` and `-` lines in a ```diff fence, matching
+       latex.css's --syntax-diff-add-color (#255c34) and
+       --syntax-diff-remove-color (#8c1c1c). */
+    --diff-add-bg-color: rgba(37, 92, 52, 0.09);
+    --diff-remove-bg-color: rgba(140, 28, 28, 0.09);
+    --table-stripe-color: rgba(0, 0, 0, 0.028);
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.18);
+    --scrollbar-thumb-hover-color: rgba(0, 0, 0, 0.32);
+
+    /* This variant is for READMEs and specs, not papers: no first-line
+       indent, no section numbers, no \tableofcontents title, and a wider
+       measure than the LaTeX article geometry. 46em of a 0.6em-advance
+       monospace is ~76 characters per line — the same reading measure the
+       32em serif column gives, not the ~100 characters 60em would. */
+    --content-measure: 46em;
+    --page-padding-x: 3.25em;
+    --page-padding-top: 2.75em;
+    --page-padding-bottom: 8em;
+    --body-line-height: 1.55;
+    --paragraph-indent: 0em;
+    --paragraph-spacing: 0.95em;
+    --list-indent: 2em;
+    --list-nested-indent: 2em;
+    --list-topsep: 1em;
+    --list-itemsep: 0.25em;
+    --table-bleed: var(--page-padding-x);
+    --quote-indent: 0em;
+    --quote-rule-width: 3px;
+    --quote-padding: 0.9em 1.2em 0.9em 1.4em;
+    --quote-tint: var(--quote-bg-color);
+    /* An explicit class="abstract" block keeps its heading here, but takes
+       this variant's full measure, body size and flush paragraphs. */
+    --abstract-indent: 0em;
+    --abstract-font-size: 1em;
+    --abstract-paragraph-indent: 0em;
+    --cjk-paragraph-indent: 0em;
+    --section-number-h2: "";
+    --section-number-h3: "";
+    --section-number-h4: "";
+    --toc-number-h2: "";
+    --toc-number-h3: "";
+    --toc-number-h4: "";
+    --toc-title: "";
+    /* With the numbers gone the boxes they were set in are what is left
+       holding the levels apart, so they become the indent itself: one flat
+       step a level rather than the widths a number needs. */
+    --toc-number-width-h2: 2em;
+    --toc-number-width-h3: 2em;
+    --toc-number-width-h4: 2em;
+}
+
+#write {
+    text-align: left;
+    hyphens: none;
+}
+
+h1 {
+    margin-top: 0.5em;
+    margin-bottom: 1.2em;
+    font-family: var(--sans-font);
+    font-size: 2.05em;
+    text-align: left;
+    letter-spacing: 0.02em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--sans-font);
+}
+
+h2 {
+    margin-top: 2.3em;
+    padding-top: 0.3em;
+    border-top: 1px solid var(--line-color);
+}
+
+li > p,
+blockquote p,
+blockquote p:first-child {
+    margin-bottom: 0.5em;
+}
+
+li > p:last-child,
+blockquote > :last-child {
+    margin-bottom: 0;
+}
+
+ul,
+ol,
+blockquote,
+pre.md-meta-block,
+pre.md-fences,
+.md-diagram-panel,
+.md-table-wrap,
+table,
+.mathjax-block {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/* A README has no abstract: a blockquote under the title stays a framed
+   quote here, undoing the abstract environment latex.css builds out of that
+   position. An explicit class="abstract" block still gets one, in this
+   variant's left-aligned, full-measure form. */
+#write > h1 + blockquote:not(.abstract) {
+    margin: 1em var(--quote-indent);
+    padding: var(--quote-padding);
+    border-left: var(--quote-rule-width) solid var(--quote-border-color);
+    background-color: var(--quote-tint);
+    font-size: 1em;
+}
+
+#write > h1 + blockquote:not(.abstract)::before {
+    content: none;
+}
+
+#write#write > h1 + blockquote:not(.abstract) > p {
+    text-indent: 0;
+}
+
+#write .abstract::before {
+    font-family: var(--sans-font);
+    text-align: left;
+}
+
+/* Conventional Markdown affordances instead of the LaTeX article ones. */
+#write ul ul > li:not(.task-list-item)::marker,
+#write ul ul ul > li:not(.task-list-item)::marker,
+#write ul ul ul ul > li:not(.task-list-item)::marker,
+#write ol ol > li:not(.task-list-item)::marker,
+#write ol ol ol > li:not(.task-list-item)::marker,
+#write ol ol ol ol > li:not(.task-list-item)::marker {
+    content: normal;
+    font-weight: inherit;
+}
+
+/* Checklists share the list indent instead of the LaTeX bullet indent, and
+   run tighter than prose lists — a changelog is a column of one-liners. */
+ul.task-list {
+    padding-left: var(--list-indent);
+}
+
+ul.task-list > li.task-list-item {
+    margin-bottom: var(--list-itemsep);
+}
+
+li.task-list-item > input[type="checkbox"] {
+    accent-color: var(--muted-text-color);
+}
+
+/* ---------------------------------------------------------------------
+   Fenced code
+   --------------------------------------------------------------------- */
+
+/* The language sits above every fence, not only the focused one, so it
+   survives reading mode and export. Typora's own editable chip takes over
+   on focus. */
+pre.md-fences {
+    position: relative;
+}
+
+pre.md-fences[lang]:not([lang=""]) {
+    margin-top: 2.6em;
+}
+
+/* A README that opens with an install snippet puts a fence first, where
+   `#write > *:first-child` zeroes the top margin and leaves the chip
+   hanging in the page's top padding. Keep the reservation there. */
+#write > pre.md-fences[lang]:not([lang=""]):first-child {
+    margin-top: 2.6em;
+}
+
+pre.md-fences[lang]:not([lang=""])::before {
+    content: attr(lang);
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 0.5em);
+    z-index: 1;
+    display: inline-block;
+    min-width: 7.5em;
+    max-width: calc(100% - 2.4em);
+    box-sizing: border-box;
+    padding: 0.25em 1em;
+    border: 1px solid var(--code-border-color);
+    border-radius: 2px;
+    background-color: var(--code-bg-color);
+    color: var(--meta-text-color);
+    font-family: var(--sans-font);
+    font-size: 0.8em;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+    text-align: center;
+    text-indent: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+pre.md-fences.md-focus[lang]:not([lang=""])::before {
+    content: none;
+}
+
+/* Typora's editable input sits exactly where the chip was, so give it the
+   chip's metrics too — otherwise the label changes size and colour the
+   moment the fence takes focus. */
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .ty-cm-lang-input,
+pre.md-fences.ty-contain-cm .md-fences-adv-panel .md-lang {
+    padding: 0.25em 1em;
+    color: var(--meta-text-color);
+    font-family: var(--sans-font);
+    font-size: 0.8em;
+    line-height: 1.4;
+    letter-spacing: 0.08em;
+}
+
+/* A rendered diagram is a picture, not source, so the label above it is
+   chrome. Typora renders exactly three fence languages as diagrams; the
+   :has() also covers the fence once the panel has been built. */
+#write pre.md-fences:has(.md-diagram-panel)::before,
+#write pre.md-fences[lang="mermaid" i]::before,
+#write pre.md-fences[lang="sequence" i]::before,
+#write pre.md-fences[lang="flow" i]::before {
+    content: none;
+}
+
+/* With no chip there is nothing to reserve room for. Only for a fence
+   that carries no CodeMirror: an editable one still needs the space for
+   Typora's own language input when it takes focus. */
+#write pre.md-fences:not(.ty-contain-cm):has(.md-diagram-panel) {
+    margin-top: 1em;
+}
+
+/* Contextual alternates left on so a ligature-carrying --monospace stack
+   works without further edits. JuliaMono's arrow ligatures live in calt,
+   which this enables; iA Writer Mono has no lookups at all, so the default
+   stack renders exactly as it would without this rule. */
+pre.md-fences,
+pre.md-meta-block {
+    font-variant-ligatures: contextual;
+}
+
+/* A fence wider than the measure scrolls; give it a scrollbar that is
+   visible at rest so it reads as scrollable rather than as truncated. */
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar,
+pre.md-fences > code::-webkit-scrollbar,
+pre.md-fences::-webkit-scrollbar,
+.md-table-wrap::-webkit-scrollbar,
+.md-diagram-panel::-webkit-scrollbar {
+    height: 0.6em;
+    width: 0.6em;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-track,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-track,
+pre.md-fences > code::-webkit-scrollbar-track,
+pre.md-fences::-webkit-scrollbar-track,
+.md-table-wrap::-webkit-scrollbar-track,
+.md-diagram-panel::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-thumb,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-thumb,
+pre.md-fences > code::-webkit-scrollbar-thumb,
+pre.md-fences::-webkit-scrollbar-thumb,
+.md-table-wrap::-webkit-scrollbar-thumb,
+.md-diagram-panel::-webkit-scrollbar-thumb {
+    background-color: var(--scrollbar-thumb-color);
+    border-radius: 0.3em;
+}
+
+pre.md-fences .CodeMirror-scroll::-webkit-scrollbar-thumb:hover,
+pre.md-fences .CodeMirror-hscrollbar::-webkit-scrollbar-thumb:hover,
+pre.md-fences > code::-webkit-scrollbar-thumb:hover,
+pre.md-fences::-webkit-scrollbar-thumb:hover,
+.md-table-wrap::-webkit-scrollbar-thumb:hover,
+.md-diagram-panel::-webkit-scrollbar-thumb:hover {
+    background-color: var(--scrollbar-thumb-hover-color);
+}
+
+/* ```diff reads as a review, so tint the whole row and mark the gutter
+   rather than only recolouring the glyphs. CodeMirror wraps each line
+   while editing; export emits one span per line inside <code>. */
+pre.md-fences .CodeMirror-line:has(.cm-positive) {
+    background-color: var(--diff-add-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-add-color);
+}
+
+pre.md-fences .CodeMirror-line:has(.cm-negative) {
+    background-color: var(--diff-remove-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color);
+}
+
+/* min-width, not width: `width: 100%` resolves against the visible width
+   of the scroller, so a line wider than the fence would lose its tint and
+   its gutter mark the moment you scrolled right. */
+pre.md-fences > code .cm-positive,
+pre.md-fences > code .cm-negative {
+    display: inline-block;
+    min-width: 100%;
+    box-sizing: border-box;
+}
+
+pre.md-fences > code .cm-positive {
+    background-color: var(--diff-add-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-add-color);
+}
+
+pre.md-fences > code .cm-negative {
+    background-color: var(--diff-remove-bg-color);
+    box-shadow: inset 2px 0 0 var(--syntax-diff-remove-color);
+}
+
+/* ---------------------------------------------------------------------
+   Tables
+   --------------------------------------------------------------------- */
+
+/* Option and field tables, not paper floats: headers align with their
+   column, rows stripe, and numbers line up. An explicit `:--:` alignment
+   still wins — Typora writes it inline. */
+table,
+figure > table {
+    width: 100%;
+    font-variant-numeric: tabular-nums;
+}
+
+th {
+    text-align: left;
+}
+
+tbody tr:nth-child(even) {
+    background-color: var(--table-stripe-color);
+}
+
+/* Paths, flags and URLs are the usual cell contents here, and they are
+   long; let them wrap instead of forcing the whole figure to scroll. */
+th,
+td {
+    overflow-wrap: break-word;
+}
+
+code,
+tt {
+    font-size: 0.95em;
+    border: 1px solid var(--inline-code-border-color);
+    padding: 0.08em 0.35em;
+    border-radius: 2px;
+    overflow-wrap: break-word;
+}
+
+/* Long unbroken URLs are common in a dev document; let them break anywhere
+   rather than push the measure. The link rule itself comes from latex.css. */
+a {
+    overflow-wrap: anywhere;
+}
+
+.md-toc {
+    font-family: var(--sans-font);
+    font-size: 0.95em;
+    color: var(--muted-text-color);
+}
+
+.md-toc::before {
+    display: none;
+}
+
+.md-htmlblock > .md-rawblock-container {
+    box-sizing: border-box;
+    padding-left: 0;
+    padding-right: 0;
+}
+
+#write .md-htmlblock > .md-rawblock-container div:has(> [style*="float"]) {
+    display: flow-root;
+}
+
+#write .md-htmlblock > .md-rawblock-container [style*="float"][style*="width"] {
+    min-width: max-content;
+}
+
+#write .md-htmlblock > .md-rawblock-container :is(ul, ol) {
+    margin-left: 0;
+    padding-left: 2em;
+}
+
+/* Keep the panelled callout look this variant was designed around; the
+   frame itself comes from the --quote-* variables above. */
+blockquote {
+    border-radius: 0 4px 4px 0;
+    color: var(--muted-text-color);
+}
+
+/* RTL keeps the base's direction and mirroring — only the frame radius
+   and the h1 alignment follow this variant instead of the article one. */
+#write blockquote:lang(ur),
+#write blockquote:lang(fa) {
+    border-right-width: var(--quote-rule-width);
+    border-radius: 4px 0 0 4px;
+}
+
+#write h1:lang(ur),
+#write h1:lang(fa) {
+    text-align: right;
+}
+
+.md-diagram-panel-preview {
+    text-align: left;
+}

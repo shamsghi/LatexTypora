@@ -17,7 +17,7 @@
 
 > 中文说明请见：[简体中文 README](./README_zh-CN.md)
 
-Typora themes inspired by classic LaTeX documents — clean academic typography for essays, papers, and long-form reading. Includes a developer-focused dark variant built for code-heavy Markdown.
+Typora themes inspired by classic LaTeX documents — clean academic typography for essays, papers, and long-form reading. Includes developer-focused light and dark variants (standard and wide) built for code-heavy Markdown.
 
 ## Automatic Installation
 
@@ -39,7 +39,7 @@ Both installers detect the correct Typora theme folder. If `install.sh` is run f
 
 1. Download and unzip the latest release.
 2. In Typora, go to **Preferences → Appearance → Open Theme Folder**.
-3. Copy `latex.css`, `latex-dark.css`, `latex-dev-dark.css`, and the `latex_fonts/` folder into the themes directory.
+3. Copy `latex.css`, `latex-dark.css`, `latex-dev.css`, `latex-dev-dark.css`, `latex-dev-wide.css`, `latex-dev-wide-dark.css`, and the `latex_fonts/` folder into the themes directory.
 4. Restart Typora, then pick a theme from the **Themes** menu.
 <details>
 <summary>Install options</summary>
@@ -88,20 +88,21 @@ Default theme folders:
 
 ---
 
-## `latex-dev-dark` — Developer Variant
+## `latex-dev` & `latex-dev-wide` — Developer Variants
 
 <div align="center">
   <img width="78%" src="./docs/screenshots/latex-dev-promo.png" alt="Developer Dark Mode" />
   <br />
-  <sub>💻 <strong>Developer Dark Mode</strong> &nbsp;—&nbsp; <code>latex-dev-dark.css</code> &nbsp;·&nbsp; captured at <strong>125% zoom</strong></sub>
+  <sub>💻 <strong>Developer Variants</strong> &nbsp;—&nbsp; <code>latex-dev.css</code> / <code>latex-dev-dark.css</code> &amp; <code>latex-dev-wide.css</code> / <code>latex-dev-wide-dark.css</code> &nbsp;·&nbsp; dark preview captured at <strong>125% zoom</strong></sub>
 </div>
 
 <br />
 
-Built for READMEs, API docs, design specs, and changelogs. Extends `latex-dark` with:
+Built for READMEs, API docs, design specs, and changelogs, in matching light and dark pairs (`latex-dev` / `latex-dev-wide` extend `latex`; `latex-dev-dark` / `latex-dev-wide-dark` extend `latex-dark`):
 
 - **JuliaMono** for body text, **iA Writer Mono** for inline code and UI accents
-- Left-aligned layout on a ~76-character monospace measure — no first-line indent, no section numbers, no `[toc]` title, and a quote under the title stays a quote rather than becoming an abstract
+- Left-aligned layout on a ~76-character (`46em`) monospace measure in `latex-dev` / `latex-dev-dark` — no first-line indent, no section numbers, no `[toc]` title, and a quote under the title stays a quote rather than becoming an abstract
+- **Wide page layout (`latex-dev-wide` / `latex-dev-wide-dark`):** full-width canvas with `1in` top/right/bottom and `1.5in` left margins, zero table bleed (`--table-bleed: 0em`), `@page` and `7.5pt` `@media print` sizing for compact PDF export, plus extended Arabic/RTL and diagram-export alignment rules
 - **Persistent language label** above every fenced block, in reading mode and in exports, not only while the fence has focus
 - **Diff review styling** — `+` and `-` lines in a `diff` fence tint the whole row and carry a gutter mark
 - **Documentation tables** — left-aligned headers, striped rows, and cells that wrap long paths and URLs
@@ -141,19 +142,22 @@ Every shared LaTeX metric is a `:root` variable at the top of `latex.css`, while
 | `--table-bleed` | `var(--page-padding-x)` | How far a table too wide for the measure may extend into the page margin before the figure scrolls. Set to `0em` to keep every table inside the measure. |
 | `--list-indent`, `--list-topsep`, `--list-itemsep` | `2.5em`, `0.7em`, `0.32em` | `\leftmargini`, `\topsep` and `\itemsep`. |
 
-`latex-dev-dark.css` overrides these, there is no indentation, no section numbers, no `[toc]` title, a 46em monospace measure (~76 characters), left-aligned text, framed blockquotes, and full-width tables that may bleed into the page margin. It adds a few variables of its own:
+`latex-dev.css` and `latex-dev-dark.css` override these with no indentation, no section numbers, no `[toc]` title, a `46em` monospace measure (~76 characters), left-aligned text, framed blockquotes, and full-width tables that may bleed into the page margin. `latex-dev-wide.css` and `latex-dev-wide-dark.css` apply the same typography on a full-width page with `1in` / `1.5in` margins, `--table-bleed: 0em`, and compact print sizing. The developer variants add a few variables of their own:
 
 | Variable | Default | What it controls |
 | :-- | :-- | :-- |
 | `--diff-add-bg-color`, `--diff-remove-bg-color` | faint green / red | Row tint behind `+` and `-` lines in a `diff` fence. |
-| `--table-stripe-color` | faint white | Zebra stripe on even table rows. Set to `transparent` to drop striping. |
-| `--scrollbar-thumb-color`, `--scrollbar-thumb-hover-color` | translucent white | Scrollbars on fences, wide tables and diagrams. |
+| `--table-stripe-color` | faint black (light) / faint white (dark) | Zebra stripe on even table rows. Set to `transparent` to drop striping. |
+| `--scrollbar-thumb-color`, `--scrollbar-thumb-hover-color` | translucent black (light) / white (dark) | Scrollbars on fences, wide tables and diagrams. |
 | `--nastaliq-line-height` | `1.95` | Urdu/Farsi leading, tightened from the base theme's `2.15`. |
+| `--page-margin-top/right/bottom/left` *(wide only)* | `1in`, `1in`, `1in`, `1.5in` | Full-width editor padding and print page margins in `latex-dev-wide` / `latex-dev-wide-dark`. |
+| `--print-font-size` *(wide only)* | `7.5pt` | Base print/PDF font size for monospace text in `latex-dev-wide` / `latex-dev-wide-dark`. |
+| `--arabic-line-height` *(wide only)* | `1.7` | Arabic Naskh leading in `latex-dev-wide` / `latex-dev-wide-dark`. |
 
 ## Notes
 
 - Licensed under **Apache-2.0**. Keep `LICENSE` when redistributing the theme.
 - Bundled font attribution and license details are in [`docs/THIRD_PARTY_NOTICES.md`](./docs/THIRD_PARTY_NOTICES.md); keep the relevant notices when redistributing bundled assets.
 - Designed and tested on macOS; should work on Windows and Linux.
-- LaTeX metrics live in `latex.css`; each dark variant imports its parent and adds only the tokens and rules that differ — see [Customization](#customization).
-- The `@font-face` rules live in `latex_fonts/embedded-fonts.css` and `latex_fonts/embedded-fonts-dev.css`, which `latex.css` and `latex-dev-dark.css` import. Both files are generated by [`scripts/build-embedded-fonts.py`](./scripts/build-embedded-fonts.py) and should not be hand-edited; regenerate them after changing which faces a theme declares or replacing a bundled font.
+- LaTeX metrics live in `latex.css`; `latex-dark.css`, `latex-dev.css`, and `latex-dev-wide.css` import `latex.css`, while `latex-dev-dark.css` and `latex-dev-wide-dark.css` import `latex-dark.css` — each adding only the tokens and rules that differ (see [Customization](#customization)).
+- The `@font-face` rules live in `latex_fonts/embedded-fonts.css` (imported by `latex.css`) and `latex_fonts/embedded-fonts-dev.css` (imported by `latex-dev.css`, `latex-dev-dark.css`, `latex-dev-wide.css`, and `latex-dev-wide-dark.css`). Both files are generated by [`scripts/build-embedded-fonts.py`](./scripts/build-embedded-fonts.py) and should not be hand-edited; regenerate them after changing which faces a theme declares or replacing a bundled font.
